@@ -1,7 +1,7 @@
-<a href="{{ route('competitions.create') }}">新しい大会を作成する</a>
+<a href="{{ route('admin.competitions.create') }}">新しい大会を作成する</a>
 
 <div>
-    <a href="{{ route('competitions.index') }}">現在開催中の大会</a>
+    <a href="{{ route('competitions.index', ['target' => 'current']) }}">現在開催中の大会</a>
         <a href="{{ route('competitions.index', ['target' => 'future']) }}">近日開催予定の大会</a>
         <a href="{{ route('competitions.index', ['target' => 'past']) }}">過去に開催された大会</a>
 </div>

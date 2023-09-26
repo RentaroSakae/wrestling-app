@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Competition;
 use Illuminate\Http\Request;
 use App\Models\Place;
+use App\Models\Mat;
+use App\Models\Competition_Category;
 
 class CompetitionController extends Controller
 {
@@ -16,20 +18,23 @@ class CompetitionController extends Controller
     public function index(Request $request)
     {
 
-        $now = now();
+        $today = now()->format("Y-m-d H:i:s");
         $target = $request->input('target');
 
         $competitionsQuery = Competition::query();
 
         if ($target === 'current') {
             // 現在開催中の大会を取得
-            $competitionsQuery->where('start_at', '<=', $now)->where('close_at', '>=', $now);
+            $competitionsQuery->where('start_at', '<=', $today)->where('close_at', '>=', $today);
         } elseif ($target === 'future') {
             // 近日開催予定の大会を取得
-            $competitionsQuery->where('start_at', '>', $now);
+            $competitionsQuery->where('start_at', '>', $today);
         } elseif ($target === 'past') {
             // 過去に開催された大会を取得
-            $competitionsQuery->where('close_at', '<', $now);
+            $competitionsQuery->where('close_at', '<', $today);
+        } else {
+            ///competitionsは現在開催中の大会を取得する
+            $competitionsQuery->where('start_at', '<=', $today)->where('close_at', '>=', $today);
         }
 
         $currentCompetitions = $competitionsQuery->get();
@@ -46,8 +51,9 @@ class CompetitionController extends Controller
     public function create()
     {
         $places = Place::all();
+        $competition_categories = Competition_Category::all();
 
-        return view('competitions.create', compact('places'));
+        return view('admin.competitions.create', compact('places', 'competition_categories'));
     }
 
     /**
@@ -58,51 +64,19 @@ class CompetitionController extends Controller
      */
     public function store(Request $request)
     {
-        //バリデーションルール
-        $rules = [
-            'name' => 'required',
-            'place' => 'required',
-            'start_at' => 'required',
-            'close_at' => 'required',
-            'image_path' => 'sometimes|image'
-        ];
 
-        $validatedData = $request->validate($rules);
-
-
-        //データベースの保存処理
-        $competition = new Competition();
-        $competition->name = $validatedData['name'];
-        //$competition->name = $request->input('name');
-
-
-        // プレースを選択した場合、その選択をもとに Place モデルからデータを取得
-        //$selectedPlaceId = $request->input('place');
-        $selectedPlaceId = $validatedData['name'];
-        $selectedPlace = Place::find($selectedPlaceId);
-
-        // Place モデルから取得したデータを設定
-        if ($selectedPlace) {
-            $competition->place_id = $selectedPlace->id;
-            $competition->name = $selectedPlace->name;
-        }
-
-        // $competition->start_at = $request->input('start_at');
-        // $competition->close_at = $request->input('close_at');
-        $competition->start_at = $validatedData['start_at'];
-        $competition->close_at = $validatedData['close_at'];
-
-
-        if ($request->hasFile('image_path')) {
-            $imagePath = $request->file('image_path')->store('images');
-        } else {
-            $imagePath = 'default_image_path.jpg';
-        }
-
-        $competition->image_path = $imagePath;
+        $competition = new competition();
+        $competition->name = $request->input('name');
+        $competition->start_at = $request->input('start_at');
+        $competition->close_at = $request->input('close_at');
+        $competition->place_id = $request->input('place');
+        $competition->image_path = $request->input('image_path');
         $competition->save();
 
-        return redirect()->route('competitions.index');
+        $competition->competition_categories()->sync($request->input('competition_competition_catetories'));
+
+        return to_route('competitions.index');
+
     }
 
     /**
@@ -113,7 +87,7 @@ class CompetitionController extends Controller
      */
     public function show(Competition $competition)
     {
-        return to_view('competitions.show', compact('competition'));
+        return view('competitions.show', compact('competition'));
     }
 
     /**
@@ -143,7 +117,7 @@ class CompetitionController extends Controller
         $competition->image_path = $request->image('image_path');
         $competition->update();
 
-        return to_route('competitions.competitions');
+        return to_route('competitions.index');
     }
 
     /**
@@ -156,23 +130,12 @@ class CompetitionController extends Controller
     {
         $competition->delete();
 
-        return to_route('competitions.competitions');
+        return to_route('competitions.index');
         //「大会詳細」show.blade.phpにて削除できるようにする
     }
 
-    // public function future() {
-    //     //近日開催予定の大会を取得
-    //     $now = now();
-    //     $futureCompetitions = Competition::where('start_at', '>', $now)->get();
+    public function showMats($id) {
 
-    //     return view('competitions.future', compact('futureCompetitions'));
-    // }
-
-    // public function past() {
-    //     //過去に開催された大会を取得
-    //     $now = now();
-    //     $pastCompetitions = Competition::where('close_at', '<', $now)->get();
-
-    //     return view('competitions.past', compact('pastCompetitions'));
-    // }
+        return view('competitions.mats');
+    }
 }

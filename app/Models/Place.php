@@ -13,4 +13,9 @@ class Place extends Model
         //元々はbelongsTo
         return $this->hasMany(Competition::class);
     }
+
+    //マットテーブルとのリレーション(一つの大会会場に複数のマットが存在する)
+    public function mats() {
+        return $this->hasMany(mat::class);
+    }
 }
