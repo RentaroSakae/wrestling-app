@@ -11,7 +11,7 @@ class Competition extends Model
 
     //competition_categoryテーブルとのリレーション
     public function competition_categories() {
-        return $this->hasMany(Competition_Category::class);
+        return $this->hasMany(CompetitionCategory::class);
     }
 
     //Placeテーブルとのリレーション

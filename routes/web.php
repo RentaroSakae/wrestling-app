@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompetitionController;
-use App\Http\Controllers\Competition_CategoryController;
+use App\Http\Controllers\CompetitionCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,11 +25,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
 Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::resource('/competitions', CompetitionController::class)->names('competitions');
-//Route::delete('/competitions/{competition}', 'CompetitionController@destroy')->name('competitions.destroy');
 Route::get('competitions/{id}/mats', 'App\Http\Controllers\CompetitionController@showMats')->name('competitions.mats');
 Route::get('admin/competitions/create', 'App\Http\Controllers\CompetitionController@create')->name('admin.competitions.create');
-Route::resource('competitions.competition_categories', Competition_CategoryController::class)->only(['store']);
-
+Route::resource('competitions.competitionCategories', CompetitionCategoryController::class)->only(['store']);
 
 
 

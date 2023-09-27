@@ -31,24 +31,24 @@
 
     </div>
     <div>
-        <strong>大会画像</strong>
-        <input type="file" name="image_path" id="Image_path">
-    </div>
-    <div>
         <strong>カテゴリ（複数選択可）</strong>
-        @foreach ($competition_categories as$competition_category )
-            {{-- カテゴリ追加用のモーダル --}}
-            @include('modals.add_competition_category')
-            <div>
-                <a href="#" class="px-2 fs-5 fw-bold link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addCompetition_CategoryModal{{ $goal->id }}">＋</a>
-            </div>
-
-        @endforeach
-
+        @include('modals.add_competitionCategory')
+        <div>
+            <a href="#" class="link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="addCompetitionCategoryModal">
+                <div>
+                    <span>カテゴリを追加</span>
+                </div>
+            </a>
+        </div>
     </div>
     <div>
         <strong>マット（複数選択可）</strong>
     </div>
+    <div>
+        <strong>大会画像</strong>
+        <input type="file" name="image_path" id="Image_path">
+    </div>
+
     <div>
         <button type="submit">送信</button>
     </div>

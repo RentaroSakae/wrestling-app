@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Competition_Class;
+use App\Models\CompetitionCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Competition;
+use Illuminate\Support\Facades;
 
-class Competition_ClassController extends Controller
+class CompetitionCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,18 +35,23 @@ class Competition_ClassController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Competition $competition)
     {
-        //
+        $competitionCategory = new CompetitionCategory();
+        $competitionCategory->name = $request->input('name');
+        $competitionCategory->competition_id = $competition->id;
+        $competitionCategory->save();
+
+        return redirect()->route('admin.competitions.create');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Competition_Class  $competition_Class
+     * @param  \App\Models\CompetitionCategory  $competitionCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(Competition_Class $competition_Class)
+    public function show(CompetitionCategory $competitionCategory)
     {
         //
     }
@@ -52,10 +59,10 @@ class Competition_ClassController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Competition_Class  $competition_Class
+     * @param  \App\Models\CompetitionCategory  $competitionCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Competition_Class $competition_Class)
+    public function edit(CompetitionCategory $competitionCategory)
     {
         //
     }
@@ -64,10 +71,10 @@ class Competition_ClassController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Competition_Class  $competition_Class
+     * @param  \App\Models\CompetitionCategory  $competitionCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Competition_Class $competition_Class)
+    public function update(Request $request, CompetitionCategory $competitionCategory)
     {
         //
     }
@@ -75,10 +82,10 @@ class Competition_ClassController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Competition_Class  $competition_Class
+     * @param  \App\Models\CompetitionCategory  $competitionCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Competition_Class $competition_Class)
+    public function destroy(CompetitionCategory $competitionCategory)
     {
         //
     }

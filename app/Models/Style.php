@@ -11,11 +11,11 @@ class Style extends Model
 
     //Competision_Categoryテーブルとのリレーション
     public function competition_categories() {
-        return $this->belongsToMany(Competition_Category::class)->withTimestamps();
+        return $this->belongsToMany(CompetitionCategory::class)->withTimestamps();
     }
 
     //Competition_Classテーブルとのリレーション
     public function Competition_Classes() {
-        return $this->belongsToMany(Competition_Class::class)->withTimestamps();
+        return $this->belongsToMany(CompetitionClass::class)->withTimestamps();
     }
 }

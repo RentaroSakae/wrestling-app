@@ -14,8 +14,8 @@
         <th>大会終了日時</th>
         <th>大会画像</th>
     </tr>
-    @if(count($currentCompetitions) > 0)
-        @foreach($currentCompetitions as $competition)
+    @if(count($competitions) > 0)
+        @foreach($competitions as $competition)
         <tr>
             <td>{{ $competition->name }}</td>
             <td>{{ $competition->place->name }}</td>

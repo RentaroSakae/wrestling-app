@@ -6,10 +6,18 @@ use App\Models\Competition;
 use Illuminate\Http\Request;
 use App\Models\Place;
 use App\Models\Mat;
-use App\Models\Competition_Category;
+use App\Models\CompetitionCategory;
 
 class CompetitionController extends Controller
 {
+
+    private $competitionsQuery;
+
+    public function __construct()
+    {
+        $this->competitionsQuery = Competition::query();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +29,7 @@ class CompetitionController extends Controller
         $today = now()->format("Y-m-d H:i:s");
         $target = $request->input('target');
 
-        $competitionsQuery = Competition::query();
+        //$competitionsQuery = Competition::query();
 
         if ($target === 'current') {
             // 現在開催中の大会を取得
@@ -37,9 +45,9 @@ class CompetitionController extends Controller
             $competitionsQuery->where('start_at', '<=', $today)->where('close_at', '>=', $today);
         }
 
-        $currentCompetitions = $competitionsQuery->get();
+        $competitions = $this->competitionsQuery->get();
 
-        return view('competitions.competitions', compact('currentCompetitions', 'target'));
+        return view('competitions.competitions', compact('competitions', 'target'));
 
     }
 
@@ -51,9 +59,10 @@ class CompetitionController extends Controller
     public function create()
     {
         $places = Place::all();
-        $competition_categories = Competition_Category::all();
+        $competitionCategories = CompetitionCategory::all();
+        $competitions = $this->competitionsQuery->get();
 
-        return view('admin.competitions.create', compact('places', 'competition_categories'));
+        return view('admin.competitions.create', compact('places', 'competitionCategories', 'competitions'));
     }
 
     /**
@@ -73,7 +82,7 @@ class CompetitionController extends Controller
         $competition->image_path = $request->input('image_path');
         $competition->save();
 
-        $competition->competition_categories()->sync($request->input('competition_competition_catetories'));
+        $competition->competitionCategories()->sync($request->input('competition_competitionCatetories'));
 
         return to_route('competitions.index');
 
