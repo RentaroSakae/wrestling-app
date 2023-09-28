@@ -1,3 +1,11 @@
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('/js/script.js') }}"></script>
+@endpush
+
 <a href="{{ route('admin.competitions.create') }}">新しい大会を作成する</a>
 
 <div>
@@ -14,8 +22,8 @@
         <th>大会終了日時</th>
         <th>大会画像</th>
     </tr>
-    @if(count($competitions) > 0)
-        @foreach($competitions as $competition)
+    @if(count($currentCompetitions) > 0)
+        @foreach($currentCompetitions as $competition)
         <tr>
             <td>{{ $competition->name }}</td>
             <td>{{ $competition->place->name }}</td>

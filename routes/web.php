@@ -27,7 +27,6 @@ Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name
 Route::resource('/competitions', CompetitionController::class)->names('competitions');
 Route::get('competitions/{id}/mats', 'App\Http\Controllers\CompetitionController@showMats')->name('competitions.mats');
 Route::get('admin/competitions/create', 'App\Http\Controllers\CompetitionController@create')->name('admin.competitions.create');
-Route::resource('competitions.competitionCategories', CompetitionCategoryController::class)->only(['store']);
-
-
+//Route::resource('competitions.competitionCategories.store', CompetitionCategoryController::class)->only(['store', 'update', 'destroy']);
+Route::resource('competitionCategories', CompetitionCategoryController::class)->only(['store', 'update', 'destroy']);
 

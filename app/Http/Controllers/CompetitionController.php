@@ -29,7 +29,7 @@ class CompetitionController extends Controller
         $today = now()->format("Y-m-d H:i:s");
         $target = $request->input('target');
 
-        //$competitionsQuery = Competition::query();
+        $competitionsQuery = Competition::query();
 
         if ($target === 'current') {
             // 現在開催中の大会を取得
@@ -45,9 +45,9 @@ class CompetitionController extends Controller
             $competitionsQuery->where('start_at', '<=', $today)->where('close_at', '>=', $today);
         }
 
-        $competitions = $this->competitionsQuery->get();
+        $currentCompetitions = $competitionsQuery->get();
 
-        return view('competitions.competitions', compact('competitions', 'target'));
+        return view('competitions.competitions', compact('currentCompetitions', 'target'));
 
     }
 
@@ -82,8 +82,6 @@ class CompetitionController extends Controller
         $competition->image_path = $request->input('image_path');
         $competition->save();
 
-        $competition->competitionCategories()->sync($request->input('competition_competitionCatetories'));
-
         return to_route('competitions.index');
 
     }
@@ -96,6 +94,8 @@ class CompetitionController extends Controller
      */
     public function show(Competition $competition)
     {
+
+
         return view('competitions.show', compact('competition'));
     }
 

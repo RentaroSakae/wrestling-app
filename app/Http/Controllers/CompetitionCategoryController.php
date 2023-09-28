@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\CompetitionCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Competition;
-use Illuminate\Support\Facades;
 
 class CompetitionCategoryController extends Controller
 {
@@ -24,10 +23,11 @@ class CompetitionCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -74,9 +74,14 @@ class CompetitionCategoryController extends Controller
      * @param  \App\Models\CompetitionCategory  $competitionCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CompetitionCategory $competitionCategory)
+    public function update(Request $request, Competition $competition, CompetitionCategory $competitionCategory)
     {
-        //
+        $competitionCategory->name = $request->input('name');
+        $competitionCategory->name = $request->input('name');
+        $competitionCategory->competition_id = $competition->id;
+        $competitionCategory->save();
+
+        return redirect()->route('admin.competitions.create');
     }
 
     /**
@@ -85,8 +90,10 @@ class CompetitionCategoryController extends Controller
      * @param  \App\Models\CompetitionCategory  $competitionCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CompetitionCategory $competitionCategory)
+    public function destroy(Competition $competition, CompetitionCategory $competitionCategory)
     {
-        //
+        $competitionCategory->delete();
+
+        return redirect()->route('admin.competitions.create');
     }
 }
