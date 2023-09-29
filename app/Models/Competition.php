@@ -10,8 +10,8 @@ class Competition extends Model
     use HasFactory;
 
     //competition_categoryテーブルとのリレーション
-    public function competition_categories() {
-        return $this->hasMany(CompetitionCategory::class);
+    public function categories() {
+        return $this->belongsTo(CompetitionCategory::class);
     }
 
     //Placeテーブルとのリレーション

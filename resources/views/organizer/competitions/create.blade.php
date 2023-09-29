@@ -31,22 +31,16 @@
 
     </div>
     <div>
-        <strong>カテゴリ（複数選択可）</strong>
-        @include('modals.add_competitionCategory')
-            <div class="d-flex mb-3">
-                <a href="#" class="link-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#addCompetitionCategoryModal">
-                    <div class="d-flex align-items-center">
-                        <span class="fs-5 fw-bold">＋</span>&nbsp;カテゴリの追加
-                    </div>
-                </a>
-            </div>
-        </div>
-    <div>
-        <strong>マット（複数選択可）</strong>
-    </div>
-    <div>
         <strong>大会画像</strong>
         <input type="file" name="image_path" id="Image_path">
+    </div>
+    <div>
+        <strong>カテゴリ</strong>
+            <select name="category" id="Category">
+                @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
     </div>
 
     <div>

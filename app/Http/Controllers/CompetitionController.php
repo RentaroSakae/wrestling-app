@@ -6,7 +6,7 @@ use App\Models\Competition;
 use Illuminate\Http\Request;
 use App\Models\Place;
 use App\Models\Mat;
-use App\Models\CompetitionCategory;
+use App\Models\Category;
 
 class CompetitionController extends Controller
 {
@@ -59,10 +59,10 @@ class CompetitionController extends Controller
     public function create()
     {
         $places = Place::all();
-        $competitionCategories = CompetitionCategory::all();
+        $categories = Category::all();
         $competitions = $this->competitionsQuery->get();
 
-        return view('admin.competitions.create', compact('places', 'competitionCategories', 'competitions'));
+        return view('organizer.competitions.create', compact('places', 'categories', 'competitions'));
     }
 
     /**
@@ -73,16 +73,26 @@ class CompetitionController extends Controller
      */
     public function store(Request $request)
     {
+        //TODO バリデーション作る
+        $validated = $request->validate([
+            'name' => 'required',
+            'start_at' => 'required',
+            'close_at' => 'required',
+            'place_id' => 'required',
+            'image_path' => 'required',
+            'category_id' => 'required'
+        ]);
 
-        $competition = new competition();
+        $competition = new Competition();
         $competition->name = $request->input('name');
         $competition->start_at = $request->input('start_at');
         $competition->close_at = $request->input('close_at');
-        $competition->place_id = $request->input('place');
+        $competition->place_id = $request->input('place_id');
         $competition->image_path = $request->input('image_path');
+        $competition->category_id = $request->input('category_id');
         $competition->save();
 
-        return to_route('competitions.index');
+        return redirect()->route('organizer.competition.game.create', ['id' => $competition->id]);
 
     }
 

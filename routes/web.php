@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompetitionController;
-use App\Http\Controllers\CompetitionCategoryController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,6 @@ Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')-
 Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::resource('/competitions', CompetitionController::class)->names('competitions');
 Route::get('competitions/{id}/mats', 'App\Http\Controllers\CompetitionController@showMats')->name('competitions.mats');
-Route::get('admin/competitions/create', 'App\Http\Controllers\CompetitionController@create')->name('admin.competitions.create');
-//Route::resource('competitions.competitionCategories.store', CompetitionCategoryController::class)->only(['store', 'update', 'destroy']);
-Route::resource('competitionCategories', CompetitionCategoryController::class)->only(['store', 'update', 'destroy']);
+Route::get('organizer/competitions/create', 'App\Http\Controllers\CompetitionController@create')->name('organizer.competitions.create');
+Route::post('organizer/competitions/{id}/games/create', 'App\Http\Controllers\CompetitionController@store')->name('organizer.competition.game.create');
 

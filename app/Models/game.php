@@ -10,8 +10,8 @@ class Game extends Model
     use HasFactory;
 
     //階級テーブルとのリレーション設定(一つの試合は一つの階級の中で行われる)
-    public function competition_classes() {
-        return $this->belongsTo(Competition_Class::class);
+    public function classes() {
+        return $this->belongsTo(CompetitionClass::class);
     }
 
     //マットテーブルとのリレーション設定(一つの試合は一つのマットで行われる)

@@ -9,13 +9,13 @@ class Style extends Model
 {
     use HasFactory;
 
-    //Competision_Categoryテーブルとのリレーション
-    public function competition_categories() {
-        return $this->belongsToMany(CompetitionCategory::class)->withTimestamps();
+    //Competition_Classテーブルとのリレーション
+    public function classes() {
+        return $this->belongsTo(CompetitionClass::class);
     }
 
-    //Competition_Classテーブルとのリレーション
-    public function Competition_Classes() {
-        return $this->belongsToMany(CompetitionClass::class)->withTimestamps();
+    //categoriesテーブルとのリレーション
+    public function categories() {
+        return $this->belongsToMany(Style::class)->withTimestamps();
     }
 }
