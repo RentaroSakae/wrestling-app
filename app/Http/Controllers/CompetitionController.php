@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Place;
 use App\Models\Mat;
 use App\Models\Category;
+use App\Models\Game;
+use App\Models\Player;
+use App\Models\CompetitionClass;
+use App\Models\Style;
+
 
 class CompetitionController extends Controller
 {
@@ -74,25 +79,25 @@ class CompetitionController extends Controller
     public function store(Request $request)
     {
         //TODO バリデーション作る
+
         $validated = $request->validate([
             'name' => 'required',
             'start_at' => 'required',
             'close_at' => 'required',
-            'place_id' => 'required',
+            'place' => 'required',
             'image_path' => 'required',
-            'category_id' => 'required'
+            'category' => 'required'
         ]);
-
         $competition = new Competition();
         $competition->name = $request->input('name');
         $competition->start_at = $request->input('start_at');
         $competition->close_at = $request->input('close_at');
-        $competition->place_id = $request->input('place_id');
+        $competition->place_id = $request->input('place');
         $competition->image_path = $request->input('image_path');
-        $competition->category_id = $request->input('category_id');
+        $competition->category_id = $request->input('category');
         $competition->save();
 
-        return redirect()->route('organizer.competition.game.create', ['id' => $competition->id]);
+        return redirect()->route('organizer.competitions.games.create', ['id' => $competition->id]);
 
     }
 
@@ -156,5 +161,32 @@ class CompetitionController extends Controller
     public function showMats($id) {
 
         return view('competitions.mats');
+    }
+
+    public function  gameCreate() {
+        $style = Style::all();
+        $competitionClass = CompetitionClass::all();
+        $mat = Mat::all();
+        $player = player::all();
+
+        return view('organizer.competitions.games.create', compact('style', 'competitionClass', 'mat', 'player'));
+    }
+
+    public function gameStore(Request $request, $id) {
+
+        $competition = Competition::find($id);
+
+        $game = new Game();
+        $game->game_number = $request->input('game_number');
+        $game->red_player = $request->input('red_player');
+        $game->blue_player = $request->input('blue_player');
+        $game->style = $request->input('style');
+        $game->competitionClass = $request->input('competition_class');
+        $game->mat = $request->input('mat');
+        //$game->save();
+
+        $competition->games()->save($game);
+
+        return redirect()->route('competitions.mats');
     }
 }
