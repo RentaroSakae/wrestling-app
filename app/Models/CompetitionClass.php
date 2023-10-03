@@ -11,7 +11,7 @@ class CompetitionClass extends Model
 
     //Styleテーブルとのリレーション
     public function styles() {
-        return $this->belongsToMany(Style::class)->withTimestamps();
+        return $this->belongsTo(Style::class);
     }
 
     //試合テーブルとのリレーション(一つの階級に複数の試合が存在する)

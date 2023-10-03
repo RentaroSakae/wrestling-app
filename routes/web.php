@@ -32,3 +32,6 @@ Route::get('organizer/competitions/create', 'App\Http\Controllers\CompetitionCon
 Route::post('organizer/competitions/store', 'App\Http\Controllers\CompetitionController@store')->name('organizer.competitions.store');
 Route::get('organizer/competitions/{id}/games/create', 'App\Http\Controllers\CompetitionController@gameCreate')->name('organizer.competitions.games.create');
 Route::post('organizer/competitions/{id}/games/store', 'App\Http\Controllers\CompetitionController@gameStore')->name('organizer.competitions.games.store');
+Route::get('organizer/competitions/{id}/players/create', 'App\Http\Controllers\CompetitionController@playersCreate')->name('organizer.competitions.players.create');
+Route::post('organizer/competitions/{id}/players/store', 'App\Http\Controllers\CompetitionController@playersStore')->name('organizer.competitions.players.store');
+Route::get('competition/{id}/players', 'App\Http\Controllers\CompetitionController@playersStore')->name('competitions.players');

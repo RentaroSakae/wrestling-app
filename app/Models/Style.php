@@ -11,7 +11,7 @@ class Style extends Model
 
     //Competition_Classテーブルとのリレーション
     public function classes() {
-        return $this->belongsTo(CompetitionClass::class);
+        return $this->hasMany(CompetitionClass::class);
     }
 
     //categoriesテーブルとのリレーション

@@ -11,6 +11,7 @@ use App\Models\Game;
 use App\Models\Player;
 use App\Models\CompetitionClass;
 use App\Models\Style;
+use App\Models\Team;
 
 
 class CompetitionController extends Controller
@@ -163,30 +164,56 @@ class CompetitionController extends Controller
         return view('competitions.mats');
     }
 
-    public function  gameCreate() {
-        $style = Style::all();
-        $competitionClass = CompetitionClass::all();
-        $mat = Mat::all();
-        $player = player::all();
+    public function  gameCreate($id) {
+        $styles = Style::all();
+        $competitionClasses = CompetitionClass::all();
+        $mats = Mat::all();
+        $players = player::all();
+        $competitions = Competition::find($id);
 
-        return view('organizer.competitions.games.create', compact('style', 'competitionClass', 'mat', 'player'));
+        return view('organizer.competitions.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
     }
 
-    public function gameStore(Request $request, $id) {
-
-        $competition = Competition::find($id);
+    public function gameStore(Request $request) {
 
         $game = new Game();
         $game->game_number = $request->input('game_number');
-        $game->red_player = $request->input('red_player');
-        $game->blue_player = $request->input('blue_player');
-        $game->style = $request->input('style');
-        $game->competitionClass = $request->input('competition_class');
-        $game->mat = $request->input('mat');
-        //$game->save();
-
-        $competition->games()->save($game);
+        $game->red_player_id = $request->input('red_player');
+        $game->blue_player_id = $request->input('blue_player');
+        // $game->style = $request->input('style');
+        // $game->competitionClass = $request->input('competition_class');
+        $game->mat_id = $request->input('mat');
+        $game->save();
 
         return redirect()->route('competitions.mats');
+    }
+
+    public function playersCreate($id) {
+        $players = Player::all();
+        $competitionClasses = CompetitionClass::all();
+        $teams = Team::all();
+        $competitions = Competition::find($id);
+
+        return view('organizer.competitions.players.create', compact('players', 'competitionClasses', 'teams', 'competitions'));
+    }
+
+    public function playersStore(Request $request, $id) {
+        $players = new Player();
+        $players->name = $request->input('name');
+        $players->team_id = $request->input('team_id');
+        $players->save();
+
+        $competitions = Competition::find($id);
+
+        return redirect()->route('competitions.players', ['id' => $competitions->id]);
+    }
+
+    public function players($id) {
+        $competitions = Competition::find($id);
+        $players = Player::all();
+        //TODO 階級も紐付ける
+
+        return view('competitions.players', compact('competitions', 'players'));
+
     }
 }
