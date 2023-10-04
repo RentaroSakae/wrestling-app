@@ -205,7 +205,7 @@ class CompetitionController extends Controller
 
         $competitions = Competition::find($id);
 
-        return redirect()->route('competitions.players', ['id' => $competitions->id]);
+        return redirect()->route('organizer.competitions.players.index', ['id' => $competitions->id]);
     }
 
     public function players($id) {
@@ -213,7 +213,7 @@ class CompetitionController extends Controller
         $players = Player::all();
         //TODO 階級も紐付ける
 
-        return view('competitions.players', compact('competitions', 'players'));
+        return view('organizer.competitions.players.index', compact('competitions', 'players'));
 
     }
 }

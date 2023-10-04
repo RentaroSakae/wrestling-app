@@ -11,6 +11,6 @@ class Team extends Model
 
     //選手テーブルとのリレーション(一つのチームに複数人の選手が所属する)
     public function players() {
-        return $this->hasMany(player::class);
+        return $this->hasMany(Player::class);
     }
 }

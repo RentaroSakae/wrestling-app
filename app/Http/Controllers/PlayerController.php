@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Player;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class PlayerController extends Controller
@@ -14,7 +15,10 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        //
+        $players = Player::all();
+        $teams = Team::all();
+
+        return view('organizer.players.index', compact('players', 'teams'));
     }
 
     /**
@@ -24,7 +28,9 @@ class PlayerController extends Controller
      */
     public function create()
     {
-        //
+        $teams = Team::all();
+
+        return view('organizer.players.create', compact('teams'));
     }
 
     /**
@@ -35,7 +41,12 @@ class PlayerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $players = new Player();
+        $players->name = $request->input('name');
+        $players->team_id = $request->input('team');
+        $players->save();
+
+        return to_route('organizer.players.index');
     }
 
     /**
@@ -46,7 +57,7 @@ class PlayerController extends Controller
      */
     public function show(Player $player)
     {
-        //
+        return view('organizer.players.show', compact('player'));
     }
 
     /**
@@ -55,9 +66,11 @@ class PlayerController extends Controller
      * @param  \App\Models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function edit(Player $player)
+    public function edit(Player $player, $id)
     {
-        //
+        $player = Player::find($id);
+
+        return view('organizer.players.edit', compact('player'));
     }
 
     /**
@@ -67,9 +80,18 @@ class PlayerController extends Controller
      * @param  \App\Models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Player $player)
+    public function update(Request $request, Player $player, $id)
     {
-        //
+        $player = Player::find($id);
+        if(!$player) {
+            return redirect()->back()->with('error', '選手が見つかりませんでした。');
+        }
+
+        $player->name = $request->input('name');
+        //TODO Teamを紐づけられるようにする
+        $player->update();
+
+        return redirect()->route('organizer.players.index');
     }
 
     /**
@@ -78,8 +100,11 @@ class PlayerController extends Controller
      * @param  \App\Models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Player $player)
+    public function destroy(Player $player, $id)
     {
-        //
+        $player = Player::find($id);
+        $player->delete();
+
+        return redirect()->route('organizer.players.index');
     }
 }

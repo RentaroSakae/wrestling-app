@@ -14,7 +14,9 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
+        $teams = Team::all();
+
+        return view('organizer.teams.index', compact('teams'));
     }
 
     /**
@@ -24,7 +26,7 @@ class TeamController extends Controller
      */
     public function create()
     {
-        //
+        return view('organizer.teams.create');
     }
 
     /**
@@ -35,7 +37,11 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $teams = new Team();
+        $teams->name = $request->input('name');
+        $teams->save();
+
+        return to_route('organizer.teams.index');
     }
 
     /**
@@ -78,8 +84,11 @@ class TeamController extends Controller
      * @param  \App\Models\Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Team $team)
+    public function destroy(Team $team, $id)
     {
-        //
+        $team = Team::find($id);
+        $team->delete();
+
+        return redirect()->route('organizer.teams.index');
     }
 }
