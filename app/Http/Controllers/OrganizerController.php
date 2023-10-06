@@ -6,7 +6,7 @@ use App\Models\Competition;
 use Illuminate\Http\Request;
 use App\Models\CompetitionCategory;
 
-class OwnerController extends Controller
+class OrganizerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        //
+        return view('organizer.index');
 
     }
 
@@ -26,11 +26,7 @@ class OwnerController extends Controller
      */
     public function create()
     {
-        $places = Place::all();
-        $competitionCategories = CompetitionCategory::all();
-        $competitions = $this->competitionsQuery->get();
-
-        return view('organizer.competitions.create', compact('places', 'competitionCategories', 'competitions'));
+        //
     }
 
     /**

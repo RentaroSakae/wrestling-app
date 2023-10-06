@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('mats', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->foreignId('place_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('competition_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

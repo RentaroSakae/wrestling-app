@@ -28,9 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('places', function (Blueprint $table) {
-            $table->dropColumn('name');
-            $table->dropColumn('address');
-        });
+        Schema::dropIfExists('places');
     }
 };

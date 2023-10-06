@@ -15,12 +15,16 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('competition_id')->nullable()->unsigned();
+            $table->foreign('competition_id')->references('id')->on('competitions')->OnDelete('cascade');
             $table->integer('game_number');
-            // $table->foreignId('mat_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('red_player_id')->constrained()->cascadeOnDelete();
-            $table->integer('red_score');
-            // $table->foreignId('blue_player_id')->constrained()->cascadeOnDelete();
-            $table->integer('blue_score');
+            $table->foreignId('mat_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('red_player_id');
+            $table->foreign('red_player_id')->references('id')->on('players');
+            $table->integer('red_score')->default(0);
+            $table->unsignedBigInteger('blue_player_id');
+            $table->foreign('blue_player_id')->references('id')->on('players');
+            $table->integer('blue_score')->default(0);
             $table->timestamps();
         });
     }
@@ -33,7 +37,7 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('games');
-        $table->dropForeign(['mat_id', 'red_player_id', 'blue_player_id']);
+        $table->dropForeign(['competition_id', 'mat_id', 'red_player_id', 'blue_player_id']);
         $table->dropColumn(['game_number', 'mat_id', 'red_player_id', 'red_score', 'blue_player_id', 'blue_score']);
     }
 };

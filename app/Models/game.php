@@ -16,11 +16,11 @@ class Game extends Model
 
     //マットテーブルとのリレーション設定(一つの試合は一つのマットで行われる)
     public function mats() {
-        return $this->belongsTo(mat::class);
+        return $this->belongsTo(Mat::class);
     }
 
     //選手テーブルとのリレーション設定(一つの試合は複数の選手で行われる)
     public function players() {
-        return $this->hasMany(player::class);
+        return $this->hasMany(Player::class);
     }
 }

@@ -15,7 +15,7 @@ class Player extends Model
     }
 
     //選手の所属テーブルとのリレーション(一人の選手は一つチームに所属する)
-    public function teams() {
+    public function team() {
         return $this->belongsTo(Team::class);
     }
 }

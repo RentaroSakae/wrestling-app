@@ -35,7 +35,7 @@ class CompetitionController extends Controller
         $today = now()->format("Y-m-d H:i:s");
         $target = $request->input('target');
 
-        $competitionsQuery = Competition::query();
+        $competitionsQuery = Competition::query()->with('place');
 
         if ($target === 'current') {
             // 現在開催中の大会を取得
@@ -52,6 +52,7 @@ class CompetitionController extends Controller
         }
 
         $currentCompetitions = $competitionsQuery->get();
+
 
         return view('competitions.competitions', compact('currentCompetitions', 'target'));
 
@@ -89,6 +90,7 @@ class CompetitionController extends Controller
             'image_path' => 'required',
             'category' => 'required'
         ]);
+
         $competition = new Competition();
         $competition->name = $request->input('name');
         $competition->start_at = $request->input('start_at');
@@ -98,7 +100,7 @@ class CompetitionController extends Controller
         $competition->category_id = $request->input('category');
         $competition->save();
 
-        return redirect()->route('organizer.competitions.games.create', ['id' => $competition->id]);
+        return redirect()->route('organizer.competitions.mats.create', ['id' => $competition->id]);
 
     }
 
@@ -159,11 +161,6 @@ class CompetitionController extends Controller
         //「大会詳細」show.blade.phpにて削除できるようにする
     }
 
-    public function showMats($id) {
-
-        return view('competitions.mats');
-    }
-
     public function  gameCreate($id) {
         $styles = Style::all();
         $competitionClasses = CompetitionClass::all();
@@ -185,35 +182,23 @@ class CompetitionController extends Controller
         $game->mat_id = $request->input('mat');
         $game->save();
 
-        return redirect()->route('competitions.mats');
+        return redirect()->route('organizer.competitions.mats.create');
     }
 
-    public function playersCreate($id) {
-        $players = Player::all();
-        $competitionClasses = CompetitionClass::all();
-        $teams = Team::all();
+    public function matsCreate($id) {
         $competitions = Competition::find($id);
 
-        return view('organizer.competitions.players.create', compact('players', 'competitionClasses', 'teams', 'competitions'));
+        return view('organizer.competitions.mats.create', compact('competitions'));
     }
 
-    public function playersStore(Request $request, $id) {
-        $players = new Player();
-        $players->name = $request->input('name');
-        $players->team_id = $request->input('team_id');
-        $players->save();
+    public function matsStore(Request $request) {
+        $mat = new Mat();
+        $mat->name = $request->input('name');
+        $mat->competition_id = $request->input('competition_id');
+        $mat->save();
 
-        $competitions = Competition::find($id);
-
-        return redirect()->route('organizer.competitions.players.index', ['id' => $competitions->id]);
+        $competitions = $request->input('competition_id');
+        return redirect()->route('organizer.competitions.games.create', ['id' => $competitions]);
     }
 
-    public function players($id) {
-        $competitions = Competition::find($id);
-        $players = Player::all();
-        //TODO 階級も紐付ける
-
-        return view('organizer.competitions.players.index', compact('competitions', 'players'));
-
-    }
 }

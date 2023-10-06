@@ -2,6 +2,14 @@
     <h2>選手一覧</h2>
 </div>
 
+<div>
+    <a href="{{ route('organizer.index') }}">管理画面トップページに戻る</a>
+</div>
+
+<div>
+    <a href="{{ route('organizer.players.create') }}">選手登録ページ</a>
+</div>
+
 <table>
     <tr>
         {{-- TODO 階級を反映させられるようにする --}}
@@ -13,7 +21,7 @@
         @foreach ($players as $player)
         <tr>
             <td>{{ $player->name }}</td>
-            <td>{{ $player->team->name ?? '所属なし' }}</td>
+            <td>{{ $player->team->name }}</td>
             <td>
                 <form action="{{ route('organizer.players.destroy', $player->id) }}" method="POST">
                     <a href="{{ route('organizer.players.show', $player->id) }}">詳細</a>

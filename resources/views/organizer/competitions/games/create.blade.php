@@ -40,8 +40,11 @@
 
     <div>
         <strong>マット</strong>
-        {{-- 大会登録画面でマットを登録して選択できるようにする --}}
-        <input type="text" name="mat" id="mat">
+        <select name="mat" id="mat">
+            @foreach ($mats as $mat)
+            <option value="{{ $mat->id }}">{{ $mat->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div>

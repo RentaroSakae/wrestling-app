@@ -13,7 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::rename('competition_category_style', 'category_style');
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::rename('category_style', 'competition_category_style');
+        Schema::dropIfExists('categories');
     }
 };

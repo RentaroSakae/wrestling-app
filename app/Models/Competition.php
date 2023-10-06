@@ -15,7 +15,14 @@ class Competition extends Model
     }
 
     //Placeテーブルとのリレーション
-    public function place() {
-        return $this->belongsTo(Place::class);
+     public function place() {
+          return $this->belongsTo(Place::class);
+     }
+
+    //matsテーブルとのリレーション（1つの大会に複数のマットが存在する）
+    public function mats() {
+        return $this->hasMany(Mat::class);
     }
+
+
 }

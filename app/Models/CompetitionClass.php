@@ -16,6 +16,6 @@ class CompetitionClass extends Model
 
     //試合テーブルとのリレーション(一つの階級に複数の試合が存在する)
     public function games() {
-        return $this->hasMany(game::class);
+        return $this->hasMany(Game::class);
     }
 }

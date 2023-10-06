@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('place_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('category_id')->nullable()->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories')->OnDelete('cascade');
             $table->timestamp('start_at');
             $table->timestamp('close_at')->default('2023-12-31');
             $table->string('image_path');
@@ -30,10 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('competitions', function (Blueprint $table) {
-            // カラムの削除
-            $table->dropForeign(['place_id']);
-            $table->dropColumn(['place_id', 'start_at', 'close_at', 'image_path']);
-        });
+        Schema::dropIfExists('competitions');
     }
 };

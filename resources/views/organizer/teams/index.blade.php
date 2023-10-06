@@ -3,6 +3,10 @@
 </div>
 
 <div>
+    <a href="{{ route('organizer.index') }}">管理画面トップページに戻る</a>
+</div>
+
+<div>
     <a href="{{ route('organizer.teams.create') }}">チームを追加する</a>
 </div>
 
