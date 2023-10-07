@@ -56,7 +56,7 @@ class OrganizerCompetitionController extends Controller
         $currentCompetitions = $competitionsQuery->get();
 
 
-        return view('competitions.competitions', compact('currentCompetitions', 'target'));
+        return view('organizer.competitions.index', compact('currentCompetitions', 'target'));
 
     }
 
@@ -116,7 +116,7 @@ class OrganizerCompetitionController extends Controller
     {
 
 
-        return view('competitions.show', compact('competition'));
+        return view('organizer.competitions.show', compact('competition'));
     }
 
     /**
@@ -127,7 +127,7 @@ class OrganizerCompetitionController extends Controller
      */
     public function edit(Competition $competition)
     {
-        return view('competitions.edit', compact('competition'));
+        return view('organizer.competitions.edit', compact('competition'));
     }
 
     /**
@@ -146,7 +146,7 @@ class OrganizerCompetitionController extends Controller
         $competition->image_path = $request->image('image_path');
         $competition->update();
 
-        return to_route('competitions.index');
+        return to_route('organizer.competitions.index');
     }
 
     /**
@@ -159,7 +159,7 @@ class OrganizerCompetitionController extends Controller
     {
         $competition->delete();
 
-        return to_route('competitions.index');
+        return to_route('organizer.competitions.index');
         //「大会詳細」show.blade.phpにて削除できるようにする
     }
 
@@ -184,13 +184,13 @@ class OrganizerCompetitionController extends Controller
         $game->mat_id = $request->input('mat');
         $game->save();
 
-        return redirect()->route('organizer.competitions.mats.create');
+        return redirect()->route('organizer.mats.create');
     }
 
     public function matsCreate($id) {
         $competitions = Competition::find($id);
 
-        return view('organizer.competitions.mats.create', compact('competitions'));
+        return view('organizer.mats.create', compact('competitions'));
     }
 
     public function matsStore(Request $request) {

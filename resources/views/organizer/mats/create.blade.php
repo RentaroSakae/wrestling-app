@@ -6,7 +6,7 @@
     <a href="{{ route('organizer.competitions.create') }}">大会作成ページに戻る</a>
 </div>
 
-<form action="{{ route('organizer.competitions.mats.store', ['id' => $competitions->id]) }}" method="POST">
+<form action="{{ route('organizer.mats.store', ['id' => $competitions->id]) }}" method="POST">
     @csrf
     <div>
         <strong>大会</strong>

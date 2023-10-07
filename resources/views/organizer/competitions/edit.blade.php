@@ -6,7 +6,7 @@
     <a href="{{ route('home') }}">戻る</a>
 </div>
 
-<form action="{{ route('competitions.update', $competition->id) }}" method="POST">
+<form action="{{ route('organizer.competitions.update', $competition->id) }}" method="POST">
     @csrf
     @method('PUT')
 

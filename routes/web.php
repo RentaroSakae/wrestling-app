@@ -28,7 +28,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
 Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
-Route::resource('/competitions', OrganizerCompetitionController::class)->names('competitions');
+//【管理画面】大会一覧
+Route::resource('organizer/competitions/index', OrganizerCompetitionController::class)->names('organizer.competitions');
 Route::get('competitions/{id}/mats', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@showMats')->name('competitions.mats');
 //【管理画面】大会
 Route::get('organizer/competitions/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@create')->name('organizer.competitions.create');
@@ -50,7 +51,7 @@ Route::get('organizer/teams/create', 'App\Http\Controllers\Organizer\OrganizerTe
 Route::post('organizer/teams/store', 'App\Http\Controllers\Organizer\OrganizerTeamController@store')->name('organizer.teams.store');
 Route::delete('organizer/teams/{id}/destroy', 'App\Http\Controllers\Organizer\OrganizerTeamController@destroy')->name('organizer.teams.destroy');
 //【管理画面】マット
-Route::get('organizer/competitions/{id}/mats/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsCreate')->name('organizer.competitions.mats.create');
-Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.competitions.mats.store');
+Route::get('organizer/competitions/{id}/mats/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsCreate')->name('organizer.mats.create');
+Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.mats.store');
 //【管理画面】トップページ
 Route::get('organizer/index', 'App\Http\Controllers\Organizer\OrganizerController@index')->name('organizer.index');

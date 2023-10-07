@@ -3,7 +3,7 @@
 </div>
 
 <div>
-    <a href="{{ route('competitions.index') }}">戻る</a>
+    <a href="{{ route('organizer.competitions.index') }}">戻る</a>
 </div>
 
 <div>
