@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->OnDelete('cascade');
             $table->timestamp('start_at');
             $table->timestamp('close_at')->default('2023-12-31');
-            $table->string('image_path');
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }
