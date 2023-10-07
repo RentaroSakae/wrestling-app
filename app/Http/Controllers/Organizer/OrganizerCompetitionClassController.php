@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CompetitionClass;
 use Illuminate\Http\Request;
 
-class CompetitionClassController extends Controller
+class OrganizerCompetitionClassController extends Controller
 {
     /**
      * Display a listing of the resource.
