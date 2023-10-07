@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Competition;
 use Illuminate\Http\Request;

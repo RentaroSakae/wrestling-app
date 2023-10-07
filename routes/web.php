@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CompetitionController;
-use App\Http\Controllers\OrganizerCategoryController;
+use App\Http\Controllers\Organizer\OrganizerCompetitionController;
+use App\Http\Controllers\Organizer\OrganizerCategoryController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\OrganizerController;
