@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
 use App\Models\Mat;
 use Illuminate\Http\Request;
 
-class MatController extends Controller
+class OrganizerMatController extends Controller
 {
     /**
      * Display a listing of the resource.
