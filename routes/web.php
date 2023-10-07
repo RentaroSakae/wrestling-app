@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Organizer\OrganizerCompetitionController;
 use App\Http\Controllers\Organizer\OrganizerCategoryController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\OrganizerController;
+use App\Http\Controllers\Organizer\OrganizerGameController;
+use App\Http\Controllers\Organizer\OrganizerPlayerController;
+use App\Http\Controllers\Organizer\OrganizerController;
 
 
 /*
@@ -37,13 +37,13 @@ Route::post('organizer/competitions/store', 'App\Http\Controllers\Organizer\Orga
 Route::get('organizer/competitions/{id}/games/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@gameCreate')->name('organizer.competitions.games.create');
 Route::post('organizer/competitions/{id}/games/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@gameStore')->name('organizer.competitions.games.store');
 //【管理画面】選手
-Route::get('organizer/players/index', 'App\Http\Controllers\PlayerController@index')->name('organizer.players.index');
-Route::get('organizer/players/create', 'App\Http\Controllers\PlayerController@create')->name('organizer.players.create');
-Route::post('organizer/players/store', 'App\Http\Controllers\PlayerController@store')->name('organizer.players.store');
-Route::get('organizer/player/{id}/show', 'App\Http\Controllers\PlayerController@show')->name('organizer.players.show');
-Route::get('organizer/player/{id}/edit', 'App\Http\Controllers\PlayerController@edit')->name('organizer.players.edit');
-Route::put('organizer/player/{id}/update', 'App\Http\Controllers\PlayerController@update')->name('organizer.players.update');
-Route::delete('organizer/player/{id}/destroy', 'App\Http\Controllers\PlayerController@destroy')->name('organizer.players.destroy');
+Route::get('organizer/players/index', 'App\Http\Controllers\Organizer\OrganizerPlayerController@index')->name('organizer.players.index');
+Route::get('organizer/players/create', 'App\Http\Controllers\Organizer\OrganizerPlayerController@create')->name('organizer.players.create');
+Route::post('organizer/players/store', 'App\Http\Controllers\Organizer\OrganizerPlayerController@store')->name('organizer.players.store');
+Route::get('organizer/player/{id}/show', 'App\Http\Controllers\Organizer\OrganizerPlayerController@show')->name('organizer.players.show');
+Route::get('organizer/player/{id}/edit', 'App\Http\Controllers\Organizer\OrganizerPlayerController@edit')->name('organizer.players.edit');
+Route::put('organizer/player/{id}/update', 'App\Http\Controllers\Organizer\OrganizerPlayerController@update')->name('organizer.players.update');
+Route::delete('organizer/player/{id}/destroy', 'App\Http\Controllers\Organizer\OrganizerPlayerController@destroy')->name('organizer.players.destroy');
 //【管理画面】チーム
 Route::get('organizer/teams/index', 'App\Http\Controllers\TeamController@index')->name('organizer.teams.index');
 Route::get('organizer/teams/create', 'App\Http\Controllers\TeamController@create')->name('organizer.teams.create');

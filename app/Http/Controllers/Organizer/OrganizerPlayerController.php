@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Player;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
-class PlayerController extends Controller
+class OrganizerPlayerController extends Controller
 {
     /**
      * Display a listing of the resource.
