@@ -53,4 +53,4 @@ Route::delete('organizer/teams/{id}/destroy', 'App\Http\Controllers\TeamControll
 Route::get('organizer/competitions/{id}/mats/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsCreate')->name('organizer.competitions.mats.create');
 Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.competitions.mats.store');
 //【管理画面】トップページ
-Route::get('organizer/index', 'App\Http\Controllers\OrganizerController@index')->name('organizer.index');
+Route::get('organizer/index', 'App\Http\Controllers\Organizer\OrganizerController@index')->name('organizer.index');
