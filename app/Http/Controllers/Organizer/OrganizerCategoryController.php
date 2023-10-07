@@ -6,7 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Competition;
 
-class CategoryController extends Controller
+class OrganizerCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.

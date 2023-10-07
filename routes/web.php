@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompetitionController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrganizerCategoryController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\OrganizerController;
