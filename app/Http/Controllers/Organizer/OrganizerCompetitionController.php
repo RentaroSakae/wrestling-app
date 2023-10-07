@@ -170,7 +170,7 @@ class OrganizerCompetitionController extends Controller
         $players = player::all();
         $competitions = Competition::find($id);
 
-        return view('organizer.competitions.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
+        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
     }
 
     public function gameStore(Request $request) {
@@ -200,7 +200,7 @@ class OrganizerCompetitionController extends Controller
         $mat->save();
 
         $competitions = $request->input('competition_id');
-        return redirect()->route('organizer.competitions.games.create', ['id' => $competitions]);
+        return redirect()->route('organizer.games.create', ['id' => $competitions]);
     }
 
 }
