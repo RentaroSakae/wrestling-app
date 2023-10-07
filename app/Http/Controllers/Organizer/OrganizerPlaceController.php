@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
 
-class PlaceController extends Controller
+class OrganizerePlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
