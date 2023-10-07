@@ -14,7 +14,7 @@ use App\Models\Style;
 use App\Models\Team;
 
 
-class CompetitionController extends Controller
+class OrganizerCompetitionController extends Controller
 {
 
     private $competitionsQuery;
