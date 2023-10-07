@@ -45,10 +45,10 @@ Route::get('organizer/player/{id}/edit', 'App\Http\Controllers\Organizer\Organiz
 Route::put('organizer/player/{id}/update', 'App\Http\Controllers\Organizer\OrganizerPlayerController@update')->name('organizer.players.update');
 Route::delete('organizer/player/{id}/destroy', 'App\Http\Controllers\Organizer\OrganizerPlayerController@destroy')->name('organizer.players.destroy');
 //【管理画面】チーム
-Route::get('organizer/teams/index', 'App\Http\Controllers\TeamController@index')->name('organizer.teams.index');
-Route::get('organizer/teams/create', 'App\Http\Controllers\TeamController@create')->name('organizer.teams.create');
-Route::post('organizer/teams/store', 'App\Http\Controllers\TeamController@store')->name('organizer.teams.store');
-Route::delete('organizer/teams/{id}/destroy', 'App\Http\Controllers\TeamController@destroy')->name('organizer.teams.destroy');
+Route::get('organizer/teams/index', 'App\Http\Controllers\Organizer\OrganizerTeamController@index')->name('organizer.teams.index');
+Route::get('organizer/teams/create', 'App\Http\Controllers\Organizer\OrganizerTeamController@create')->name('organizer.teams.create');
+Route::post('organizer/teams/store', 'App\Http\Controllers\Organizer\OrganizerTeamController@store')->name('organizer.teams.store');
+Route::delete('organizer/teams/{id}/destroy', 'App\Http\Controllers\Organizer\OrganizerTeamController@destroy')->name('organizer.teams.destroy');
 //【管理画面】マット
 Route::get('organizer/competitions/{id}/mats/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsCreate')->name('organizer.competitions.mats.create');
 Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.competitions.mats.store');

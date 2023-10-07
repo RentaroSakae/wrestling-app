@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
 use App\Models\Style;
 use Illuminate\Http\Request;
 
-class StyleController extends Controller
+class OrganizerStyleController extends Controller
 {
     /**
      * Display a listing of the resource.
