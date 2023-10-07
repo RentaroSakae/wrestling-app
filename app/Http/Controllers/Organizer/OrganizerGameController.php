@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Organizer;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use App\Models\CompetitionClass;
 use App\Models\Mat;
 use App\Models\Player;
 
-class GameController extends Controller
+class OrganizerGameController extends Controller
 {
     /**
      * Display a listing of the resource.
