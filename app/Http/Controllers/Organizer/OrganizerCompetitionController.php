@@ -37,7 +37,7 @@ class OrganizerCompetitionController extends Controller
         $today = now()->format("Y-m-d H:i:s");
         $target = $request->input('target');
 
-        $competitionsQuery = Competition::query()->with('place');
+        $competitionsQuery = Competition::query()->with('place', 'category');
 
         if ($target === 'current') {
             // 現在開催中の大会を取得
@@ -161,30 +161,6 @@ class OrganizerCompetitionController extends Controller
 
         return to_route('organizer.competitions.index');
         //「大会詳細」show.blade.phpにて削除できるようにする
-    }
-
-    public function  gameCreate($id) {
-        $styles = Style::all();
-        $competitionClasses = CompetitionClass::all();
-        $mats = Mat::all();
-        $players = player::all();
-        $competitions = Competition::find($id);
-
-        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
-    }
-
-    public function gameStore(Request $request) {
-
-        $game = new Game();
-        $game->game_number = $request->input('game_number');
-        $game->red_player_id = $request->input('red_player');
-        $game->blue_player_id = $request->input('blue_player');
-        // $game->style = $request->input('style');
-        // $game->competitionClass = $request->input('competition_class');
-        $game->mat_id = $request->input('mat');
-        $game->save();
-
-        return redirect()->route('organizer.mats.create');
     }
 
     public function matsCreate($id) {

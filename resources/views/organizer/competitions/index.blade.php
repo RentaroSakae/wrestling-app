@@ -27,7 +27,7 @@
         @foreach($currentCompetitions as $competition)
         <tr>
             <td>{{ $competition->name }}</td>
-            <td>{{ $competition->category }}</td>
+            <td>{{ $competition->category->name }}</td>
             <td>{{ $competition->place->name }}</td>
             <td>{{ $competition->start_at }}</td>
             <td>{{ $competition->close_at }}</td>

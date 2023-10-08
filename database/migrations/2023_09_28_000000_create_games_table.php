@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('competition_id')->nullable()->unsigned();
             $table->foreign('competition_id')->references('id')->on('competitions')->OnDelete('cascade');
-            $table->integer('game_number');
+            $table->foreignId('style_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('competition_class_id')->constrained()->cascadeOnDelete();
             $table->foreignId('mat_id')->constrained()->cascadeOnDelete();
+            $table->integer('game_number');
             $table->unsignedBigInteger('red_player_id');
             $table->foreign('red_player_id')->references('id')->on('players');
             $table->integer('red_score')->default(0);

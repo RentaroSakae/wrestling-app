@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Organizer;
 use App\Models\Place;
 use Illuminate\Http\Request;
 
-class OrganizerePlaceController extends Controller
+class OrganizerPlaceController extends Controller
 {
     /**
      * Display a listing of the resource.

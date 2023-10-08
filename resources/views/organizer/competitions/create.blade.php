@@ -3,10 +3,10 @@
 </div>
 
 <div>
-    <a href="{{ route('competitions.index') }}">戻る</a>
+    <a href="{{ route('organizer.competitions.index') }}">戻る</a>
 </div>
 
-<form action="{{ route('competitions.store') }}" method="POST">
+<form action="{{ route('organizer.competitions.store') }}" method="POST">
     @csrf
 
     <div>

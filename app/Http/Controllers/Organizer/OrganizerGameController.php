@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
+
+use App\Models\Competition;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use App\Models\Style;
@@ -26,15 +29,16 @@ class OrganizerGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //【管理画面】試合作成ページ
-        $style = Style::all();
-        $competitionClass = CompetitionClass::all();
-        $mat = Mat::all();
-        $player = player::all();
 
-        return view('organizer.competitions.games.create', compact('style', 'competitionClass', 'mat', 'player'));
+        $competitions = Competition::find($id);
+        $styles = Style::all();
+        $competitionClasses = CompetitionClass::all();
+        $mats = Mat::where('competition_id', $competitions->id)->get();
+        $players = player::all();
+
+        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
     }
 
     /**
@@ -45,17 +49,17 @@ class OrganizerGameController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $game = new Game();
+        $game->competition_id = $request->input('competition_id');
+        $game->style_id = $request->input('style');
+        $game->competition_class_id = $request->input('competition_class');
+        $game->mat_id = $request->input('mat');
         $game->game_number = $request->input('game_number');
-        $game->red_player = $request->input('red_player');
-        $game->blue_player = $request->input('blue_player');
-        $game->style = $request->input('style');
-        $game->competitionClass = $request->input('competition_class');
-        $game->mat = $request->input('mat');
+        $game->red_player_id = $request->input('red_player');
+        $game->blue_player_id = $request->input('blue_player');
         $game->save();
 
-        return redirect()->route('competitions.mats');
+        return redirect()->route('organizer.games.index');
     }
 
     /**

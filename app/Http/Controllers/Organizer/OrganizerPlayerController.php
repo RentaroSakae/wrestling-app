@@ -17,10 +17,10 @@ class OrganizerPlayerController extends Controller
      */
     public function index()
     {
-        $players = Player::all();
-        $teams = Team::all();
+        $players = Player::with('team')->get();
+        //$teams = Team::all();
 
-        return view('organizer.players.index', compact('players', 'teams'));
+        return view('organizer.players.index', compact('players'));
     }
 
     /**
