@@ -15,7 +15,7 @@ class Game extends Model
     }
 
     //マットテーブルとのリレーション設定(一つの試合は一つのマットで行われる)
-    public function mats() {
+    public function mat() {
         return $this->belongsTo(Mat::class);
     }
 
@@ -27,5 +27,10 @@ class Game extends Model
     //スタイルテーブルとのリレーション設定（一つの試合は一つのスタイルで行われる）
     public function style() {
         return $this->belongsTo(Style::class);
+    }
+
+    //大会テーブルとのリレーション設定（一つの試合は一つの大会で行われる）
+    public function competition() {
+        return $this->belongsTo(Competition::class);
     }
 }

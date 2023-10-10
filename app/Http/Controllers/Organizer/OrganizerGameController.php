@@ -19,9 +19,16 @@ class OrganizerGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //マット別試合順ページ
+        $games = Game::with('competition', 'style', 'competitionClass', 'mat')->get();
+        $competitions = Competition::find($id);
+        // $styles = Style::all();
+        // $competitionClasses = CompetitionClass::all();
+        // $mats = Mat::where('competition_id', $competitions->id)->get();
+        $players = Player::all();
+
+        return view('organizer.games.index', compact('games', 'competitions', 'players'));
     }
 
     /**
@@ -31,12 +38,11 @@ class OrganizerGameController extends Controller
      */
     public function create($id)
     {
-
         $competitions = Competition::find($id);
         $styles = Style::all();
         $competitionClasses = CompetitionClass::all();
         $mats = Mat::where('competition_id', $competitions->id)->get();
-        $players = player::all();
+        $players = Player::all();
 
         return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
     }
@@ -47,19 +53,20 @@ class OrganizerGameController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        $game = new Game();
-        $game->competition_id = $request->input('competition_id');
-        $game->style_id = $request->input('style');
-        $game->competition_class_id = $request->input('competition_class');
-        $game->mat_id = $request->input('mat');
-        $game->game_number = $request->input('game_number');
-        $game->red_player_id = $request->input('red_player');
-        $game->blue_player_id = $request->input('blue_player');
-        $game->save();
 
-        return redirect()->route('organizer.games.index');
+        $games = new Game();
+        $games->competition_id = $id;
+        $games->style_id = $request->input('style');
+        $games->competition_class_id = $request->input('competition_class');
+        $games->mat_id = $request->input('mat');
+        $games->game_number = $request->input('game_number');
+        $games->red_player_id = $request->input('red_player');
+        $games->blue_player_id = $request->input('blue_player');
+        $games->save();
+
+        return redirect()->route('organizer.games.index', ['id' => $id]);
     }
 
     /**

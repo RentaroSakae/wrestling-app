@@ -8,12 +8,12 @@
 
 <form action="{{ route('organizer.games.store', ['id' => $competitions->id]) }}" method="POST">
     @csrf
-    <div>
+    {{-- <div>
         <strong>大会</strong>
         <select name="competition_id" id="competition_id">
             <option value="{{ $competitions->id }}">{{ $competitions->name }}</option>
         </select>
-    </div>
+    </div> --}}
     <div>
         <strong>スタイル</strong>
         <select id="style-selector" name="style">

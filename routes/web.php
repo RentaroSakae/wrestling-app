@@ -35,6 +35,7 @@ Route::get('competitions/{id}/mats', 'App\Http\Controllers\Organizer\OrganizerCo
 Route::get('organizer/competitions/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@create')->name('organizer.competitions.create');
 Route::post('organizer/competitions/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@store')->name('organizer.competitions.store');
 //【管理画面】試合
+Route::get('organizer/competitions/{id}/games/index', 'App\Http\Controllers\Organizer\OrganizerGameController@index')->name('organizer.games.index');
 Route::get('organizer/competitions/{id}/games/create', 'App\Http\Controllers\Organizer\OrganizerGameController@create')->name('organizer.games.create');
 Route::post('organizer/competitions/{id}/games/store', 'App\Http\Controllers\Organizer\OrganizerGameController@store')->name('organizer.games.store');
 //【管理画面】選手

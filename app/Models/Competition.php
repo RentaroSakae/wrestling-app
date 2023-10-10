@@ -24,5 +24,10 @@ class Competition extends Model
         return $this->hasMany(Mat::class);
     }
 
+    //試合テーブルとのリレーション設定（一つの大会で複数の試合が行われる）
+    public function games() {
+        return $this->hasMany(Game::class);
+    }
+
 
 }
