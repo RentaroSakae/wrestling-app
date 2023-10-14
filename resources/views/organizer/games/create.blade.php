@@ -6,7 +6,7 @@
     <a href="{{ route('organizer.competitions.index') }}">トップページに戻る</a>
 </div>
 
-<form action="{{ route('organizer.games.store', ['id' => $competitions->id]) }}" method="POST">
+<form action="{{ route('organizer.games.store', ['competition_id' => $competition->id]) }}" method="POST">
     @csrf
     {{-- <div>
         <strong>大会</strong>

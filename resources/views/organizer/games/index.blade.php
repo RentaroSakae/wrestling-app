@@ -21,9 +21,17 @@
         <tr>
             <td>{{ $game->game_number }}</td>
             <td>{{ $game->style->name }}</td>
-            <td>{{ $game->CompetitionClass->class }}kg級</td>
-            <td>{{ $game->players->name }}</td>
-            <td>{{ $game->blue_player }}</td>
+            <td>{{ $game->competition_class->class }}kg級</td>
+            <td>{{ $game->red_player->name }}</td>
+            <td>{{ $game->blue_player->name }}</td>
+            <td>
+                <form action="{{ route('organizer.games.destroy', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}" method="POST">
+                    <a href="{{ route('organizer.games.edit', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">編集</a>
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">削除</button>
+                </form>
+            </td>
         </tr>
         @endforeach
 </table>

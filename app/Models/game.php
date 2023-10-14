@@ -10,18 +10,22 @@ class Game extends Model
     use HasFactory;
 
     //階級テーブルとのリレーション設定(一つの試合は一つの階級の中で行われる)
-    public function competitionClass() {
+    public function competition_class() {
         return $this->belongsTo(CompetitionClass::class);
     }
 
     //マットテーブルとのリレーション設定(一つの試合は一つのマットで行われる)
     public function mat() {
-        return $this->belongsTo(Mat::class);
+        return $this->belongsTo(Mat::class, 'competition_id', 'competition_id');
     }
 
     //選手テーブルとのリレーション設定(一つの試合は複数の選手で行われる)
-    public function players() {
-        return $this->hasMany(Player::class);
+    public function red_player() {
+        return $this->belongsTo(Player::class, 'red_player_id');
+    }
+
+    public function blue_player() {
+        return $this->belongsTo(Player::class, 'blue_player_id');
     }
 
     //スタイルテーブルとのリレーション設定（一つの試合は一つのスタイルで行われる）

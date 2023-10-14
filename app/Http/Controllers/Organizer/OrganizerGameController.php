@@ -19,13 +19,12 @@ class OrganizerGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($competition_id)
     {
-        $games = Game::with('competition', 'style', 'competitionClass', 'mat')->get();
-        $competitions = Competition::find($id);
-        // $styles = Style::all();
-        // $competitionClasses = CompetitionClass::all();
-        // $mats = Mat::where('competition_id', $competitions->id)->get();
+
+        $competitions = Competition::find($competition_id);
+
+        $games = Game::where('competition_id', $competitions->id)->with('competition', 'style', 'competition_class', 'mat')->get();
         $players = Player::all();
 
         return view('organizer.games.index', compact('games', 'competitions', 'players'));
@@ -36,15 +35,15 @@ class OrganizerGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create($competition_id)
     {
-        $competitions = Competition::find($id);
+        $competition = Competition::find($competition_id);
         $styles = Style::all();
         $competitionClasses = CompetitionClass::all();
-        $mats = Mat::where('competition_id', $competitions->id)->get();
+        $mats = Mat::where('competition_id', $competition->id)->get();
         $players = Player::all();
 
-        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competitions'));
+        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition'));
     }
 
     /**
@@ -53,11 +52,10 @@ class OrganizerGameController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, $competition_id)
     {
-
         $games = new Game();
-        $games->competition_id = $id;
+        $games->competition_id = $competition_id;
         $games->style_id = $request->input('style');
         $games->competition_class_id = $request->input('competition_class');
         $games->mat_id = $request->input('mat');
@@ -66,7 +64,7 @@ class OrganizerGameController extends Controller
         $games->blue_player_id = $request->input('blue_player');
         $games->save();
 
-        return redirect()->route('organizer.games.index', ['id' => $id]);
+        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
 
     /**
@@ -86,9 +84,16 @@ class OrganizerGameController extends Controller
      * @param  \App\Models\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function edit(Game $game)
+    public function edit(Game $game, $competition_id, $game_id)
     {
-        //
+
+        $game = Game::find($game_id);
+        $competition = Competition::find($competition_id);
+        $styles = Style::all();
+        $competitionClasses = CompetitionClass::all();
+        $mats = Mat::where('competition_id', $game->competition_id)->get();
+        $players = Player::all();
+        return view('organizer.games.edit',['competition_id' => $competition_id, 'game_id' => $game_id],  compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition'));
     }
 
     /**
@@ -98,9 +103,18 @@ class OrganizerGameController extends Controller
      * @param  \App\Models\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Game $game)
+    public function update(Request $request, Game $game, $competition_id, $game_id)
     {
-        //
+        $game->style_id = $request->input('style');
+        $game->competition_class_id = $request->input('competition_class');
+        $game->mat_id = $request->input('mat');
+        $game->game_number = $request->input('game_number');
+        $game->red_player_id = $request->input('red_player');
+        $game->blue_player_id = $request->input('blue_player');
+        $game->update();
+        dd($game);
+
+        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
 
     /**
@@ -109,8 +123,11 @@ class OrganizerGameController extends Controller
      * @param  \App\Models\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Game $game)
+    public function destroy(Game $game, $competition_id, $game_id)
     {
-        //
+        $game = Game::find($game_id);
+        $game->delete();
+
+        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
 }
