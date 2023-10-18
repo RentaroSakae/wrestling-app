@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('category_style', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('style_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('category_id');
+            $table->bigInteger('style_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
+
         Schema::dropIfExists('category_style');
     }
 };

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('competition_classes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('style_id')->nullable()->unsigned();
-            $table->foreign('style_id')->references('id')->on('styles')->OnDelete('cascade');
+
             $table->integer('class');
             $table->timestamps();
         });
@@ -29,6 +29,7 @@ return new class extends Migration
      */
     public function down()
     {
+
         Schema::dropIfExists('competition_classes');
     }
 };

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('mats', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('competition_id')->constrained()->cascadeOnDelete();
+            $table->bigInteger('competition_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,7 @@ return new class extends Migration
      */
     public function down()
     {
+
         Schema::dropIfExists('mats');
     }
 };
