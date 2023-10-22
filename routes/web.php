@@ -5,7 +5,12 @@ use App\Http\Controllers\Organizer\OrganizerCompetitionController;
 use App\Http\Controllers\Organizer\OrganizerCategoryController;
 use App\Http\Controllers\Organizer\OrganizerGameController;
 use App\Http\Controllers\Organizer\OrganizerPlayerController;
+use App\Http\Controllers\Organizer\OrganizerScoresheetController;
 use App\Http\Controllers\Organizer\OrganizerController;
+use App\Http\Controllers\User\CompetitionController;
+use App\Http\Controllers\User\GameController;
+
+
 
 
 /*
@@ -41,6 +46,9 @@ Route::post('organizer/competitions/{competition_id}/games/store', 'App\Http\Con
 Route::get('organizer/competitions/{competition_id}/games/{game_id}/edit', 'App\Http\Controllers\Organizer\OrganizerGameController@edit')->name('organizer.games.edit');
 Route::put('organizer/competitions/{competition_id}/games/{game_id}/update', 'App\Http\Controllers\Organizer\OrganizerGameController@update')->name('organizer.games.update');
 Route::delete('organizer/competitions/{competition_id}/games/{game_id}/destroy', 'App\Http\Controllers\Organizer\OrganizerGameController@destroy')->name('organizer.games.destroy');
+//【管理画面】スコアシート
+Route::get('organizer/competitions/{competition_id}/games/{game_id}/scoresheets/create', 'App\Http\Controllers\Organizer\OrganizerScoresheetController@create')->name('organizer.scoresheets.create');
+Route::post('organizer/competitions/{competition_id}/games/{game_id}/scoresheets/store', 'App\Http\Controllers\Organizer\OrganizerScoresheetController@store')->name('organizer.scoresheets.store');
 //【管理画面】選手
 Route::get('organizer/players/index', 'App\Http\Controllers\Organizer\OrganizerPlayerController@index')->name('organizer.players.index');
 Route::get('organizer/players/create', 'App\Http\Controllers\Organizer\OrganizerPlayerController@create')->name('organizer.players.create');
@@ -59,3 +67,7 @@ Route::get('organizer/competitions/{id}/mats/create', 'App\Http\Controllers\Orga
 Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.mats.store');
 //【管理画面】トップページ
 Route::get('organizer/index', 'App\Http\Controllers\Organizer\OrganizerController@index')->name('organizer.index');
+//【ユーザー】大会一覧ページ
+Route::get('competitions/index', 'App\Http\Controllers\User\CompetitionController@index')->name('users.competitions.index');
+//【ユーザー】マット別試合順ページ
+Route::get('competitions/{competition_id}/games', 'App\Http\Controllers\User\GameController@index')->name('users.games.index');

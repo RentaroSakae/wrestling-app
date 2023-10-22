@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\CompetitionClass;
 
-class Competition_ClassesTableSeeder extends Seeder
+class CompetitionClassesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -1,5 +1,5 @@
 <div>
-    <h2>{{ $competitions->name }}の試合</h2>
+    <h2>{{ $competition->name }}の試合</h2>
 </div>
 
 {{-- <div>
@@ -27,6 +27,7 @@
             <td>
                 <form action="{{ route('organizer.games.destroy', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}" method="POST">
                     <a href="{{ route('organizer.games.edit', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">編集</a>
+                    <a href="{{ route('organizer.scoresheets.create', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">スコアシート</a>
                     @csrf
                     @method('DELETE')
                     <button type="submit">削除</button>

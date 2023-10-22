@@ -18,4 +18,9 @@ class Player extends Model
     public function team() {
         return $this->belongsTo(Team::class);
     }
+
+    //得点テーブルとのリレーション（一人の選手は複数の得点を持つ）
+    public function scores() {
+        return $this->hasMany(Score::class);
+    }
 }

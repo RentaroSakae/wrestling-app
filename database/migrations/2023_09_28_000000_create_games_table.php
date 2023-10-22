@@ -16,17 +16,13 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('competition_id')->nullable()->unsigned();
-
             $table->bigInteger('style_id');
             $table->bigInteger('competition_class_id');
             $table->bigInteger('mat_id');
             $table->integer('game_number');
             $table->unsignedBigInteger('red_player_id');
-
-            $table->integer('red_score')->default(0);
             $table->unsignedBigInteger('blue_player_id');
-
-            $table->integer('blue_score')->default(0);
+            $table->bigInteger('scoresheet_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('competitions', function (Blueprint $table) {
+        Schema::create('scoresheets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->bigInteger('place_id');
-            $table->bigInteger('category_id')->nullable()->unsigned();
-
-            // TODO $table->date('start_at') に変更
-            $table->date('start_at');
-            $table->date('close_at');
-            $table->string('image_path')->nullable();
+            $table->bigInteger('game_id');
+            $table->integer('red_point')->default(0);
+            $table->integer('blue_point')->default(0);
+            $table->bigInteger('victory_player_id');
+            $table->bigInteger('victory_type_id');
             $table->timestamps();
         });
     }
@@ -34,7 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-
-        Schema::dropIfExists('competitions');
+        Schema::dropIfExists('scoresheets');
     }
 };
