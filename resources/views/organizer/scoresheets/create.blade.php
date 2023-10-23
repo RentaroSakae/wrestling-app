@@ -53,8 +53,8 @@
     <div>
         <strong>勝者</strong>
         <select name="victory_player" id="victory_player">
-            <option value="red_player">{{ $game->red_player->name }}</option>
-            <option value="blue_player">{{ $game->blue_player->name }}</option>
+            <option value="{{ $game->red_player->id }}">赤コーナー：{{ $game->red_player->name }}</option>
+            <option value="{{ $game->blue_player->id }}">青コーナー：{{ $game->blue_player->name }}</option>
         </select>
     </div>
 

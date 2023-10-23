@@ -34,7 +34,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
 Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 //【管理画面】大会一覧
-Route::resource('organizer/competitions/index', OrganizerCompetitionController::class)->names('organizer.competitions');
+Route::get('organizer/competitions/index', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@index')->name('organizer.competitions.index');
 Route::get('competitions/{id}/mats', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@showMats')->name('competitions.mats');
 //【管理画面】大会
 Route::get('organizer/competitions/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@create')->name('organizer.competitions.create');

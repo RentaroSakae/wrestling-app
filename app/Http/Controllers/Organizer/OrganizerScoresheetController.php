@@ -57,12 +57,21 @@ class OrganizerScoresheetController extends Controller
      */
     public function store(Request $request, $competition_id, $game_id)
     {
-
         $scoresheets = new Scoresheet();
-        $scoresheets->red_point = $request->input('red_score');
-        $scoresheets->blue_point = $request->input('blue_score');
-        $scoresheets->victory_player_id = $request->input('victory_player');
+        $scoresheets->game_id = $game_id;
+        $scoresheets->red_point = $request->input('red_point');
+        $scoresheets->blue_point = $request->input('blue_point');
         $scoresheets->victory_type_id = $request->input('victory_type');
+
+        $selectedPlayerId = $request->input('victory_player');
+        $game = Game::find($game_id);
+
+        if($selectedPlayerId == $game->red_player->id) {
+            $scoresheets->victory_player_id = $game->red_player_id;
+        } elseif($selectedPlayerId == $game->blue_player->id) {
+            $scoresheets->victory_player_id = $game->blue_player_id;
+        }
+
         $scoresheets->save();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
