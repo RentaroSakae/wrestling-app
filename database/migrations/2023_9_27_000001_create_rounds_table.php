@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scoresheets', function (Blueprint $table) {
+        Schema::create('rounds', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('game_id')->default(0);
-            $table->integer('red_point')->default(0);
-            $table->integer('blue_point')->default(0);
-            $table->bigInteger('victory_player_id')->default(0);
-            $table->bigInteger('victory_type_id')->default(0);
+            $table->string('round');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scoresheets');
+        Schema::dropIfExists('rounds');
     }
 };

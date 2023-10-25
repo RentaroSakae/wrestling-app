@@ -33,6 +33,15 @@
     </div>
 
     <div>
+        <strong>回戦</strong>
+        <select id="round_id" name="round_id">
+            @foreach ($rounds as $round)
+            <option value="{{ $round->id }}">{{ $round->round }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div>
         <strong>赤コーナー選手</strong>
         <select name="red_player" id="red_player">
             @foreach ($players as $player)

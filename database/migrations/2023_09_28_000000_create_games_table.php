@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('style_id');
             $table->bigInteger('competition_class_id');
             $table->bigInteger('mat_id');
+            $table->bigInteger('round_id');
             $table->integer('game_number');
             $table->unsignedBigInteger('red_player_id');
             $table->unsignedBigInteger('blue_player_id');

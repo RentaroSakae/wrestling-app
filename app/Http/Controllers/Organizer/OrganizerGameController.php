@@ -12,6 +12,7 @@ use App\Models\CompetitionClass;
 use App\Models\Mat;
 use App\Models\Player;
 use App\Models\Team;
+use App\Models\Round;
 
 class OrganizerGameController extends Controller
 {
@@ -24,8 +25,14 @@ class OrganizerGameController extends Controller
     {
 
         $competition = Competition::find($competition_id);
-
-        $games = Game::where('competition_id', $competition->id)->with('competition', 'style', 'competition_class', 'mat')->get();
+        $games = Game::where('competition_id', $competition->id)
+            ->with(
+                'competition',
+                'style',
+                'competition_class',
+                'mat',
+                'round'
+                )->get();
         $players = Player::all();
 
         return view('organizer.games.index', compact('games', 'competition', 'players'));
@@ -43,8 +50,9 @@ class OrganizerGameController extends Controller
         $competitionClasses = CompetitionClass::all();
         $mats = Mat::where('competition_id', $competition->id)->get();
         $players = Player::all();
+        $rounds = Round::all();
 
-        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition'));
+        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
     }
 
     /**
@@ -60,6 +68,7 @@ class OrganizerGameController extends Controller
         $games->style_id = $request->input('style');
         $games->competition_class_id = $request->input('competition_class');
         $games->mat_id = $request->input('mat');
+        $games->round_id = $request->input('round_id');
         $games->game_number = $request->input('game_number');
         $games->red_player_id = $request->input('red_player');
         $games->blue_player_id = $request->input('blue_player');

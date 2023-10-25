@@ -47,4 +47,9 @@ class Game extends Model
     public function victory_type() {
         return $this->belongsTo(VictryType::class);
     }
+
+    //回戦テーブルとのリレーション（一つの試合は一つのラウンドで行われる）
+    public function round() {
+        return $this->belongsTo(Round::class);
+    }
 }

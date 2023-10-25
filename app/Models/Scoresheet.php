@@ -18,4 +18,7 @@ class Scoresheet extends Model
     public function playser() {
         return $this->belongsTo(Player::class);
     }
+
+    protected $fillable = ['game_id', 'red_point', 'blue_point', 'victory_type_id', 'victory_player_id'];
+
 }

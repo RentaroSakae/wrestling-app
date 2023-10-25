@@ -20,8 +20,7 @@
         <td>{{ $competition->category->name }}</td>
         <td>{{ $game->style->name}}</td>
         <td>{{ $game->competition_class->class }}kg級</td>
-        {{-- TODO 何回戦か入れられるようにする --}}
-        <td></td>
+        <td>{{ $game->round->round }}</td>
     </tr>
 </table>
 
@@ -45,24 +44,40 @@
             <td >{{ $game->blue_player->team->name }}</td>
         </tr>
         <tr>
-            <td colspan="2"><input type="number" name="red_point" value="0"></td>
-            <td colspan="2"><input type="number" name="blue_point" value="0"></td>
+            <td colspan="2"><input type="number" name="red_point" value="{{ is_null($scoresheet) ? 0 : $scoresheet->red_point }}"></td>
+            <td colspan="2"><input type="number" name="blue_point" value="{{ is_null($scoresheet) ? 0 : $scoresheet->blue_point }}"></td>
         </tr>
     </table>
 
     <div>
         <strong>勝者</strong>
-        <select name="victory_player" id="victory_player">
-            <option value="{{ $game->red_player->id }}">赤コーナー：{{ $game->red_player->name }}</option>
-            <option value="{{ $game->blue_player->id }}">青コーナー：{{ $game->blue_player->name }}</option>
+        @php
+            function isVictoryPlayerId($player_id, $scoresheet){
+                if (is_null($scoresheet)) {
+                    return false;
+                }
+                return $player_id == $scoresheet->victory_player_id;
+            }
+        @endphp
+        <select name="victory_player_id" id="victory_player_id">
+            <option value="{{ $game->red_player->id }}" {{ isVictoryPlayerId($game->red_player->id, $scoresheet) ? "selected" : "" }}>赤コーナー：{{ $game->red_player->name }}</option>
+            <option value="{{ $game->blue_player->id }}" {{ isVictoryPlayerId($game->blue_player->id, $scoresheet) ? "selected" : "" }}>青コーナー：{{ $game->blue_player->name }}</option>
         </select>
     </div>
 
     <div>
         <strong>勝因</strong>
-        <select name="victory_type" id="victory_type">
+        @php
+            function isVictoryTypeId($victory_type_id, $scoresheet){
+                if (is_null($scoresheet)) {
+                    return false;
+                }
+                return $victory_type_id == $scoresheet->victory_type_id;
+            }
+        @endphp
+        <select name="victory_type_id" id="victory_type_id">
             @foreach ($victory_types as $victory_type)
-                <option value="{{ $victory_type->id }}">{{ $victory_type->name }}</option>
+                <option value="{{ $victory_type->id }}" {{ isVictoryTypeId($victory_type->id, $scoresheet) ? "selected" : "" }}>{{ $victory_type->name }}</option>
             @endforeach
         </select>
     </div>
@@ -71,3 +86,4 @@
         <button type="submit">送信</button>
     </div>
 </form>
+
