@@ -13,6 +13,7 @@ use App\Models\Game;
 use App\Models\Player;
 use App\Models\CompetitionClass;
 use App\Models\Style;
+use App\Models\Scoresheet;
 
 class GameController extends Controller
 {
@@ -32,6 +33,7 @@ class GameController extends Controller
 
         $games = $gameQuery->get();
         $mats = Mat::where('competition_id', $competition->id)->get();
+
 
         return view('users.games.index', compact(['competition_id', 'mats', 'games', 'competition']));
     }

@@ -29,5 +29,9 @@ class Competition extends Model
         return $this->hasMany(Game::class);
     }
 
+    //選手テーブルとのリレーション設定（中間テーブル）
+    public function players() {
+        return $this->belongsToMany(Player::class)->withTimestamps();
+    }
 
 }

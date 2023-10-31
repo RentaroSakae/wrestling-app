@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
+
         Schema::create('competition_classes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('style_id')->nullable()->unsigned();
-
             $table->integer('class');
             $table->timestamps();
         });

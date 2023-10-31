@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('scoresheets', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('game_id')->default(0);
+            $table->foreignId('game_id')->constrained('games')->onDelete('cascade');
             $table->integer('red_point')->default(0);
             $table->integer('blue_point')->default(0);
             $table->bigInteger('victory_player_id')->default(0);
@@ -31,6 +31,10 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::table('scoresheets', function (Blueprint $table) {
+            $table->dropForeign(['game_id']);
+            $table->dropColumn('game_id');
+        });
         Schema::dropIfExists('scoresheets');
     }
 };

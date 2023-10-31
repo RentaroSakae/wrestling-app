@@ -19,6 +19,7 @@
         <th>試合番号</th>
         <th>スタイル</th>
         <th>階級</th>
+        <th>回戦</th>
         <th>赤コーナー/所属</th>
         <th></th>
         <th>得点</th>
@@ -33,11 +34,12 @@
             <td rowspan="2">{{ $game->game_number }}</td>
             <td rowspan="2">{{ $game->style->name }}</td>
             <td rowspan="2">{{ $game->competition_class->class }}kg級</td>
+            <td rowspan="2">{{ $game->round->round }}</td>
             <td>{{ $game->red_player->name }}</td>
             <td rowspan="2"></td>
-            <td rowspan="2">{{ $game->red_score }}</td>
+            <td rowspan="2">{{ $game->scoresheet->red_point }}</td>
             <td rowspan="2">-</td>
-            <td rowspan="2">{{ $game->blue_score }}</td>
+            <td rowspan="2">{{ $game->scoresheet->blue_point }}</td>
             <td rowspan="2"></td>
             <td>{{ $game->blue_player->name }}</td>
         </tr>

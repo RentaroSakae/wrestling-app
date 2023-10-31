@@ -9,6 +9,11 @@ class Player extends Model
 {
     use HasFactory;
 
+    //大会テーブルとのリレーション設定（中間テーブル）
+    public function competitions() {
+        return $this->belongsToMany(Competition::class)->withTimestamps();
+    }
+
     //試合テーブルとのリレーション設定(一人の選手は複数の試合に出場する)
     public function games() {
         return $this->hasMany(Game::class);

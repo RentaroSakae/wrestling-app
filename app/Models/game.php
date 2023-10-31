@@ -40,7 +40,8 @@ class Game extends Model
 
     //得点テーブルとのリレーション（一つの試合に一つのスコアシートが存在する）
     public function scoresheet() {
-        return $this->belongsTo(Score::class);
+        return $this->hasOne(Scoresheet::class);
+
     }
 
     //勝因テーブルとのリレーション（一つの試合に一つの勝因がある）

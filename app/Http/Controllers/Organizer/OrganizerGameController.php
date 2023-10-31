@@ -13,6 +13,7 @@ use App\Models\Mat;
 use App\Models\Player;
 use App\Models\Team;
 use App\Models\Round;
+use App\Models\Scoresheet;
 
 class OrganizerGameController extends Controller
 {
@@ -74,7 +75,19 @@ class OrganizerGameController extends Controller
         $games->blue_player_id = $request->input('blue_player');
         $games->save();
 
-        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
+        $gameId = $games->id;
+
+        $scoresheet = new Scoresheet();
+        $scoresheet->game_id = $gameId;
+        $scoresheet->red_point = 0;
+        $scoresheet->blue_point = 0;
+        $scoresheet->save();
+
+        $games->scoresheet_id = $scoresheet->id;
+
+        $games->save();
+
+         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
 
     /**
@@ -134,28 +147,11 @@ class OrganizerGameController extends Controller
      */
     public function destroy(Game $game, $competition_id, $game_id)
     {
+
         $game = Game::find($game_id);
         $game->delete();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
 
-    // public function scoresheetEdit($competition_id, $game_id)
-    // {
-    //     $game = Game::find($game_id);
-    //     $teams = Team::all();
-    //     $players = Player::all();
-
-    //     return view('organizer.scores.edit', ['competition_id' => $competition_id, 'game_id' => $game_id], compact('game', 'teams', 'players'));
-    // }
-
-    // public function scoresheetUpdate(Request $request, $competition_id, $game_id)
-    // {
-    //     $game = Game::find($game_id);
-    //     $game->red_score = $request->input('red_score');
-    //     $game->blue_score = $request->input('blue_score');
-    //     $game->update();
-
-    //     return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
-    // }
 }
