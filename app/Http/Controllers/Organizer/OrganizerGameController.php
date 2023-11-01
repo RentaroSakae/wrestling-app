@@ -33,7 +33,7 @@ class OrganizerGameController extends Controller
                 'competition_class',
                 'mat',
                 'round'
-                )->get();
+            )->get();
         $players = Player::all();
 
         return view('organizer.games.index', compact('games', 'competition', 'players'));
@@ -55,6 +55,7 @@ class OrganizerGameController extends Controller
 
         return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -87,7 +88,58 @@ class OrganizerGameController extends Controller
 
         $games->save();
 
-         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
+        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
+    }
+
+    public function createFinal($competition_id)
+    {
+
+        $competition = Competition::find($competition_id);
+        $styles = Style::all();
+        $competitionClasses = CompetitionClass::all();
+        $mats = Mat::where('competition_id', $competition->id)->get();
+        $players = Player::all();
+        $rounds = Round::find(8);
+
+        return view('organizer.games.create-final', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
+    }
+
+    public function storeFinal(Request $request, $competition_id)
+    {
+
+        $rounds = Round::find(8);
+
+        $finalGames = new Game();
+        $finalGames->round_id = $rounds->id;
+        $finalGames->style_id = $request->input('style');
+        $finalGames->competition_class_id = $request->input('competition_class');
+        $finalGames->mat_id = $request->input('mat');
+        $finalGames->game_number = $request->input('game_number');
+        $finalGames->red_player_id = $request->input('red_player');
+        $finalGames->blue_player_id = $request->input('blue_player');
+        $finalGames->save();
+
+        $finalGameId = $finalGames->id;
+
+        $game = Game::where('id', $finalGameId)
+            ->orWhere('next_game_id', $finalGameId)
+            ->first();
+
+        if ($game) {
+            // 指定した条件に一致するゲームが見つかった場合
+            $victoryPlayerId = $game->victory_player_id;
+            $scoresheet = $game->scoresheet;
+
+            if ($victoryPlayerId) {
+                $victoryPlayerName = $scoresheet->victory_player->name;
+                echo $victoryPlayerName;
+            } else {
+                echo "player";
+            }
+        } else {
+            // 同じ条件に一致するゲームが見つからなかった場合の処理
+            echo "player";
+        }
     }
 
     /**
@@ -115,7 +167,7 @@ class OrganizerGameController extends Controller
         $competitionClasses = CompetitionClass::all();
         $mats = Mat::where('competition_id', $game->competition_id)->get();
         $players = Player::all();
-        return view('organizer.games.edit',['competition_id' => $competition_id, 'game_id' => $game_id],  compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition'));
+        return view('organizer.games.edit', ['competition_id' => $competition_id, 'game_id' => $game_id],  compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition'));
     }
 
     /**
@@ -153,5 +205,4 @@ class OrganizerGameController extends Controller
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
-
 }

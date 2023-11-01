@@ -49,6 +49,8 @@ Route::post('organizer/competitions/{competition_id}/players', 'App\Http\Control
 Route::get('organizer/competitions/{competition_id}/games/index', 'App\Http\Controllers\Organizer\OrganizerGameController@index')->name('organizer.games.index');
 Route::get('organizer/competitions/{competition_id}/games/create', 'App\Http\Controllers\Organizer\OrganizerGameController@create')->name('organizer.games.create');
 Route::post('organizer/competitions/{competition_id}/games/store', 'App\Http\Controllers\Organizer\OrganizerGameController@store')->name('organizer.games.store');
+Route::get('organizer/competitions/{competition_id}/games/create_final', 'App\Http\Controllers\Organizer\OrganizerGameController@createFinal')->name('organizer.games.create-final');
+Route::post('organizer/competitions/{competition_id}/games/store_final', 'App\Http\Controllers\Organizer\OrganizerGameController@storeFinal')->name('organizer.games.store-final');
 Route::get('organizer/competitions/{competition_id}/games/{game_id}/edit', 'App\Http\Controllers\Organizer\OrganizerGameController@edit')->name('organizer.games.edit');
 Route::put('organizer/competitions/{competition_id}/games/{game_id}/update', 'App\Http\Controllers\Organizer\OrganizerGameController@update')->name('organizer.games.update');
 Route::delete('organizer/competitions/{competition_id}/games/{game_id}/destroy', 'App\Http\Controllers\Organizer\OrganizerGameController@destroy')->name('organizer.games.destroy');

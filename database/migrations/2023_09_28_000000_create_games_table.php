@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('mat_id');
             $table->bigInteger('round_id');
             $table->integer('game_number');
+            $table->bigInteger('next_game_id')->nullable()->unsigned();
             $table->unsignedBigInteger('red_player_id');
             $table->unsignedBigInteger('blue_player_id');
             $table->bigInteger('scoresheet_id')->nullable()->unsigned();
@@ -36,6 +37,5 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('games');
-
     }
 };
