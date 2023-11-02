@@ -47,8 +47,8 @@ Route::post('organizer/competitions/{competition_id}/players', 'App\Http\Control
 
 //【管理画面】試合
 Route::get('organizer/competitions/{competition_id}/games/index', 'App\Http\Controllers\Organizer\OrganizerGameController@index')->name('organizer.games.index');
-Route::get('organizer/competitions/{competition_id}/games/create', 'App\Http\Controllers\Organizer\OrganizerGameController@create')->name('organizer.games.create');
-Route::post('organizer/competitions/{competition_id}/games/store', 'App\Http\Controllers\Organizer\OrganizerGameController@store')->name('organizer.games.store');
+Route::get('organizer/competitions/{competition_id}/games/{game_id}/create_lower', 'App\Http\Controllers\Organizer\OrganizerGameController@createLower')->name('organizer.games.create-lower');
+Route::post('organizer/competitions/{competition_id}/games/{game_id}/store_lower', 'App\Http\Controllers\Organizer\OrganizerGameController@storeLower')->name('organizer.games.store-lower');
 Route::get('organizer/competitions/{competition_id}/games/create_final', 'App\Http\Controllers\Organizer\OrganizerGameController@createFinal')->name('organizer.games.create-final');
 Route::post('organizer/competitions/{competition_id}/games/store_final', 'App\Http\Controllers\Organizer\OrganizerGameController@storeFinal')->name('organizer.games.store-final');
 Route::get('organizer/competitions/{competition_id}/games/{game_id}/edit', 'App\Http\Controllers\Organizer\OrganizerGameController@edit')->name('organizer.games.edit');

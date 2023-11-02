@@ -22,8 +22,8 @@ return new class extends Migration
             $table->bigInteger('round_id');
             $table->integer('game_number');
             $table->bigInteger('next_game_id')->nullable()->unsigned();
-            $table->unsignedBigInteger('red_player_id');
-            $table->unsignedBigInteger('blue_player_id');
+            $table->unsignedBigInteger('red_player_id')->nullable()->unsigned();
+            $table->unsignedBigInteger('blue_player_id')->nullable()->unsigned();
             $table->bigInteger('scoresheet_id')->nullable()->unsigned();
             $table->timestamps();
         });

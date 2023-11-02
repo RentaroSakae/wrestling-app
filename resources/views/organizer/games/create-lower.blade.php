@@ -6,37 +6,25 @@
     <a href="{{ route('organizer.competitions.index') }}">トップページに戻る</a>
 </div>
 
-<form action="{{ route('organizer.games.store', ['competition_id' => $competition->id]) }}" method="POST">
+<form action="{{ route('organizer.games.store-lower', ['competition_id' => $competition->id, 'game_id' => $game->id]) }}"
+    method="POST">
     @csrf
-    {{-- <div>
-        <strong>大会</strong>
-        <select name="competition_id" id="competition_id">
-            <option value="{{ $competitions->id }}">{{ $competitions->name }}</option>
-        </select>
-    </div> --}}
     <div>
         <strong>スタイル</strong>
-        <select id="style-selector" name="style">
-            @foreach ($styles as $style)
-            <option value="{{ $style->id }}">{{ $style->name }}</option>
-            @endforeach
-        </select>
+        <input type="text" id="style" name="style" value="{{ $game->style->name }}" readonly>
     </div>
 
     <div>
         <strong>階級</strong>
-        <select id="class-selector" name="competition_class">
-            @foreach ($competitionClasses as $competitionClass)
-            <option value="{{ $competitionClass->id }}">{{ $competitionClass->class }}</option>
-            @endforeach
-        </select>
+        <input type="text" id="competition_class" name="competition_class" value="{{ $game->competition_class->class }}"
+            readonly>
     </div>
 
     <div>
         <strong>回戦</strong>
         <select id="round_id" name="round_id">
             @foreach ($rounds as $round)
-            <option value="{{ $round->id }}">{{ $round->round }}</option>
+                <option value="{{ $round->id }}">{{ $round->round }}</option>
             @endforeach
         </select>
     </div>
@@ -45,7 +33,7 @@
         <strong>赤コーナー選手</strong>
         <select name="red_player" id="red_player">
             @foreach ($players as $player)
-            <option value="{{ $player->id }}">{{ $player->name }}</option>
+                <option value="{{ $player->id }}">{{ $player->name }}</option>
             @endforeach
         </select>
     </div>
@@ -54,7 +42,7 @@
         <strong>青コーナー選手</strong>
         <select name="blue_player" id="blue_player">
             @foreach ($players as $player)
-            <option value="{{ $player->id }}">{{ $player->name }}</option>
+                <option value="{{ $player->id }}">{{ $player->name }}</option>
             @endforeach
         </select>
     </div>
@@ -63,7 +51,7 @@
         <strong>マット</strong>
         <select name="mat" id="mat">
             @foreach ($mats as $mat)
-            <option value="{{ $mat->id }}">{{ $mat->name }}</option>
+                <option value="{{ $mat->id }}">{{ $mat->name }}</option>
             @endforeach
         </select>
     </div>
@@ -133,5 +121,3 @@
         initClassSelector();
       });
     </script> --}}
-
-

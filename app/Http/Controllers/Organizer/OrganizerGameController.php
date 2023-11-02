@@ -36,7 +36,11 @@ class OrganizerGameController extends Controller
             )->get();
         $players = Player::all();
 
-        return view('organizer.games.index', compact('games', 'competition', 'players'));
+        $nextGameId = $games->groupBy('next_game_id');
+
+
+
+        return view('organizer.games.index', compact('games', 'competition', 'players', 'nextGameId'));
     }
 
     /**
@@ -44,16 +48,17 @@ class OrganizerGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($competition_id)
+    public function createLower($competition_id, $game_id)
     {
+        $game = Game::find($game_id);
         $competition = Competition::find($competition_id);
-        $styles = Style::all();
-        $competitionClasses = CompetitionClass::all();
+        $styles = Style::find($game->style->id);
+        $competitionClasses = CompetitionClass::find($game->competition_class_id);
         $mats = Mat::where('competition_id', $competition->id)->get();
         $players = Player::all();
         $rounds = Round::all();
 
-        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
+        return view('organizer.games.create-lower', compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
     }
 
 
@@ -63,7 +68,60 @@ class OrganizerGameController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $competition_id)
+    public function storeLower(Request $request, $competition_id, $game_id)
+    {
+        $games = new Game();
+        $games->competition_id = $competition_id;
+        // $games->style_id = $request->input('style');
+
+        $styleName = $request->input('style');
+        $style = Style::where('name', $styleName)->first();
+        $styleId = $style->id;
+        $games->style_id = $styleId;
+
+        $competitionClassClass = $request->input('competition_class');
+        $competitionClass = CompetitionClass::where('class', $competitionClassClass)->first();
+        $competitionClassId = $competitionClass->id;
+        $games->competition_class_id = $competitionClassId;
+
+        // $games->competition_class_id = $request->input('competition_class');
+        $games->mat_id = $request->input('mat');
+        $games->round_id = $request->input('round_id');
+        $games->game_number = $request->input('game_number');
+        $games->next_game_id = $game_id;
+        $games->red_player_id = $request->input('red_player');
+        $games->blue_player_id = $request->input('blue_player');
+        $games->save();
+
+        $gameId = $games->id;
+
+        $scoresheet = new Scoresheet();
+        $scoresheet->game_id = $gameId;
+        $scoresheet->red_point = 0;
+        $scoresheet->blue_point = 0;
+        $scoresheet->save();
+
+        $games->scoresheet_id = $scoresheet->id;
+
+        $games->save();
+
+        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id, 'game_id' => $game_id]);
+    }
+
+    public function createFinal($competition_id)
+    {
+
+        $competition = Competition::find($competition_id);
+        $styles = Style::all();
+        $competitionClasses = CompetitionClass::all();
+        $mats = Mat::where('competition_id', $competition->id)->get();
+        $players = Player::all();
+        $rounds = Round::find(8);
+
+        return view('organizer.games.create-final', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
+    }
+
+    public function storeFinal(Request $request, $competition_id)
     {
         $games = new Game();
         $games->competition_id = $competition_id;
@@ -89,57 +147,6 @@ class OrganizerGameController extends Controller
         $games->save();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
-    }
-
-    public function createFinal($competition_id)
-    {
-
-        $competition = Competition::find($competition_id);
-        $styles = Style::all();
-        $competitionClasses = CompetitionClass::all();
-        $mats = Mat::where('competition_id', $competition->id)->get();
-        $players = Player::all();
-        $rounds = Round::find(8);
-
-        return view('organizer.games.create-final', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
-    }
-
-    public function storeFinal(Request $request, $competition_id)
-    {
-
-        $rounds = Round::find(8);
-
-        $finalGames = new Game();
-        $finalGames->round_id = $rounds->id;
-        $finalGames->style_id = $request->input('style');
-        $finalGames->competition_class_id = $request->input('competition_class');
-        $finalGames->mat_id = $request->input('mat');
-        $finalGames->game_number = $request->input('game_number');
-        $finalGames->red_player_id = $request->input('red_player');
-        $finalGames->blue_player_id = $request->input('blue_player');
-        $finalGames->save();
-
-        $finalGameId = $finalGames->id;
-
-        $game = Game::where('id', $finalGameId)
-            ->orWhere('next_game_id', $finalGameId)
-            ->first();
-
-        if ($game) {
-            // 指定した条件に一致するゲームが見つかった場合
-            $victoryPlayerId = $game->victory_player_id;
-            $scoresheet = $game->scoresheet;
-
-            if ($victoryPlayerId) {
-                $victoryPlayerName = $scoresheet->victory_player->name;
-                echo $victoryPlayerName;
-            } else {
-                echo "player";
-            }
-        } else {
-            // 同じ条件に一致するゲームが見つからなかった場合の処理
-            echo "player";
-        }
     }
 
     /**

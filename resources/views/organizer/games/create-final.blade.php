@@ -28,13 +28,25 @@
     </div>
 
     <div>
+        <strong>マット</strong>
+        <select name="mat" id="mat">
+            @foreach ($mats as $mat)
+                <option value="{{ $mat->id }}">{{ $mat->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div>
+        <strong>試合番号</strong>
+        <input type="number" name="game_number" id="Game_number">
+    </div>
+
+    <div>
         <input type="hidden" name="round_id" id="round_id" value="{{ $rounds->id }}">
     </div>
 
     <div>
-        <strong>赤コーナー選手</strong>
-        <select name="red_player" id="red_player">
-
-        </select>
+        <button type="submit">送信</button>
     </div>
+
 </form>
