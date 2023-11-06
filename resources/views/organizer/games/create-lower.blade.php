@@ -6,18 +6,19 @@
     <a href="{{ route('organizer.competitions.index') }}">トップページに戻る</a>
 </div>
 
-<form action="{{ route('organizer.games.store-lower', ['competition_id' => $competition->id, 'game_id' => $game->id]) }}"
+<form
+    action="{{ route('organizer.games.store-lower', ['competition_id' => $competition->id, 'game_id' => $topGame->id]) }}"
     method="POST">
     @csrf
     <div>
         <strong>スタイル</strong>
-        <input type="text" id="style" name="style" value="{{ $game->style->name }}" readonly>
+        <input type="text" id="style" name="style" value="{{ $topGame->style->name }}" readonly>
     </div>
 
     <div>
         <strong>階級</strong>
-        <input type="text" id="competition_class" name="competition_class" value="{{ $game->competition_class->class }}"
-            readonly>
+        <input type="text" id="competition_class" name="competition_class"
+            value="{{ $topGame->competition_class->class }}" readonly>
     </div>
 
     <div>
@@ -32,20 +33,40 @@
     <div>
         <strong>赤コーナー選手</strong>
         <select name="red_player" id="red_player">
-            @foreach ($players as $player)
-                <option value="{{ $player->id }}">{{ $player->name }}</option>
-            @endforeach
+            @if ($lowGames->isNotEmpty())
+                @foreach ($lowGames as $lowGame)
+                    @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
+                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
+                            {{ $lowGame->scoresheet->victory_player->name }}</option>
+                    @else
+                        <option value="">選手未設定</option>
+                    @endif
+                @endforeach
+            @else
+                <option value="">選手未設定</option>
+            @endif
         </select>
     </div>
 
     <div>
         <strong>青コーナー選手</strong>
         <select name="blue_player" id="blue_player">
-            @foreach ($players as $player)
-                <option value="{{ $player->id }}">{{ $player->name }}</option>
-            @endforeach
+            @if ($lowGames->isNotEmpty())
+                @foreach ($lowGames as $lowGame)
+                    @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
+                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
+                            {{ $lowGame->scoresheet->victory_player->name }}</option>
+                    @else
+                        <option value="">選手未設定</option>
+                    @endif
+                @endforeach
+            @else
+                <option value="">選手未設定</option>
+            @endif
         </select>
     </div>
+
+
 
     <div>
         <strong>マット</strong>

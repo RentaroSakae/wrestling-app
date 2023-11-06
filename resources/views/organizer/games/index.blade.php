@@ -43,7 +43,7 @@
                 @endif
             </td>
             <td>
-                @if ($games->where('next_game_id', $game->next_game_id)->count() < 2)
+                @if ($game->next_games->count() < 2)
                     <a
                         href="{{ route('organizer.games.create-lower', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">下位の試合を作成</a>
                 @else
@@ -55,10 +55,11 @@
 
                     <a
                         href="{{ route('organizer.games.edit', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">編集</a>
-                    <a
-                        href="{{ route('organizer.scoresheets.create', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">スコアシート</a>
-                    {{-- <a
-                        href="{{ route('organizer.games.create-lower', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">下位の試合を作成</a> --}}
+
+                    {{-- @include('modals.caution_scoresheet') --}}
+                    <a href="{{ route('organizer.scoresheets.create', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}"
+                        data-bs-toggle="modal" data-bs-target="#cautionScoresheetModal">スコアシート</a>
+
                     @csrf
                     @method('DELETE')
                     <button type="submit">削除</button>

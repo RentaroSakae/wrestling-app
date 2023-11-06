@@ -14,6 +14,7 @@ use App\Models\Player;
 use App\Models\Team;
 use App\Models\Round;
 use App\Models\Scoresheet;
+use App\Models\CompetitionPlayer;
 
 class OrganizerGameController extends Controller
 {
@@ -34,13 +35,11 @@ class OrganizerGameController extends Controller
                 'mat',
                 'round'
             )->get();
+
         $players = Player::all();
 
-        $nextGameId = $games->groupBy('next_game_id');
 
-
-
-        return view('organizer.games.index', compact('games', 'competition', 'players', 'nextGameId'));
+        return view('organizer.games.index', compact('games', 'competition', 'players'));
     }
 
     /**
@@ -50,15 +49,33 @@ class OrganizerGameController extends Controller
      */
     public function createLower($competition_id, $game_id)
     {
-        $game = Game::find($game_id);
         $competition = Competition::find($competition_id);
-        $styles = Style::find($game->style->id);
-        $competitionClasses = CompetitionClass::find($game->competition_class_id);
+        $allGames = Game::where('competition_id', $competition->id)
+            ->with(
+                'competition',
+                'style',
+                'competition_class',
+                'mat',
+                'round'
+            )->get();
+
+        //上位の試合を取得(「下位の試合を作成」ボタンをクリックした試合)
+        $topGame = Game::find($game_id);
+
+        //下位の試合を取得
+        $lowGames = $allGames->filter(function ($game) use ($topGame) {
+            return $game->next_game_id == $topGame->id;
+        });
+
+
+
+        $styles = Style::find($topGame->style->id);
+        $competitionClasses = CompetitionClass::find($topGame->competition_class_id);
         $mats = Mat::where('competition_id', $competition->id)->get();
         $players = Player::all();
         $rounds = Round::all();
 
-        return view('organizer.games.create-lower', compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
+        return view('organizer.games.create-lower', compact('topGame', 'lowGames', 'styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
     }
 
 
@@ -70,30 +87,30 @@ class OrganizerGameController extends Controller
      */
     public function storeLower(Request $request, $competition_id, $game_id)
     {
-        $games = new Game();
-        $games->competition_id = $competition_id;
-        // $games->style_id = $request->input('style');
+        $game = new Game();
+        $game->competition_id = $competition_id;
 
         $styleName = $request->input('style');
         $style = Style::where('name', $styleName)->first();
         $styleId = $style->id;
-        $games->style_id = $styleId;
+        $game->style_id = $styleId;
 
         $competitionClassClass = $request->input('competition_class');
         $competitionClass = CompetitionClass::where('class', $competitionClassClass)->first();
         $competitionClassId = $competitionClass->id;
-        $games->competition_class_id = $competitionClassId;
+        $game->competition_class_id = $competitionClassId;
 
-        // $games->competition_class_id = $request->input('competition_class');
-        $games->mat_id = $request->input('mat');
-        $games->round_id = $request->input('round_id');
-        $games->game_number = $request->input('game_number');
-        $games->next_game_id = $game_id;
-        $games->red_player_id = $request->input('red_player');
-        $games->blue_player_id = $request->input('blue_player');
-        $games->save();
+        $game->mat_id = $request->input('mat');
+        $game->round_id = $request->input('round_id');
+        $game->game_number = $request->input('game_number');
+        $game->next_game_id = $game_id;
+        $game->red_player_id = $request->input('red_player');
 
-        $gameId = $games->id;
+
+        $game->blue_player_id = $request->input('blue_player');
+        $game->save();
+
+        $gameId = $game->id;
 
         $scoresheet = new Scoresheet();
         $scoresheet->game_id = $gameId;
@@ -101,9 +118,9 @@ class OrganizerGameController extends Controller
         $scoresheet->blue_point = 0;
         $scoresheet->save();
 
-        $games->scoresheet_id = $scoresheet->id;
+        $game->scoresheet_id = $scoresheet->id;
 
-        $games->save();
+        $game->save();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id, 'game_id' => $game_id]);
     }
@@ -116,25 +133,25 @@ class OrganizerGameController extends Controller
         $competitionClasses = CompetitionClass::all();
         $mats = Mat::where('competition_id', $competition->id)->get();
         $players = Player::all();
-        $rounds = Round::find(8);
+        $round = Round::find(8);
 
-        return view('organizer.games.create-final', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'rounds'));
+        return view('organizer.games.create-final', compact('styles', 'competitionClasses', 'mats', 'players', 'competition', 'round'));
     }
 
     public function storeFinal(Request $request, $competition_id)
     {
-        $games = new Game();
-        $games->competition_id = $competition_id;
-        $games->style_id = $request->input('style');
-        $games->competition_class_id = $request->input('competition_class');
-        $games->mat_id = $request->input('mat');
-        $games->round_id = $request->input('round_id');
-        $games->game_number = $request->input('game_number');
-        $games->red_player_id = $request->input('red_player');
-        $games->blue_player_id = $request->input('blue_player');
-        $games->save();
+        $game = new Game();
+        $game->competition_id = $competition_id;
+        $game->style_id = $request->input('style');
+        $game->competition_class_id = $request->input('competition_class');
+        $game->mat_id = $request->input('mat');
+        $game->round_id = $request->input('round_id');
+        $game->game_number = $request->input('game_number');
+        $game->red_player_id = $request->input('red_player');
+        $game->blue_player_id = $request->input('blue_player');
+        $game->save();
 
-        $gameId = $games->id;
+        $gameId = $game->id;
 
         $scoresheet = new Scoresheet();
         $scoresheet->game_id = $gameId;
@@ -142,9 +159,9 @@ class OrganizerGameController extends Controller
         $scoresheet->blue_point = 0;
         $scoresheet->save();
 
-        $games->scoresheet_id = $scoresheet->id;
+        $game->scoresheet_id = $scoresheet->id;
 
-        $games->save();
+        $game->save();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
@@ -168,13 +185,39 @@ class OrganizerGameController extends Controller
      */
     public function edit($competition_id, $game_id)
     {
-        $game = Game::find($game_id);
         $competition = Competition::find($competition_id);
+        $game = Game::find($game_id);
+
+        $allGames = Game::where('competition_id', $competition->id)
+            ->with(
+                'competition',
+                'style',
+                'competition_class',
+                'mat',
+                'round'
+            )->get();
+
+        $competitionPlayers = CompetitionPlayer::where('competition_id', $competition_id)->get();
+
+        //上位の試合を取得(「下位の試合を作成」ボタンをクリックした試合)
+        $topGame = Game::find($game_id);
+
+        //下位の試合を取得
+        $lowGames = $allGames->filter(function ($game) use ($topGame) {
+            return $game->next_game_id == $topGame->id;
+        });
+
         $styles = Style::all();
         $competitionClasses = CompetitionClass::all();
         $mats = Mat::where('competition_id', $game->competition_id)->get();
         $players = Player::all();
-        return view('organizer.games.edit', ['competition_id' => $competition_id, 'game_id' => $game_id],  compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition'));
+        $rounds = Round::all();
+
+        return view(
+            'organizer.games.edit',
+            ['competition_id' => $competition_id, 'game_id' => $game_id],
+            compact('game', 'styles', 'competitionClasses', 'mats', 'players', 'competition', 'lowGames', 'rounds', 'competitionPlayers')
+        );
     }
 
     /**
@@ -190,7 +233,9 @@ class OrganizerGameController extends Controller
         $game->style_id = $request->input('style');
         $game->competition_class_id = $request->input('competition_class');
         $game->mat_id = $request->input('mat');
+        $game->round_id = $request->input('round_id');
         $game->game_number = $request->input('game_number');
+
         $game->red_player_id = $request->input('red_player');
         $game->blue_player_id = $request->input('blue_player');
         $game->update();

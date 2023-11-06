@@ -42,7 +42,7 @@
     </div>
 
     <div>
-        <input type="hidden" name="round_id" id="round_id" value="{{ $rounds->id }}">
+        <input type="hidden" name="round_id" id="round_id" value="{{ $round->id }}">
     </div>
 
     <div>

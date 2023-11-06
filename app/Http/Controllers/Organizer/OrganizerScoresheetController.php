@@ -40,7 +40,7 @@ class OrganizerScoresheetController extends Controller
         $victory_types = VictoryType::all();
 
         //TODO compactに書き換える
-        return view('organizer.scoresheets.create',[
+        return view('organizer.scoresheets.create', [
             'competition_id' => $competition_id,
             'game_id' => $game_id,
             'scoresheet' => $scoresheet,
@@ -49,7 +49,6 @@ class OrganizerScoresheetController extends Controller
             'competition' => $competition,
             'victory_types' => $victory_types,
         ]);
-
     }
 
     /**
@@ -60,10 +59,19 @@ class OrganizerScoresheetController extends Controller
      */
     public function store(Request $request, $competition_id, $game_id)
     {
-        // TODO バリデーション処理作成
+        $request->validate([
+            'red_point' => 'required|integer', // 赤コーナーの得点
+            'blue_point' => 'required|integer', // 青コーナーの得点
+            'victory_type_id' => 'required|integer', // 勝利の種類
+            'victory_player_id' => [
+                'required',
+                'integer',
+            ],
+        ]);
+
 
         Scoresheet::updateOrCreate(
-            ['game_id'=>$game_id],
+            ['game_id' => $game_id],
             [
                 //'game_id'=>$game_id,
                 'red_point' => $request->input('red_point'),
@@ -106,7 +114,7 @@ class OrganizerScoresheetController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Score $score)
+    public function update(Request $request, Scoresheet $score)
     {
         $competition = Competition::find($competition_id);
         $styles = Style::all();

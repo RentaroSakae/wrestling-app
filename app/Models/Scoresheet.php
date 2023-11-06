@@ -10,15 +10,21 @@ class Scoresheet extends Model
     use HasFactory;
 
     //試合テーブルとのリレーション（一人の得点は一つの試合に入る）
-    public function game() {
+    public function game()
+    {
         return $this->belongsTo(Game::class);
     }
 
     //選手テーブルとのリレーション（一つの得点は一人に入る）
-    public function playser() {
+    public function playser()
+    {
         return $this->belongsTo(Player::class);
     }
 
-    protected $fillable = ['game_id', 'red_point', 'blue_point', 'victory_type_id', 'victory_player_id'];
+    public function victory_player()
+    {
+        return $this->belongsTo(Player::class, 'victory_player_id');
+    }
 
+    protected $fillable = ['game_id', 'red_point', 'blue_point', 'victory_type_id', 'victory_player_id'];
 }
