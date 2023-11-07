@@ -33,36 +33,26 @@
     <div>
         <strong>赤コーナー選手</strong>
         <select name="red_player" id="red_player">
-            @if ($lowGames->isNotEmpty())
-                @foreach ($lowGames as $lowGame)
-                    @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
-                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
-                            {{ $lowGame->scoresheet->victory_player->name }}</option>
-                    @else
-                        <option value="">選手未設定</option>
-                    @endif
-                @endforeach
-            @else
-                <option value="">選手未設定</option>
-            @endif
+            @foreach ($lowGames as $lowGame)
+                @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
+                    <option value="{{ $lowGame->scoresheet->victory_player_id }}">
+                        {{ $lowGame->scoresheet->victory_player->name }}</option>
+                @endif
+            @endforeach
+            <option value="">選手未設定</option>
         </select>
     </div>
 
     <div>
         <strong>青コーナー選手</strong>
         <select name="blue_player" id="blue_player">
-            @if ($lowGames->isNotEmpty())
-                @foreach ($lowGames as $lowGame)
-                    @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
-                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
-                            {{ $lowGame->scoresheet->victory_player->name }}</option>
-                    @else
-                        <option value="">選手未設定</option>
-                    @endif
-                @endforeach
-            @else
-                <option value="">選手未設定</option>
-            @endif
+            @foreach ($lowGames as $lowGame)
+                @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
+                    <option value="{{ $lowGame->scoresheet->victory_player_id }}">
+                        {{ $lowGame->scoresheet->victory_player->name }}</option>
+                @endif
+            @endforeach
+            <option value="">選手未設定</option>
         </select>
     </div>
 
