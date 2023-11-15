@@ -94,5 +94,10 @@ class PlayersTableSeeder extends Seeder
             'name' => '手老将剛',
             'team_id' => '16',
         ]);
+
+        Player::create([
+            'name' => '相手なし（シード）',
+            'team_id' => '17',
+        ]);
     }
 }

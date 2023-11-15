@@ -24,7 +24,6 @@ return new class extends Migration
             $table->bigInteger('next_game_id')->nullable()->unsigned();
             $table->unsignedBigInteger('red_player_id')->nullable()->unsigned();
             $table->unsignedBigInteger('blue_player_id')->nullable()->unsigned();
-            $table->bigInteger('scoresheet_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

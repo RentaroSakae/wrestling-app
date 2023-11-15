@@ -14,6 +14,7 @@ use App\Models\Player;
 use App\Models\CompetitionClass;
 use App\Models\Style;
 use App\Models\Team;
+use Illuminate\Support\Facades\Auth;
 
 class CompetitionController extends Controller
 {
@@ -41,6 +42,36 @@ class CompetitionController extends Controller
         $currentCompetitions = $competitionsQuery->get();
 
 
+
         return view('users.competitions.index', compact('currentCompetitions', 'target'));
+    }
+
+    public function show(Competition $competition)
+    {
+
+        return view('users.competitions.show', compact('competition'));
+    }
+
+    public function favorite(Competition $competition)
+    {
+
+        if (is_null($competition->id)) {
+            // エラーハンドリング: $competitionが有効なIDを持っていない場合
+            abort(404); // あるいは他の適切なエラーレスポンス
+        }
+        Auth::user()->toggleFavorite($competition);
+
+        return back();
+    }
+
+    public function unfavorite(Competition $competition)
+    {
+        $user = Auth::user();
+
+        // お気に入りから削除する処理
+        $user->toggleFavorite($competition);
+
+        // リダイレクト、フラッシュメッセージ、その他の必要なレスポンス
+        return back();
     }
 }

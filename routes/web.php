@@ -28,7 +28,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+
+
+//TODO ログイン後のリダイレクト先設定
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
@@ -47,7 +50,7 @@ Route::post('organizer/competitions/{competition_id}/players', 'App\Http\Control
 
 //【管理画面】試合
 Route::get('organizer/competitions/{competition_id}/games/index', 'App\Http\Controllers\Organizer\OrganizerGameController@index')->name('organizer.games.index');
-Route::get('organizer/competitions/{competition_id}/games/{game_id}/create_lower', 'App\Http\Controllers\Organizer\OrganizerGameController@createLower')->name('organizer.games.create-lower');
+Route::get('organizer/competitions/{competition}/games/{game}/create_lower', 'App\Http\Controllers\Organizer\OrganizerGameController@createLower')->name('organizer.games.create-lower');
 Route::post('organizer/competitions/{competition_id}/games/{game_id}/store_lower', 'App\Http\Controllers\Organizer\OrganizerGameController@storeLower')->name('organizer.games.store-lower');
 Route::get('organizer/competitions/{competition_id}/games/create_final', 'App\Http\Controllers\Organizer\OrganizerGameController@createFinal')->name('organizer.games.create-final');
 Route::post('organizer/competitions/{competition_id}/games/store_final', 'App\Http\Controllers\Organizer\OrganizerGameController@storeFinal')->name('organizer.games.store-final');
@@ -77,5 +80,12 @@ Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Orga
 Route::get('organizer/index', 'App\Http\Controllers\Organizer\OrganizerController@index')->name('organizer.index');
 //【ユーザー】大会一覧ページ
 Route::get('competitions/index', 'App\Http\Controllers\User\CompetitionController@index')->name('users.competitions.index');
+Route::get('competitions/{competition}/show', 'App\Http\Controllers\User\CompetitionController@show')->name('users.competitions.show');
+Route::post('competitions/{competition}/index/favorite', 'App\Http\Controllers\User\CompetitionController@favorite')->name('users.competitions.favorite');
+Route::delete('competitions/{competition}/unfavorite', 'App\Http\Controllers\User\CompetitionController@unfavorite')->name('users.competitions.unfavorite');
+//【ユーザー】各ユーザーのお気に入り大会一覧ページ
+Route::get('users/mypage/favorites', 'App\Http\Controllers\User\UserController@favorites')->name('users.users.favorites');
 //【ユーザー】マット別試合順ページ
 Route::get('competitions/{competition_id}/games', 'App\Http\Controllers\User\GameController@index')->name('users.games.index');
+//【ユーザー】大会別出場選手一覧ページ
+Route::get('competitions/{competition_id}/players', 'App\Http\Controllers\User\CompetitionPlayerController@index')->name('users.competition-players.index');

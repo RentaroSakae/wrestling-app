@@ -15,6 +15,7 @@
 
 <table>
     <tr>
+        <th>マット</th>
         <th>試合番号</th>
         <th>スタイル</th>
         <th>階級</th>
@@ -24,15 +25,25 @@
     </tr>
     @foreach ($games as $game)
         <tr>
+            <td>{{ $game->mat->name }}</td>
             <td>{{ $game->game_number }}</td>
             <td>{{ $game->style->name }}</td>
             <td>{{ $game->competition_class->class }}kg級</td>
             <td>{{ $game->round->round }}</td>
             <td>
-                @if ($game->red_player)
+                {{-- @if ($game->red_player)
                     {{ $game->red_player->name }}
                 @else
                     選手未設定
+                @endif --}}
+                @if ($game->scoresheet && $game->scoresheet->victory_player)
+                    {{ $game->scoresheet->victory_player->name }}
+                    {{-- @elseif ($game->next_game_id)
+                    試合番号{{ $game->next_games->game_number }}の勝者 --}}
+                @elseif ($game->red_player)
+                    {{ $game->red_player->name }}
+                @else
+                    選手未登録
                 @endif
             </td>
             <td>
@@ -45,7 +56,7 @@
             <td>
                 @if ($game->next_games->count() < 2)
                     <a
-                        href="{{ route('organizer.games.create-lower', ['competition_id' => $game->competition_id, 'game_id' => $game->id]) }}">下位の試合を作成</a>
+                        href="{{ route('organizer.games.create-lower', ['competition' => $game->competition_id, 'game' => $game->id]) }}">下位の試合を作成</a>
                 @else
                     作成済み
                 @endif

@@ -35,7 +35,6 @@ class OrganizerGameController extends Controller
                 'mat',
                 'round'
             )->get();
-
         $players = Player::all();
 
 
@@ -47,9 +46,9 @@ class OrganizerGameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createLower($competition_id, $game_id)
+    // public function createLower($competition_id, $game_id)
+    public function createLower(Competition $competition, Game $game)
     {
-        $competition = Competition::find($competition_id);
         $allGames = Game::where('competition_id', $competition->id)
             ->with(
                 'competition',
@@ -60,14 +59,10 @@ class OrganizerGameController extends Controller
             )->get();
 
         //上位の試合を取得(「下位の試合を作成」ボタンをクリックした試合)
-        $topGame = Game::find($game_id);
+        $topGame = $game;
 
         //下位の試合を取得
-        $lowGames = $allGames->filter(function ($game) use ($topGame) {
-            return $game->next_game_id == $topGame->id;
-        });
-
-
+        $lowGames = $allGames->where('next_game_id', $topGame->id);
 
         $styles = Style::find($topGame->style->id);
         $competitionClasses = CompetitionClass::find($topGame->competition_class_id);
@@ -114,13 +109,7 @@ class OrganizerGameController extends Controller
 
         $scoresheet = new Scoresheet();
         $scoresheet->game_id = $gameId;
-        $scoresheet->red_point = 0;
-        $scoresheet->blue_point = 0;
         $scoresheet->save();
-
-        $game->scoresheet_id = $scoresheet->id;
-
-        $game->save();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id, 'game_id' => $game_id]);
     }
@@ -129,6 +118,7 @@ class OrganizerGameController extends Controller
     {
 
         $competition = Competition::find($competition_id);
+
         $styles = Style::all();
         $competitionClasses = CompetitionClass::all();
         $mats = Mat::where('competition_id', $competition->id)->get();
@@ -155,13 +145,7 @@ class OrganizerGameController extends Controller
 
         $scoresheet = new Scoresheet();
         $scoresheet->game_id = $gameId;
-        $scoresheet->red_point = 0;
-        $scoresheet->blue_point = 0;
         $scoresheet->save();
-
-        $game->scoresheet_id = $scoresheet->id;
-
-        $game->save();
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
@@ -203,9 +187,7 @@ class OrganizerGameController extends Controller
         $topGame = Game::find($game_id);
 
         //下位の試合を取得
-        $lowGames = $allGames->filter(function ($game) use ($topGame) {
-            return $game->next_game_id == $topGame->id;
-        });
+        $lowGames = $allGames->where('next_game_id', $topGame->id);
 
         $styles = Style::all();
         $competitionClasses = CompetitionClass::all();

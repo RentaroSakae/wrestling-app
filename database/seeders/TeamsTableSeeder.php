@@ -16,67 +16,71 @@ class TeamsTableSeeder extends Seeder
     public function run()
     {
         Team::create([
-            'name' =>'日本体育大学',
+            'name' => '日本体育大学',
         ]);
 
         Team::create([
-            'name' =>'早稲田大学',
+            'name' => '早稲田大学',
         ]);
 
         Team::create([
-            'name' =>'山梨学院大学',
+            'name' => '山梨学院大学',
         ]);
 
         Team::create([
-            'name' =>'拓殖大学',
+            'name' => '拓殖大学',
         ]);
 
         Team::create([
-            'name' =>'専修大学',
+            'name' => '専修大学',
         ]);
 
         Team::create([
-            'name' =>'国士舘大学',
+            'name' => '国士舘大学',
         ]);
 
         Team::create([
-            'name' =>'日本大学',
+            'name' => '日本大学',
         ]);
 
         Team::create([
-            'name' =>'中央大学',
+            'name' => '中央大学',
         ]);
 
         Team::create([
-            'name' =>'育英大学',
+            'name' => '育英大学',
         ]);
 
         Team::create([
-            'name' =>'明治大学',
+            'name' => '明治大学',
         ]);
 
         Team::create([
-            'name' =>'神奈川大学',
+            'name' => '神奈川大学',
         ]);
 
         Team::create([
-            'name' =>'東洋大学',
+            'name' => '東洋大学',
         ]);
 
         Team::create([
-            'name' =>'立教大学',
+            'name' => '立教大学',
         ]);
 
         Team::create([
-            'name' =>'青山学院大学',
+            'name' => '青山学院大学',
         ]);
 
         Team::create([
-            'name' =>'大東文化大学',
+            'name' => '大東文化大学',
         ]);
 
         Team::create([
-            'name' =>'法政大学',
+            'name' => '法政大学',
+        ]);
+
+        Team::create([
+            'name' => 'なし（シード）',
         ]);
     }
 }

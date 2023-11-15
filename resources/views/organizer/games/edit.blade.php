@@ -58,44 +58,64 @@
             value="{{ $game->game_number }}">
     </div>
 
+
+
     <div>
         <strong>赤コーナー選手</strong>
-        <select name="red_player" id="red_player">
-            {{-- もし$lowGamesが存在したら --}}
-            @if ($lowGames->isNotEmpty())
+        @php
+            $allLowGamesHaveScores = $lowGames->every(function ($game) {
+                return $game->scoresheet && $game->scoresheet->victory_player;
+            });
+        @endphp
+
+        <select name="red_player" id="red_player"
+            {{ $lowGames->isNotEmpty() && !$allLowGamesHaveScores ? 'disabled' : '' }}>
+            {{-- 下位の試合が存在して、すべてのスコアシートに勝者が記入されている場合 --}}
+            @if ($lowGames->isNotEmpty() && $allLowGamesHaveScores)
                 @foreach ($lowGames as $lowGame)
-                    {{-- $lowGamesが存在してスコアシートのvictory_playerが入力されていたら --}}
-                    @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
-                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
-                            {{ $lowGame->scoresheet->victory_player->name }}</option>
-                    @else
-                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
-                            試合番号{{ $lowGame->game_number }}の勝者</option>
-                    @endif
+                    <option value="{{ $lowGame->scoresheet->victory_player_id }}">
+                        {{ $lowGame->scoresheet->victory_player->name }}</option>
                 @endforeach
+                {{-- 下位の試合が存在しない、またはスコアシートに勝者が記入されていない場合 --}}
             @else
-                {{-- $lowGameが存在しない場合（初戦の場合）はその試合に登録している選手から選択できる --}}
                 @foreach ($competitionPlayers as $competitionPlayer)
                     <option value="{{ $competitionPlayer->player_id }}">{{ $competitionPlayer->player->name }}
                     </option>
                 @endforeach
             @endif
         </select>
+
+        {{-- 下位の試合が存在しているが、スコアシートが記入されていない場合のメッセージ --}}
+        @if ($lowGames->isNotEmpty() && !$allLowGamesHaveScores)
+            <p>下位の試合決定後に選手確定。</p>
+            {{-- 下位の試合へのリンクを表示 --}}
+            @foreach ($lowGames as $lowGame)
+                <a
+                    href="{{ route('organizer.games.edit', ['competition_id' => $lowGame->competition_id, 'game_id' => $lowGame->id]) }}">
+                    試合番号{{ $lowGame->game_number }}を確認
+                </a><br>
+            @endforeach
+        @endif
     </div>
+
 
     <div>
         <strong>青コーナー選手</strong>
-        <select name="blue_player" id="blue_player">
-            @if ($lowGames->isNotEmpty())
+        @php
+            $allLowGamesHaveScores = $lowGames->every(function ($game) {
+                return $game->scoresheet && $game->scoresheet->victory_player;
+            });
+        @endphp
+
+        <select name="blue_player" id="blue_player"
+            {{ $lowGames->isNotEmpty() && !$allLowGamesHaveScores ? 'disabled' : '' }}>
+            {{-- 下位の試合が存在して、すべてのスコアシートに勝者が記入されている場合 --}}
+            @if ($lowGames->isNotEmpty() && $allLowGamesHaveScores)
                 @foreach ($lowGames as $lowGame)
-                    @if ($lowGame->scoresheet && $lowGame->scoresheet->victory_player)
-                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
-                            {{ $lowGame->scoresheet->victory_player->name }}</option>
-                    @else
-                        <option value="{{ $lowGame->scoresheet->victory_player_id }}">
-                            試合番号{{ $lowGame->game_number }}の勝者</option>
-                    @endif
+                    <option value="{{ $lowGame->scoresheet->victory_player_id }}">
+                        {{ $lowGame->scoresheet->victory_player->name }}</option>
                 @endforeach
+                {{-- 下位の試合が存在しない、またはスコアシートに勝者が記入されていない場合 --}}
             @else
                 @foreach ($competitionPlayers as $competitionPlayer)
                     <option value="{{ $competitionPlayer->player_id }}">{{ $competitionPlayer->player->name }}
@@ -103,6 +123,18 @@
                 @endforeach
             @endif
         </select>
+
+        {{-- 下位の試合が存在しているが、スコアシートが記入されていない場合のメッセージ --}}
+        @if ($lowGames->isNotEmpty() && !$allLowGamesHaveScores)
+            <p>下位の試合決定後に選手確定。</p>
+            {{-- 下位の試合へのリンクを表示 --}}
+            @foreach ($lowGames as $lowGame)
+                <a
+                    href="{{ route('organizer.games.edit', ['competition_id' => $lowGame->competition_id, 'game_id' => $lowGame->id]) }}">
+                    試合番号{{ $lowGame->game_number }}を確認
+                </a><br>
+            @endforeach
+        @endif
     </div>
 
 

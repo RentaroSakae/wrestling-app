@@ -44,7 +44,7 @@ class Game extends Model
         return $this->belongsTo(Competition::class);
     }
 
-    //得点テーブルとのリレーション（一つの試合に一つのスコアシートが存在する）
+    //スコアシートテーブルとのリレーション（一つの試合に一つのスコアシートが存在する）
     public function scoresheet()
     {
         return $this->hasOne(Scoresheet::class);

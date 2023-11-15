@@ -126,5 +126,12 @@ class CompetitionPlayerTableSeeder extends Seeder
             'style_id' => '1',
             'competition_class_id' => '1',
         ]);
+
+        CompetitionPlayer::create([
+            'competition_id' => '1',
+            'player_id' => '17',
+            'style_id' => '1',
+            'competition_class_id' => '1',
+        ]);
     }
 }

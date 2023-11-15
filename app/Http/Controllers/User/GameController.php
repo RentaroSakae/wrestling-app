@@ -27,7 +27,7 @@ class GameController extends Controller
         $gameQuery->where('competition_id', '=', $competition_id);
 
 
-        if(!empty($mat_id)) {
+        if (!empty($mat_id)) {
             $gameQuery->where('mat_id', '=', $mat_id);
         }
 
