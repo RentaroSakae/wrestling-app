@@ -28,6 +28,12 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new CustomResetPassword($token));
     }
 
+    //CompetitionPlayerとのリレーション設定
+    public function competitionPlayers()
+    {
+        return $this->belongsToMany(CompetitionPlayer::class)->withTimestamps();
+    }
+
 
 
     /**

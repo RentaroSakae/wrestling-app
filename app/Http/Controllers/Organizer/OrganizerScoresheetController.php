@@ -6,13 +6,18 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Scoresheet;
 use App\Models\Competition;
+use App\Models\CompetitionClass;
 use App\Models\Game;
 use App\Models\Mat;
 use App\Models\Player;
 use App\Models\Team;
 use App\Models\Style;
+use App\Models\User;
+use App\Models\UserCompetitionPlayer;
 use App\Models\VictoryType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 
 class OrganizerScoresheetController extends Controller
 {
@@ -81,9 +86,11 @@ class OrganizerScoresheetController extends Controller
             ]
         );
 
+        $result = Artisan::call('command:sendmail');
 
         return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
     }
+
 
     /**
      * Display the specified resource.
@@ -91,7 +98,7 @@ class OrganizerScoresheetController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function show(Score $score)
+    public function show(Scoresheet $score)
     {
         //
     }
@@ -102,7 +109,7 @@ class OrganizerScoresheetController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function edit(Score $score, $competition_id)
+    public function edit(Scoresheet $score, $competition_id)
     {
         //
     }
@@ -131,7 +138,7 @@ class OrganizerScoresheetController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Score $score)
+    public function destroy(Scoresheet $score)
     {
         //
     }

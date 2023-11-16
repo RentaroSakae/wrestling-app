@@ -89,3 +89,6 @@ Route::get('users/mypage/favorites', 'App\Http\Controllers\User\UserController@f
 Route::get('competitions/{competition_id}/games', 'App\Http\Controllers\User\GameController@index')->name('users.games.index');
 //【ユーザー】大会別出場選手一覧ページ
 Route::get('competitions/{competition_id}/players', 'App\Http\Controllers\User\CompetitionPlayerController@index')->name('users.competition-players.index');
+//【ユーザー】通知設定画面
+Route::get('competitions/{competition}/notify_player/{competition_player}/create', 'App\Http\Controllers\User\UserCompetitionPlayerController@create')->name('users.notify-players.create');
+Route::post('competitions/{competition}/notify_player/{competition_player}/store', 'App\Http\Controllers\User\UserCompetitionPlayerController@store')->name('users.notify-players.store');
