@@ -24,23 +24,11 @@
     <div>
         <strong>大会会場</strong>
         <select name="place" id="Place">
-            @foreach($places as $place)
-            <option value="{{ $place->id }}">{{ $place->name }}</option>
+            @foreach ($places as $place)
+                <option value="{{ $place->id }}">{{ $place->name }}</option>
             @endforeach
         </select>
 
-    </div>
-    <div>
-        <strong>大会画像</strong>
-        <input type="file" name="image_path" id="Image_path">
-    </div>
-    <div>
-        <strong>カテゴリ</strong>
-            <select name="category" id="Category">
-                @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                @endforeach
-            </select>
     </div>
 
     <div>

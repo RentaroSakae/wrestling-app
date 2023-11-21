@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Place;
 use App\Models\Mat;
 use App\Models\Category;
+use App\Models\CompetitionStyleClass;
 use App\Models\Game;
 use App\Models\Player;
 use App\Models\CompetitionClass;
@@ -58,7 +59,6 @@ class OrganizerCompetitionController extends Controller
 
 
         return view('organizer.competitions.index', compact('currentCompetitions', 'target'));
-
     }
 
     /**
@@ -69,10 +69,10 @@ class OrganizerCompetitionController extends Controller
     public function create()
     {
         $places = Place::all();
-        $categories = Category::all();
+        // $categories = Category::all();
         $competitions = $this->competitionsQuery->get();
 
-        return view('organizer.competitions.create', compact('places', 'categories', 'competitions'));
+        return view('organizer.competitions.create', compact('places', 'competitions'));
     }
 
     /**
@@ -90,8 +90,6 @@ class OrganizerCompetitionController extends Controller
             'start_at' => 'required',
             'close_at' => 'required',
             'place' => 'required',
-            'image_path' => 'required',
-            'category' => 'required'
         ]);
 
         $competition = new Competition();
@@ -99,12 +97,9 @@ class OrganizerCompetitionController extends Controller
         $competition->start_at = $request->input('start_at');
         $competition->close_at = $request->input('close_at');
         $competition->place_id = $request->input('place');
-        $competition->image_path = $request->input('image_path');
-        $competition->category_id = $request->input('category');
         $competition->save();
 
         return redirect()->route('organizer.competitions.index');
-
     }
 
     /**
@@ -115,8 +110,11 @@ class OrganizerCompetitionController extends Controller
      */
     public function show(Competition $competition)
     {
+        $mats = Mat::where('competition_id', $competition->id)->get();
+        $styleClasses = CompetitionStyleClass::where('competition_id', $competition->id)->get();
 
-        return view('organizer.competitions.show', compact('competition'));
+
+        return view('organizer.competitions.show', compact('competition', 'mats', 'styleClasses'));
     }
 
     /**
@@ -163,23 +161,48 @@ class OrganizerCompetitionController extends Controller
         //「大会詳細」show.blade.phpにて削除できるようにする
     }
 
-    public function matsCreate($id) {
-        $competitions = Competition::find($id);
+    public function matsCreate($competition_id)
+    {
+        $competition = Competition::find($competition_id);
 
-        return view('organizer.mats.create', compact('competitions'));
+        return view('organizer.mats.create', compact('competition'));
     }
 
-    public function matsStore(Request $request) {
+    public function matsStore(Request $request, $competition_id)
+    {
         $mat = new Mat();
         $mat->name = $request->input('name');
-        $mat->competition_id = $request->input('competition_id');
+        $mat->competition_id = $competition_id;
         $mat->save();
 
-        $competitions = $request->input('competition_id');
-        return redirect()->route('organizer.games.create', ['id' => $competitions]);
+        // $competitions = $request->input('competition_id');
+        return redirect()->route('organizer.competitions.show', ['competition' => $competition_id]);
     }
 
-    public function createPlayer($competition_id) {
+    public function matsEdit(Competition $competition, Mat $mat)
+    {
+        return view('organizer.mats.edit', compact('competition', 'mat'));
+    }
+
+    public function matsUpdate(Request $request, Competition $competition, Mat $mat)
+    {
+
+        $mat->name = $request->input('name');
+        $mat->competition_id = $competition->id;
+        $mat->update();
+
+        return redirect()->route('organizer.competitions.show', ['competition' => $competition->id]);
+    }
+
+    public function matsDestroy(Competition $competition, Mat $mat)
+    {
+        $mat->delete();
+
+        return redirect()->route('organizer.competitions.show', ['competition' => $competition->id, 'mat' => $mat->id]);
+    }
+
+    public function createPlayer($competition_id)
+    {
 
         $competition = Competition::find($competition_id);
         $players = Player::all();
@@ -191,7 +214,8 @@ class OrganizerCompetitionController extends Controller
         return view('organizer.competitions.create-player', compact('competition', 'players', 'styles', 'competitionClasses'));
     }
 
-    public function storePlayer(Request $request, $competition_id) {
+    public function storePlayer(Request $request, $competition_id)
+    {
 
         $competition = Competition::find($competition_id);
         $playerId = $request->input('player_id');
@@ -206,10 +230,10 @@ class OrganizerCompetitionController extends Controller
         $competitionPlayer->save();
 
         return redirect()->route('organizer.competitions.show', ['id' => $competition_id]);
-
     }
 
-    public function indexPlayer(Request $request, $competition_id) {
+    public function indexPlayer(Request $request, $competition_id)
+    {
         $competition = Competition::find($competition_id);
         $competitionPlayers = CompetitionPlayer::where('competition_id', $competition_id);
         $competitionClasses = CompetitionClass::all();
@@ -217,23 +241,23 @@ class OrganizerCompetitionController extends Controller
         $target = $request->input('target');
 
         if ($target === 'freestyle') {
-            $competitionPlayers->where(function($query) {
+            $competitionPlayers->where(function ($query) {
                 $query->where('style_id', 1)->orWhereNull('style_id');
             });
 
             $competitionClasses = $competitionClasses->where('style_id', 1)->values();
         } elseif ($target === 'grecoroman') {
-            $competitionPlayers->where(function($query) {
+            $competitionPlayers->where(function ($query) {
                 $query->where('style_id', 2)->orWhereNull('style_id');
             });
             $competitionClasses = $competitionClasses->where('style_id', 2)->values();
         } elseif ($target === 'woman') {
-            $competitionPlayers->where(function($query) {
+            $competitionPlayers->where(function ($query) {
                 $query->where('style_id', 3)->orWhereNull('style_id');
             });
             $competitionClasses = $competitionClasses->where('style_id', 3)->values();
         } else {
-            $competitionPlayers->where(function($query) {
+            $competitionPlayers->where(function ($query) {
                 $query->where('style_id', 1)->orWhereNull('style_id');
             });
             $competitionClasses = $competitionClasses->where('style_id', 1)->values();
@@ -241,7 +265,10 @@ class OrganizerCompetitionController extends Controller
 
         $competitionPlayers = $competitionPlayers->get();
 
-        return view('organizer.competitions.index-players', ['competition_id' => $competition_id],
-            compact('competition_id', 'target', 'competition', 'competitionPlayers', 'competitionClasses'));
+        return view(
+            'organizer.competitions.index-players',
+            ['competition_id' => $competition_id],
+            compact('competition_id', 'target', 'competition', 'competitionPlayers', 'competitionClasses')
+        );
     }
 }

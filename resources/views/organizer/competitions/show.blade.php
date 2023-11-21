@@ -1,53 +1,70 @@
 <div>
-    <h2>大会の詳細</h2>
+    <h2>{{ $competition->name }}・{{ $competition->category->name }}の詳細</h2>
 </div>
 
 <div>
     <a href="{{ route('organizer.competitions.index') }}">戻る</a>
 </div>
 
-<div>
-    <strong>トーナメント表・ノルディック対戦表</strong>
-    {{-- <a href="{{ route('') }}"></a> --}}
-</div>
+
+<table>
+    <tr>
+        <th>登録中のマット</th>
+    </tr>
+    @if (count($mats) > 0)
+        @foreach ($mats as $mat)
+            <tr>
+                <td>{{ $mat->name }}</td>
+                <td>
+                    <a
+                        href="{{ route('organizer.mats.edit', ['competition' => $competition->id, 'mat' => $mat->id]) }}">編集</a>
+
+                </td>
+                <td>
+                    <form
+                        action="{{ route('organizer.mats.destroy', ['competition' => $competition->id, 'mat' => $mat->id]) }}"
+                        method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">削除</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    @else
+        <p>登録中のマットはありません。</p>
+    @endif
+</table>
+
+<table>
+    <tr>
+        <th colspan="3">登録中のスタイル・階級</th>
+    </tr>
+    <tr>
+        <th>スタイル</th>
+        <th>階級</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @if (count($styleClasses) > 0)
+        @foreach ($styleClasses as $styleClass)
+            <tr>
+                <td>{{ $styleClass->competitionClass->style->name }}</td>
+                <td>{{ $styleClass->competitionClass->class }}</td>
+            </tr>
+        @endforeach
+    @else
+        <tr>
+            <td colspan="5">登録中のカテゴリ・スタイル・階級はありません。</td>
+        </tr>
+    @endif
+</table>
 
 <div>
-    <strong>マット別試合順</strong>
-    {{-- <a href="{{ route('') }}"></a> --}}
+    <a href="{{ route('organizer.mats.create', ['competition_id' => $competition->id]) }}">マットを登録する</a>
 </div>
-
 <div>
-    <strong>出場選手一覧</strong>
-    {{-- <a href="{{ route('') }}"></a> --}}
+    <a
+        href="{{ route('organizer.competitionStyleClasses.create', ['competition' => $competition->id]) }}">カテゴリ・スタイル・階級を登録する</a>
 </div>
-
-{{-- <div>
-    <strong>大会名:</strong>
-    {{ $competition->name }}
-</div>
-
-<div>
-    <strong>大会会場</strong>
-    {{ $competition->place_id }}
-</div>
-
-<div>
-    <strong>大会開始日時</strong>
-    {{ $competition->start_at }}
-</div>
-
-<div>
-    <strong>大会終了日時</strong>
-    {{ $competition->close_at }}
-</div>
-
-<div>
-    <strong>大会画像</strong>
-    {{ $competition->image_path }}
-</div>
-
-<form action="{{ route('competition.destroy', $competition->id) }}" method="POST">
-    @csrf
-    @method('DELETE')
-    <button type="submit">削除</button>
-</form> --}}

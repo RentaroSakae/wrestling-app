@@ -42,7 +42,10 @@ Route::get('competitions/{id}/mats', 'App\Http\Controllers\Organizer\OrganizerCo
 //【管理画面】大会
 Route::get('organizer/competitions/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@create')->name('organizer.competitions.create');
 Route::post('organizer/competitions/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@store')->name('organizer.competitions.store');
-Route::get('organizer/competitions/{id}/show', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@show')->name('organizer.competitions.show');
+Route::get('organizer/competitions/{competition}/show', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@show')->name('organizer.competitions.show');
+//【管理画面】カテゴリ・スタイル・階級
+Route::get('organizer/competitions/{competition}/style_class/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionStyleClassController@create')->name('organizer.competitionStyleClasses.create');
+Route::post('organizer/competitions/{competition}/style_class/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionStyleClassController@store')->name('organizer.competitionStyleClasses.store');
 //【管理画面】大会の選手登録画面
 Route::get('organizer/competitions/{competition_id}/players/index', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@indexPlayer')->name('organizer.competitions.index-players');
 Route::get('organizer/competitions/{competition_id}/players/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@createPlayer')->name('organizer.competitions.create-player');
@@ -74,8 +77,11 @@ Route::get('organizer/teams/create', 'App\Http\Controllers\Organizer\OrganizerTe
 Route::post('organizer/teams/store', 'App\Http\Controllers\Organizer\OrganizerTeamController@store')->name('organizer.teams.store');
 Route::delete('organizer/teams/{id}/destroy', 'App\Http\Controllers\Organizer\OrganizerTeamController@destroy')->name('organizer.teams.destroy');
 //【管理画面】マット
-Route::get('organizer/competitions/{id}/mats/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsCreate')->name('organizer.mats.create');
-Route::post('organizer/competitions/{id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.mats.store');
+Route::get('organizer/competitions/{competition_id}/mats/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsCreate')->name('organizer.mats.create');
+Route::post('organizer/competitions/{competition_id}/mats/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsStore')->name('organizer.mats.store');
+Route::get('organizer/competitions/{competition}/mats//{mat}/edit', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsEdit')->name('organizer.mats.edit');
+Route::put('organizer/competitions/{competition}/mats/{mat}/update', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsUpdate')->name('organizer.mats.update');
+Route::delete('organizer/competitions/{competition}/mats/{mat}/destroy', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@matsDestroy')->name('organizer.mats.destroy');
 //【管理画面】トップページ
 Route::get('organizer/index', 'App\Http\Controllers\Organizer\OrganizerController@index')->name('organizer.index');
 //【ユーザー】大会一覧ページ

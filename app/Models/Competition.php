@@ -39,4 +39,14 @@ class Competition extends Model
     {
         return $this->belongsToMany(Player::class)->withTimestamps();
     }
+
+    public function competitionClasses()
+    {
+        return $this->belongsToMany(
+            CompetitionClass::class,
+            'competition_style_classes',
+            'competition_id',
+            'competition_class_id'
+        );
+    }
 }

@@ -17,23 +17,19 @@
 <table>
     <tr>
         <th>大会名</th>
-        <th>カテゴリ</th>
         <th>大会会場</th>
         <th>大会開始日時</th>
         <th>大会終了日時</th>
-        <th>大会画像</th>
     </tr>
     @if (count($currentCompetitions) > 0)
         @foreach ($currentCompetitions as $competition)
             <tr>
                 <td>{{ $competition->name }}</td>
-                <td>{{ $competition->category->name }}</td>
                 <td>{{ $competition->place->name }}</td>
                 <td>{{ $competition->start_at }}</td>
                 <td>{{ $competition->close_at }}</td>
-                <td>{{ $competition->image_path }}</td>
                 <td>
-                    <a href="{{ route('organizer.competitions.show', $competition->id) }}">詳細</a>
+                    <a href="{{ route('organizer.competitions.show', ['competition' => $competition->id]) }}">詳細</a>
                 </td>
             </tr>
         @endforeach
