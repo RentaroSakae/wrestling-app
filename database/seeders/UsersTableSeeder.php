@@ -15,22 +15,22 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => '栄廉太郎',
-            'email' => 'r.sakae0508@gmail.com',
-            'password' => '3460spsp',
-        ]);
+        // User::create([
+        //     'name' => '栄廉太郎',
+        //     'email' => 'r.sakae0508@gmail.com',
+        //     'password' => '3460spsp',
+        // ]);
 
-        User::create([
-            'name' => '田中太郎',
-            'email' => 'xxx@xxx.com',
-            'password' => '12345678',
-        ]);
+        // User::create([
+        //     'name' => '田中太郎',
+        //     'email' => 'xxx@xxx.com',
+        //     'password' => '12345678',
+        // ]);
 
-        User::create([
-            'name' => '佐藤一郎',
-            'email' => 'yyy@yyy.com',
-            'password' => '87654321',
-        ]);
+        // User::create([
+        //     'name' => '佐藤一郎',
+        //     'email' => 'yyy@yyy.com',
+        //     'password' => '87654321',
+        // ]);
     }
 }

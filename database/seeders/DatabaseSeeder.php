@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\CompetitionPlayer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,9 +23,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PlayersTableSeeder::class);
         $this->call(StylesTableSeeder::class);
         $this->call(TeamsTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        // $this->call(UsersTableSeeder::class);
         $this->call(VictoryTypesTableSeeder::class);
-        $this->call(RoundsTableSeeder::class);
-        $this->call(CompetitionPlayer::class);
+        $this->call(ClassfiedCompetitionPlayerTableSeeder::class);
+        $this->call(GameTypesTableSeeder::class);
     }
 }

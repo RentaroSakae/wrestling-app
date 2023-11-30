@@ -17,7 +17,7 @@
 <table>
     <tr>
         <th style="width: 14%">日付</th>
-        <th style="width: 14%">マット</th>
+        {{-- <th style="width: 14%">マット</th> --}}
         <th style="width: 14%">試合番号</th>
         <th style="width: 14%">カテゴリー</th>
         <th style="width: 14%">スタイル</th>
@@ -26,17 +26,16 @@
     </tr>
     <tr>
         <td>{{ $date }}</td>
-        <td>{{ $game->mat->name }}</td>
+        {{-- <td>{{ $game->mat->name }}</td> --}}
         <td>{{ $game->game_number }}</td>
-        <td>{{ $competition->category->name }}</td>
-        <td>{{ $game->style->name }}</td>
-        <td>{{ $game->competition_class->class }}kg級</td>
-        <td>{{ $game->round->round }}</td>
+        <td>{{ $game->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
+        <td>{{ $game->round->classfiedCompetition->competitionClass->style->name }}</td>
+        <td>{{ $game->round->classfiedCompetition->competitionClass->class }}kg級</td>
+        <td>{{ $game->round->title }}</td>
     </tr>
 </table>
 
-<form action="{{ route('organizer.scoresheets.store', ['competition_id' => $competition_id, 'game_id' => $game_id]) }}"
-    method="POST">
+<form action="{{ route('organizer.scoresheets.store', ['game' => $game->id]) }}" method="POST">
     @csrf
     <table>
         <tr>
@@ -128,10 +127,10 @@
             };
         @endphp
         <select name="victory_type_id" id="victory_type_id">
-            @foreach ($victory_types as $victory_type)
-                <option value="{{ $victory_type->id }}"
-                    {{ $isVictoryTypeId($victory_type->id, $scoresheet) ? 'selected' : '' }}>
-                    {{ $victory_type->name }}
+            @foreach ($victoryTypes as $victoryType)
+                <option value="{{ $victoryType->id }}"
+                    {{ $isVictoryTypeId($victoryType->id, $scoresheet) ? 'selected' : '' }}>
+                    {{ $victoryType->name }}
                 </option>
             @endforeach
         </select>

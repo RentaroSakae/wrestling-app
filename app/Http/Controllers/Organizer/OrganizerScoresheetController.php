@@ -36,24 +36,17 @@ class OrganizerScoresheetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($competition_id, $game_id)
+    public function create(Game $game)
     {
-        $competition = Competition::find($competition_id);
-        $game = Game::find($game_id);
-        $scoresheet = Scoresheet::where('game_id', '=', $game_id)->first(); //データがなかった場合はNULLが返ってくる
+
+        // $competition = Competition::find($competition_id);
+        // $game = Game::find($game_id);
+        $scoresheet = Scoresheet::where('game_id', '=', $game->id)->first(); //データがなかった場合はNULLが返ってくる
         $date = now()->format("Y-m-d H:i:s");
-        $victory_types = VictoryType::all();
+        $victoryTypes = VictoryType::all();
 
         //TODO compactに書き換える
-        return view('organizer.scoresheets.create', [
-            'competition_id' => $competition_id,
-            'game_id' => $game_id,
-            'scoresheet' => $scoresheet,
-            'date' => $date,
-            'game' => $game,
-            'competition' => $competition,
-            'victory_types' => $victory_types,
-        ]);
+        return view('organizer.scoresheets.create', compact('game', 'scoresheet', 'date', 'victoryTypes'));
     }
 
     /**
@@ -62,7 +55,7 @@ class OrganizerScoresheetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $competition_id, $game_id)
+    public function store(Request $request, Game $game)
     {
         $request->validate([
             'red_point' => 'required|integer', // 赤コーナーの得点
@@ -76,7 +69,7 @@ class OrganizerScoresheetController extends Controller
 
 
         Scoresheet::updateOrCreate(
-            ['game_id' => $game_id],
+            ['game_id' => $game->id],
             [
                 //'game_id'=>$game_id,
                 'red_point' => $request->input('red_point'),
@@ -88,7 +81,7 @@ class OrganizerScoresheetController extends Controller
 
         $result = Artisan::call('command:sendmail');
 
-        return redirect()->route('organizer.games.index', ['competition_id' => $competition_id]);
+        return redirect()->route('organizer.rounds.index', ['classfiedCompetition' => $game->round->classfiedCompetition->id]);
     }
 
 
@@ -121,16 +114,16 @@ class OrganizerScoresheetController extends Controller
      * @param  \App\Models\Score  $score
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Scoresheet $score)
-    {
-        $competition = Competition::find($competition_id);
-        $styles = Style::all();
-        $competitionClasses = CompetitionClass::all();
-        $mats = Mat::where('competition_id', $competition->id)->get();
-        $players = Player::all();
+    // public function update(Request $request, Scoresheet $score)
+    // {
+    //     $competition = Competition::find($competition_id);
+    //     $styles = Style::all();
+    //     $competitionClasses = CompetitionClass::all();
+    //     $mats = Mat::where('competition_id', $competition->id)->get();
+    //     $players = Player::all();
 
-        return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition'));
-    }
+    //     return view('organizer.games.create', compact('styles', 'competitionClasses', 'mats', 'players', 'competition'));
+    // }
 
     /**
      * Remove the specified resource from storage.

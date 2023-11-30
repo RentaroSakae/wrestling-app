@@ -40,4 +40,10 @@ class CompetitionClass extends Model
             'competition_id'
         );
     }
+
+    //階級別大会とのリレーション
+    public function classfied_competitions()
+    {
+        return $this->hasMany(ClassfiedCompetition::class);
+    }
 }

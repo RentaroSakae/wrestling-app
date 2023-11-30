@@ -30,4 +30,10 @@ class Category extends Model
             'competition_class_id'
         );
     }
+
+    //カテゴリ別大会とのリレーション
+    public function categoriezed_competitions()
+    {
+        return $this->hasMany(CategoriezedCompetition::class);
+    }
 }

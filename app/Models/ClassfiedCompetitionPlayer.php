@@ -5,23 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CompetitionPlayer extends Model
+class ClassfiedCompetitionPlayer extends Model
 {
     use HasFactory;
 
-    protected $table = 'competition_player';
+    protected $table = 'classfied_competition_player';
 
-    protected $fillable = [
-        'competition_id',
-        'player_id',
-        'style_id',
-        'competition_class_id',
-    ];
-
-    //大会テーブルとのリレーション設定
-    public function competition()
+    //階級別大会テーブルとのリレーション設定
+    public function categoriezedCompetition()
     {
-        return $this->belongsTo(Competition::class, 'competition_id', 'id');
+        return $this->belongsTo(CategoriezedCompetitionCompetition::class, 'classfied_competition_id');
     }
 
     //選手テーブルとのリレーション設定
@@ -46,5 +39,11 @@ class CompetitionPlayer extends Model
     public function users()
     {
         return $this->belongsToMany(User::class)->withTimestamps();
+    }
+
+    // roundテーブルとのリレーション
+    public function rounds()
+    {
+        return $this->hasMany(Round::class);
     }
 }

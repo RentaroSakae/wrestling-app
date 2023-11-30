@@ -9,8 +9,25 @@ class Round extends Model
 {
     use HasFactory;
 
-    //試合テーブルとのリレーション（一つのラウンドで複数の試合行われる）
-    public function games() {
+    //階級別大会とのリレーション
+    public function classfiedCompetition()
+    {
+        return $this->belongsTo(ClassfiedCompetition::class);
+    }
+
+    //ゲームタイプとのリレーション
+    public function gameType()
+    {
+        return $this->belongsTo((GameType::class));
+    }
+
+    public function games()
+    {
         return $this->hasMany(Game::class);
+    }
+
+    public function competitionSchedule()
+    {
+        return $this->belongsTo(CompetitionSchedule::class);
     }
 }

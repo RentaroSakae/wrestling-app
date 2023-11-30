@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rounds', function (Blueprint $table) {
+        Schema::create('competition_schedules', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('classfied_competition_id');
-            $table->string('title');
-            $table->bigInteger('game_type_id');
+            $table->bigInteger('mat_id');
+            $table->integer('order');
+            $table->bigInteger('round_id');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rounds');
+        Schema::dropIfExists('competition_schedules');
     }
 };

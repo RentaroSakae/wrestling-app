@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Organizer;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\CategoriezedCompetition;
 use App\Models\Competition;
 use Illuminate\Http\Request;
 use App\Models\Place;
 use App\Models\Mat;
 use App\Models\Category;
+use App\Models\ClassfiedCompetition;
 use App\Models\CompetitionStyleClass;
 use App\Models\Game;
 use App\Models\Player;
@@ -110,11 +111,19 @@ class OrganizerCompetitionController extends Controller
      */
     public function show(Competition $competition)
     {
+        $categoriezedCompetitions = CategoriezedCompetition::where('competition_id', $competition->id)->get();
+        // $classfiedCompetitions = ClassfiedCompetition::where('competition', $competition->id)->get();
+        $classfiedCompetitions = [];
+        foreach ($categoriezedCompetitions as $categoriezedCompetition) {
+            foreach ($categoriezedCompetition->classfiedCompetitions as $classfiedCompetition) {
+                $classfiedCompetitions[] = $classfiedCompetition;
+            }
+        }
         $mats = Mat::where('competition_id', $competition->id)->get();
         $styleClasses = CompetitionStyleClass::where('competition_id', $competition->id)->get();
 
 
-        return view('organizer.competitions.show', compact('competition', 'mats', 'styleClasses'));
+        return view('organizer.competitions.show', compact('competition', 'mats', 'styleClasses', 'categoriezedCompetitions', 'classfiedCompetitions'));
     }
 
     /**

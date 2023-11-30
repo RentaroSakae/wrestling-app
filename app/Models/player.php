@@ -10,22 +10,26 @@ class Player extends Model
     use HasFactory;
 
     //大会テーブルとのリレーション設定（中間テーブル）
-    public function competitions() {
-        return $this->belongsToMany(Competition::class)->withTimestamps();
+    public function classfiedCompetitions()
+    {
+        return $this->belongsToMany(ClassfiedCompetition::class)->withTimestamps();
     }
 
     //試合テーブルとのリレーション設定(一人の選手は複数の試合に出場する)
-    public function games() {
+    public function games()
+    {
         return $this->hasMany(Game::class);
     }
 
     //選手の所属テーブルとのリレーション(一人の選手は一つチームに所属する)
-    public function team() {
+    public function team()
+    {
         return $this->belongsTo(Team::class);
     }
 
     //得点テーブルとのリレーション（一人の選手は複数の得点を持つ）
-    public function scores() {
+    public function scores()
+    {
         return $this->hasMany(Score::class);
     }
 }

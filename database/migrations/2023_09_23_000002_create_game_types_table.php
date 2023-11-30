@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rounds', function (Blueprint $table) {
+        Schema::create('game_types', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('classfied_competition_id');
-            $table->string('title');
-            $table->bigInteger('game_type_id');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rounds');
+        Schema::dropIfExists('game_types');
     }
 };

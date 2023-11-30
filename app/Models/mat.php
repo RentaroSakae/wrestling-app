@@ -10,7 +10,8 @@ class Mat extends Model
     use HasFactory;
 
     //試合テーブルとのリレーション設定(一つのマットで複数の試合が行われる)
-    public function games() {
+    public function games()
+    {
         return $this->hasMany(Game::class);
     }
 
@@ -20,7 +21,14 @@ class Mat extends Model
     // }
 
     //大会テーブルとのリレーション設定(一つのマットで一つの大会が開催される)
-    public function competitions() {
+    public function competitions()
+    {
         return $this->belongsTo(Competition::class);
+    }
+
+    //大会スケジュールテーブルとのリレーション
+    public function competitionSchedule()
+    {
+        return $this->belongsTo(CompetitionSchedule::class);
     }
 }

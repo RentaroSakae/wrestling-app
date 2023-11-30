@@ -17,9 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('place_id');
-            $table->bigInteger('category_id');
-            $table->date('start_at');
-            $table->date('close_at');
             $table->timestamps();
         });
     }

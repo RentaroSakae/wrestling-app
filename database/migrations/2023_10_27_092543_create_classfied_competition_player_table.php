@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('competition_player', function (Blueprint $table) {
+        Schema::create('classfied_competition_player', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('competition_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('classfied_competition_id')->constrained()->cascadeOnDelete();
             $table->foreignId('player_id')->constrained()->cascadeOnDelete();
-            $table->bigInteger('style_id');
-            $table->bigInteger('competition_class_id');
             $table->timestamps();
         });
     }
@@ -30,10 +28,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('competition_player', function (Blueprint $table) {
-            $table->dropForeign(['competition_id', 'player_id']);
-            $table->dropColumn('competition_id', 'player_id');
+        Schema::table('classfied_competition_player', function (Blueprint $table) {
+            $table->dropForeign(['classfied_competition_id', 'player_id']);
+            $table->dropColumn('classfied_competition_id', 'player_id');
         });
-        Schema::dropIfExists('competition_player');
+        Schema::dropIfExists('classfied_competition_player');
     }
 };

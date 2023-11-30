@@ -15,15 +15,12 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('competition_id')->nullable()->unsigned();
-            $table->bigInteger('style_id');
-            $table->bigInteger('competition_class_id');
-            $table->bigInteger('mat_id');
             $table->bigInteger('round_id');
             $table->integer('game_number');
-            $table->bigInteger('next_game_id')->nullable()->unsigned();
             $table->unsignedBigInteger('red_player_id')->nullable()->unsigned();
             $table->unsignedBigInteger('blue_player_id')->nullable()->unsigned();
+            $table->bigInteger('scoresheet_id')->nullable()->unsigned();
+            $table->bigInteger('next_game_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }
