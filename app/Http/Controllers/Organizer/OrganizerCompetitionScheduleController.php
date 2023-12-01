@@ -29,6 +29,20 @@ class OrganizerCompetitionScheduleController extends Controller
     }
 
     // マット別試合順ページ作成
+    public function matchOrderIndex(Competition $competition, Mat $mat)
+    {
+        $schedules = CompetitionSchedule::where('mat_id', $mat->id)
+            ->with('round.games.red_player', 'round.games.blue_player')
+            ->get();
+
+        $totalGamesBefore = 0;
+        foreach ($schedules as $schedule) {
+            $schedule->totalGamesBefore = $totalGamesBefore;
+            $totalGamesBefore += $schedule->round->games->count();
+        }
+
+        return view('organizer.matchOrder.index', compact('competition', 'mat', 'schedules'));
+    }
 
     /**
      * Show the form for creating a new resource.

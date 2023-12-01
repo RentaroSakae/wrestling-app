@@ -88,19 +88,15 @@ class OrganizerCompetitionController extends Controller
 
         $validated = $request->validate([
             'name' => 'required',
-            'start_at' => 'required',
-            'close_at' => 'required',
             'place' => 'required',
         ]);
 
         $competition = new Competition();
         $competition->name = $request->input('name');
-        $competition->start_at = $request->input('start_at');
-        $competition->close_at = $request->input('close_at');
         $competition->place_id = $request->input('place');
         $competition->save();
 
-        return redirect()->route('organizer.competitions.index');
+        return redirect()->route('organizer.categoriezedCompetitions.create', ['competition' => $competition->id]);
     }
 
     /**

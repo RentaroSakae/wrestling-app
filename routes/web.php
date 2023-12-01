@@ -57,9 +57,9 @@ Route::post('organizer/competitions/{classfiedCompetition}/rounds/store', 'App\H
 Route::get('organizer/competitions/{competition}/style_class/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionStyleClassController@create')->name('organizer.competitionStyleClasses.create');
 Route::post('organizer/competitions/{competition}/style_class/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionStyleClassController@store')->name('organizer.competitionStyleClasses.store');
 //【管理画面】大会の選手登録画面
-Route::get('organizer/competitions/{competition_id}/players/index', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@indexPlayer')->name('organizer.competitions.index-players');
-Route::get('organizer/competitions/{competition_id}/players/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@createPlayer')->name('organizer.competitions.create-player');
-Route::post('organizer/competitions/{competition_id}/players', 'App\Http\Controllers\Organizer\OrganizerCompetitionController@storePlayer')->name('organizer.competitions.players.store');
+Route::get('organizer/competitions/{classfiedCompetition}/players/', 'App\Http\Controllers\Organizer\OrganizerClassfiedCompetitionPlayerController@index')->name('organizer.classfiedCompetitionPlayers.index');
+Route::get('organizer/competitions/{classfiedCompetition}/players/create', 'App\Http\Controllers\Organizer\OrganizerClassfiedCompetitionPlayerController@create')->name('organizer.classfiedCompetitionPlayers.create');
+Route::post('organizer/competitions/{classfiedCompetition}/players/store', 'App\Http\Controllers\Organizer\OrganizerClassfiedCompetitionPlayerController@store')->name('organizer.classfiedCompetitionPlayers.store');
 
 //【管理画面】試合
 Route::get('organizer/competitions/{competition_id}/games/index', 'App\Http\Controllers\Organizer\OrganizerGameController@index')->name('organizer.games.index');
@@ -76,6 +76,8 @@ Route::delete('organizer/competitions/{competition_id}/games/{game_id}/destroy',
 Route::get('organizer/competitions/{competition}/schedule/{mat}', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@index')->name('organizer.schedules.index');
 Route::get('organizer/competitions/{round}/schedule/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@create')->name('organizer.schedules.create');
 Route::post('organizer/competitions/{round}/schedule/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@store')->name('organizer.schedules.store');
+//【管理画面】マット別試合順
+Route::get('organizer/competitions/{competition}/match_order/{mat}', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@matchOrderIndex')->name('organizer.matchOrder.index');
 //【管理画面】スコアシート
 Route::get('organizer/competitions/games/{game}/scoresheets/create', 'App\Http\Controllers\Organizer\OrganizerScoresheetController@create')->name('organizer.scoresheets.create');
 Route::post('organizer/competitions/games/{game}/scoresheets/store', 'App\Http\Controllers\Organizer\OrganizerScoresheetController@store')->name('organizer.scoresheets.store');

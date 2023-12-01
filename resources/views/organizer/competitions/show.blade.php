@@ -18,7 +18,6 @@
                 <td>
                     <a
                         href="{{ route('organizer.mats.edit', ['competition' => $competition->id, 'mat' => $mat->id]) }}">編集</a>
-
                 </td>
                 <td>
                     <form
@@ -28,6 +27,11 @@
                         @method('DELETE')
                         <button type="submit">削除</button>
                     </form>
+                </td>
+                <td>
+                    {{-- indexに遷移する --}}
+                    <a
+                        href="{{ route('organizer.schedules.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">大会スケジュールを作成する</a>
                 </td>
             </tr>
         @endforeach
@@ -72,7 +76,17 @@
                     <td>{{ $categoriezedCompetition->start_at }}</td>
                     <td>{{ $categoriezedCompetition->close_at }}</td>
                     <td><a
+                            href="{{ route('organizer.classfiedCompetitionPlayers.create', ['classfiedCompetition' => $classfiedCompetition->id]) }}">選手を登録</a>
+                    </td>
+                    <td>
+                        <a
+                            href="{{ route('organizer.classfiedCompetitionPlayers.index', ['classfiedCompetition' => $classfiedCompetition->id]) }}">登録中の選手</a>
+                    </td>
+                    <td><a
                             href="{{ route('organizer.rounds.create', ['classfiedCompetition' => $classfiedCompetition->id]) }}">ラウンド作成</a>
+                    </td>
+                    <td><a
+                            href="{{ route('organizer.rounds.index', ['classfiedCompetition' => $classfiedCompetition->id]) }}">ラウンド・試合一覧</a>
                     </td>
                 </tr>
             @endforeach
@@ -80,36 +94,4 @@
     </table>
 @endforeach
 
-
-
-
-
-
-
-
-
-
-
-
-{{-- <table>
-    <tr>
-        <th>スタイル</th>
-        <th>階級</th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-    @if (count($classfiedCompetitions) > 0)
-        @foreach ($classfiedCompetitions as $classfiedCompetition)
-            <tr>
-                <td>{{ $classfiedCompetition->categoriezed_competition->category->name }}</td>
-                <td>{{ $classfiedCompetition->competition_class->style->name }}</td>
-                <td>{{ $classfiedCompetition->competition_class->class }}</td>
-            </tr>
-        @endforeach
-    @else
-        <tr>
-            <td colspan="5">登録中のカテゴリ・スタイル・階級はありません。</td>
-        </tr>
-    @endif
-</table> --}}
+{{-- 大会スケジュール作成ボタン --}}
