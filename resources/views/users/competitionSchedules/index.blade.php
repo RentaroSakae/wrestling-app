@@ -2,14 +2,12 @@
     <h2>{{ $competition->name }}の大会スケジュール</h2>
 </div>
 
-<div>
-    <a href="{{ route('organizer.matchOrder.index', ['competition' => $competition, 'mat' => $mat->id]) }}">マット別試合順</a>
-</div>
+{{-- TODO マット別試合順 --}}
 
 <div>
     @foreach ($mats as $mat)
         <a
-            href="{{ route('organizer.schedules.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}のスケジュール</a>
+            href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}のスケジュール</a>
     @endforeach
 </div>
 

@@ -7,7 +7,8 @@
     </h3>
 </div>
 
-<form action="{{ route('organizer.schedules.store', ['round' => $round->id]) }}" method="POST">
+<form action="{{ route('organizer.schedules.store', ['competition' => $competition, 'round' => $round->id]) }}"
+    method="POST">
     @csrf
 
     <div>

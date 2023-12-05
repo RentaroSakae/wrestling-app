@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Organizer;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\CategoriezedCompetition;
-use App\Models\ClassfiedCompetition;
 use App\Models\Competition;
 use App\Models\CompetitionSchedule;
 use App\Models\Mat;
-use App\Models\Round;
 use Illuminate\Http\Request;
 
-class OrganizerCompetitionScheduleController extends Controller
+class CompetitionMatchOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,26 +17,6 @@ class OrganizerCompetitionScheduleController extends Controller
      */
     public function index(Competition $competition, Mat $mat)
     {
-
-        $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
-            $query->where('competition_id', $competition->id);
-        })->get();
-
-        $schedules = CompetitionSchedule::where('mat_id', $mat->id)
-            ->with('round.games', 'mat')
-            ->orderBy('order', 'asc')
-            ->get()
-            ->groupBy(function ($item) {
-                return $item->date . ' ' . $item->mat->name;
-            });
-
-        return view('organizer.schedules.index', compact('competition', 'mat', 'mats', 'schedules'));
-    }
-
-    // マット別試合順ページ作成
-    public function matchOrderIndex(Competition $competition, Mat $mat)
-    {
-
         $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
             $query->where('competition_id', $competition->id);
         })->get();
@@ -49,12 +26,15 @@ class OrganizerCompetitionScheduleController extends Controller
             ->get();
 
         $totalGamesBefore = 0;
+        $matchOrders = [];
         foreach ($schedules as $schedule) {
             $schedule->totalGamesBefore = $totalGamesBefore;
             $totalGamesBefore += $schedule->round->games->count();
         }
 
-        return view('organizer.matchOrder.index', compact('competition', 'mat', 'mats', 'schedules'));
+        session(['matchOrders' => $matchOrders]);
+
+        return view('users.matchOrders.index', compact('competition', 'mat', 'mats', 'schedules'));
     }
 
     /**
@@ -62,11 +42,9 @@ class OrganizerCompetitionScheduleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Competition $competition, Round $round)
+    public function create()
     {
-        $mats = Mat::where('competition_id', $round->classfiedCompetition->categoriezed_competition->competition->id)->get();
-
-        return view('organizer.schedules.create', compact('competition', 'mats', 'round'));
+        //
     }
 
     /**
@@ -75,18 +53,9 @@ class OrganizerCompetitionScheduleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Competition $competition, Round $round)
+    public function store(Request $request)
     {
-        $competitionSchedule = new CompetitionSchedule();
-        $competitionSchedule->mat_id = $request->input('mat_id');
-        $competitionSchedule->order = $request->input('order');
-        $competitionSchedule->round_id = $round->id;
-        $competitionSchedule->date = $request->input('date');
-        $competitionSchedule->save();
-
-        $mat = Mat::find($request->input('mat_id'));
-
-        return redirect()->route('organizer.schedules.index', ['competition' => $competition->id, 'mat' => $mat]);
+        //
     }
 
     /**

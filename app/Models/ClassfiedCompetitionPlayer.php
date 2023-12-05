@@ -14,7 +14,12 @@ class ClassfiedCompetitionPlayer extends Model
     //階級別大会テーブルとのリレーション設定
     public function categoriezedCompetition()
     {
-        return $this->belongsTo(CategoriezedCompetitionCompetition::class, 'classfied_competition_id');
+        return $this->belongsTo(CategoriezedCompetition::class, 'classfied_competition_id');
+    }
+
+    public function classfiedCompetition()
+    {
+        return $this->belongsTo(ClassfiedCompetition::class);
     }
 
     //選手テーブルとのリレーション設定

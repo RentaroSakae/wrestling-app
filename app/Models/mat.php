@@ -21,14 +21,14 @@ class Mat extends Model
     // }
 
     //大会テーブルとのリレーション設定(一つのマットで一つの大会が開催される)
-    public function competitions()
+    public function competition()
     {
         return $this->belongsTo(Competition::class);
     }
 
     //大会スケジュールテーブルとのリレーション
-    public function competitionSchedule()
+    public function competitionSchedules()
     {
-        return $this->belongsTo(CompetitionSchedule::class);
+        return $this->hasMany(CompetitionSchedule::class);
     }
 }

@@ -17,8 +17,15 @@ class UserCompetitionPlayer extends Model
         return $this->belongsToMany(User::class)->withTimestamps();
     }
 
-    public function competitionPlayers()
+    public function classfiedCompetitionPlayer()
     {
-        return $this->belongsToMany(CompetitionPlayer::class)->withTimestamps();
+        return $this->belongsTo(ClassfiedCompetitionPlayer::class, 'classfied_competition_player_id');
+    }
+
+    public function competition()
+    {
+        // ここでのリレーションシップのパスは、あなたのデータベース設計に基づいて調整する必要があります。
+        // 例えば、ClassfiedCompetitionPlayer -> ClassfiedCompetition -> CategoriezedCompetition -> Competition などのパスが考えられます。
+        return $this->classfiedCompetitionPlayer->classfiedCompetition->categoriezedCompetition->competition;
     }
 }

@@ -15,19 +15,19 @@
         <th></th>
         <th>大会日時</th>
         <th>大会名</th>
-        <th>カテゴリ</th>
         <th>大会会場</th>
+        <th>カテゴリ</th>
 
     </tr>
-    @if (count($currentCompetitions) > 0)
-        @foreach ($currentCompetitions as $competition)
+    @if (count($categoriezedCompetitions) > 0)
+        @foreach ($categoriezedCompetitions as $categoriezedCompetition)
             <tr>
                 <td>
                     @auth <!-- ログインしているかチェック -->
-                        @if ($competition->isFavoritedBy(Auth::user()))
+                        @if ($categoriezedCompetition->isFavoritedBy(Auth::user()))
                             <!-- お気に入り登録済みの場合 -->
-                            <form action="{{ route('users.competitions.unfavorite', $competition) }}" method="POST"
-                                style="display: inline;">
+                            <form action="{{ route('users.competitions.unfavorite', $categoriezedCompetition) }}"
+                                method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
@@ -36,8 +36,8 @@
                             </form>
                         @else
                             <!-- お気に入り未登録の場合 -->
-                            <form action="{{ route('users.competitions.favorite', $competition) }}" method="POST"
-                                style="display: inline;">
+                            <form action="{{ route('users.competitions.favorite', $categoriezedCompetition) }}"
+                                method="POST" style="display: inline;">
                                 @csrf
                                 <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
                                     <i class="far fa-star"></i>
@@ -51,14 +51,14 @@
                         </a>
                     @endauth
                 </td>
-                <td>{{ $competition->start_at }} 〜 {{ $competition->close_at }}</td>
-                <td>{{ $competition->name }}</td>
-                <td>{{ $competition->category->name }}</td>
-                <td>{{ $competition->place->name }}</td>
-                {{-- TODO showアクション追加 --}}
-                {{-- <td>
-            <a href="{{ route('user.competitions.show', $competition->id) }}">詳細</a>
-        </td> --}}
+                <td>{{ $categoriezedCompetition->start_at }} 〜 {{ $categoriezedCompetition->close_at }}</td>
+                <td>{{ $categoriezedCompetition->competition->name }}</td>
+                <td>{{ $categoriezedCompetition->competition->place->name }}</td>
+                <td>{{ $categoriezedCompetition->category->name }}</td>
+                <td>
+                    <a
+                        href="{{ route('users.categoriezedCompetition.index', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">詳細</a>
+                </td>
             </tr>
             {{-- TODO ページドネーション追加 --}}
         @endforeach

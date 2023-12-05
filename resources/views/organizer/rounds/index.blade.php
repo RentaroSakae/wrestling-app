@@ -14,7 +14,8 @@
         <a href="{{ route('organizer.games.create', ['round' => $round->id]) }}">試合を作成</a>
     </div>
     <div>
-        <a href="{{ route('organizer.schedules.create', ['round' => $round->id]) }}">スケジュールを作成する</a>
+        <a
+            href="{{ route('organizer.schedules.create', ['competition' => $classfiedCompetition->categoriezed_competition->competition->id, 'round' => $round->id]) }}">スケジュールを作成する</a>
     </div>
 
     @if ($round->games)

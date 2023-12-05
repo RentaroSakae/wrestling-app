@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoriezedCompetition;
+use App\Models\ClassfiedCompetitionPlayer;
 use App\Models\Competition;
-use App\Models\CompetitionPlayer;
 use App\Models\UserCompetitionPlayer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class UserCompetitionPlayerController extends Controller
+class NotifyPlayerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,11 +33,12 @@ class UserCompetitionPlayerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Competition $competition, CompetitionPlayer $competition_player)
+    public function create(Competition $competition, ClassfiedCompetitionPlayer $classfiedCompetitionPlayer)
     {
-        // 一般ユーザー画面12がcreate
 
-        return view('users.notify-players.create', ['competition_id' => $competition->id, 'competition_player_id' => $competition_player->id], compact('competition', 'competition_player'));
+        $categriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
+
+        return view('users.notifyPlayers.create',  compact('competition', 'classfiedCompetitionPlayer', 'categriezedCompetition'));
     }
 
     /**
@@ -45,18 +47,18 @@ class UserCompetitionPlayerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Competition $competition, CompetitionPlayer $competition_player)
+    public function store(Request $request, Competition $competition, ClassfiedCompetitionPlayer $classfiedCompetitionPlayer)
     {
         // TODO バリデーション作る
         $user = Auth::user();
         $notify = new UserCompetitionPlayer();
         $notify->user_id = $user->id;
-        $notify->competition_player_id = $competition_player->id;
+        $notify->classfied_competition_player_id = $classfiedCompetitionPlayer->id;
         $notify->notify_before = $request->input('notify_before');
         $notify->save();
 
         // TODO 通知登録一覧画面へのリダイレクトに変更する
-        return redirect()->route('users.competition-players.index', ['competition_id' => $competition->id]);
+        return redirect()->route('users.classfiedCompetitionPlayers.index', ['competition' => $competition->id, 'categoriezedCompetition' => $classfiedCompetitionPlayer->categoriezedCompetition->id, 'classfiedCompetition' => $classfiedCompetitionPlayer->classfiedCompetition->id]);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use App\Models\Competition;
+use App\Models\UserCompetitionPlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+
+        return view('users.users.index', compact('user'));
     }
 
     /**
@@ -26,6 +28,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function notifyPlayers(User $user)
+    {
+        $notifyPlayers = UserCompetitionPlayer::where('user_id', $user->id)->get();
+
+        return view('users.users.notify-players', compact('notifyPlayers'));
+    }
+
+
     public function create()
     {
         //

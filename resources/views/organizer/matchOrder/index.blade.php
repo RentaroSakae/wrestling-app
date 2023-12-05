@@ -3,6 +3,12 @@
 </div>
 
 {{-- TODO 他のマットののaタグをforeachで作成 --}}
+<div>
+    @foreach ($mats as $mat)
+        <a
+            href="{{ route('organizer.matchOrder.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}の試合順</a>
+    @endforeach
+</div>
 
 <table>
     <tr>

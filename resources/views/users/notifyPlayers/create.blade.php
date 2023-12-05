@@ -4,12 +4,12 @@
 
 <div>
     <p>大会名{{ $competition->name }}</p>
-    <p>大会期間：{{ $competition->start_at }}〜{{ $competition->close_at }}</p>
-    <p>登録選手：{{ $competition_player->player->name }}</p>
+    <p>大会期間：{{ $categriezedCompetition->start_at }}〜{{ $categriezedCompetition->close_at }}</p>
+    <p>登録選手：{{ $classfiedCompetitionPlayer->player->name }}</p>
 </div>
 
 <form
-    action="{{ route('users.notify-players.store', ['competition' => $competition->id, 'competition_player' => $competition_player->id]) }}"
+    action="{{ route('users.notifyPlayers.store', ['competition' => $competition->id, 'classfiedCompetitionPlayer' => $classfiedCompetitionPlayer->id]) }}"
     method="POST">
     @csrf
     <div>

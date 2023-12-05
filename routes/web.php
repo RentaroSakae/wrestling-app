@@ -73,9 +73,9 @@ Route::get('organizer/competitions/{game}/games/edit', 'App\Http\Controllers\Org
 Route::put('organizer/competitions/{game}/games/update', 'App\Http\Controllers\Organizer\OrganizerGameController@update')->name('organizer.games.update');
 Route::delete('organizer/competitions/{competition_id}/games/{game_id}/destroy', 'App\Http\Controllers\Organizer\OrganizerGameController@destroy')->name('organizer.games.destroy');
 //【管理画面】大会スケジュール
-Route::get('organizer/competitions/{competition}/schedule/{mat}', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@index')->name('organizer.schedules.index');
-Route::get('organizer/competitions/{round}/schedule/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@create')->name('organizer.schedules.create');
-Route::post('organizer/competitions/{round}/schedule/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@store')->name('organizer.schedules.store');
+Route::get('organizer/competitions/{competition}/rounds/{round}/schedule/create', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@create')->name('organizer.schedules.create');
+Route::post('organizer/competitions/{competition}/rounds/{round}/schedule/store', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@store')->name('organizer.schedules.store');
+Route::get('organizer/competitions/{competition}/mat/{mat}/schedule', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@index')->name('organizer.schedules.index');
 //【管理画面】マット別試合順
 Route::get('organizer/competitions/{competition}/match_order/{mat}', 'App\Http\Controllers\Organizer\OrganizerCompetitionScheduleController@matchOrderIndex')->name('organizer.matchOrder.index');
 //【管理画面】スコアシート
@@ -104,15 +104,29 @@ Route::delete('organizer/competitions/{competition}/mats/{mat}/destroy', 'App\Ht
 Route::get('organizer/index', 'App\Http\Controllers\Organizer\OrganizerController@index')->name('organizer.index');
 //【ユーザー】大会一覧ページ
 Route::get('competitions/index', 'App\Http\Controllers\User\CompetitionController@index')->name('users.competitions.index');
+//【ユーザー】大会詳細画面
+Route::get('competition/{competition}/category/{categoriezedCompetition}/index', 'App\Http\Controllers\User\CategoriezedCompetitionController@index')->name('users.categoriezedCompetition.index');
+//【ユーザー】大会別出場選手一覧ページ
+Route::get('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/players', 'App\Http\Controllers\User\ClassfiedCompetitionPlayerController@index')->name('users.classfiedCompetitionPlayers.index');
+//【ユーザー】大会スケジュールページ
+Route::get('competition/{competition}/mat/{mat}/schedule', 'App\Http\Controllers\User\CompetitionScheduleController@index')->name('users.competitionSchedules.index');
+//【ユーザー】マット別試合順
+Route::get('competition/{competition}/mat/{mat}/match_order', 'App\Http\Controllers\User\CompetitionMatchOrderController@index')->name('users.matchOrders.index');
+//【ユーザー】スコアシート
+Route::get('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/game/{game}/scoresheet', 'App\Http\Controllers\User\ScoresheetController@show')->name('users.scoresheets.show');
+
 Route::get('competitions/{competition}/show', 'App\Http\Controllers\User\CompetitionController@show')->name('users.competitions.show');
 Route::post('competitions/{competition}/index/favorite', 'App\Http\Controllers\User\CompetitionController@favorite')->name('users.competitions.favorite');
 Route::delete('competitions/{competition}/unfavorite', 'App\Http\Controllers\User\CompetitionController@unfavorite')->name('users.competitions.unfavorite');
+//【ユーザー】マイページ
+Route::get('users/{user}/mypage', 'App\Http\Controllers\User\UserController@index')->name('users.users.index');
+//【ユーザー】マイページ（通知登録中の選手一覧）
+Route::get('users/{user}/notify_players', 'App\Http\Controllers\User\UserController@notifyPlayers')->name('users.users.notify-players');
 //【ユーザー】各ユーザーのお気に入り大会一覧ページ
-Route::get('users/mypage/favorites', 'App\Http\Controllers\User\UserController@favorites')->name('users.users.favorites');
+Route::get('users/{user}/mypage/favorites', 'App\Http\Controllers\User\UserController@favorites')->name('users.users.favorites');
 //【ユーザー】マット別試合順ページ
 Route::get('competitions/{competition_id}/games', 'App\Http\Controllers\User\GameController@index')->name('users.games.index');
-//【ユーザー】大会別出場選手一覧ページ
-Route::get('competitions/{competition_id}/players', 'App\Http\Controllers\User\CompetitionPlayerController@index')->name('users.competition-players.index');
+
 //【ユーザー】通知設定画面
-Route::get('competitions/{competition}/notify_player/{competition_player}/create', 'App\Http\Controllers\User\UserCompetitionPlayerController@create')->name('users.notify-players.create');
-Route::post('competitions/{competition}/notify_player/{competition_player}/store', 'App\Http\Controllers\User\UserCompetitionPlayerController@store')->name('users.notify-players.store');
+Route::get('competitions/{competition}/notify_player/{classfiedCompetitionPlayer}/create', 'App\Http\Controllers\User\NotifyPlayerController@create')->name('users.notifyPlayers.create');
+Route::post('competitions/{competition}/notify_player/{classfiedCompetitionPlayer}/store', 'App\Http\Controllers\User\NotifyPlayerController@store')->name('users.notifyPlayers.store');

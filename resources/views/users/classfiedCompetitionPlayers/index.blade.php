@@ -1,4 +1,58 @@
 <div>
+    <h2>{{ $competition->name }} {{ $categoriezedCompetition->category->name }}
+        {{ $classfiedCompetition->competitionClass->style->name }}
+        {{ $classfiedCompetition->competitionClass->class }}の出場選手一覧</h2>
+</div>
+
+<div>
+    @foreach ($categories as $category)
+        <h3>{{ $category->category->name }}</h3>
+        @foreach ($classes as $class)
+            <a
+                href="{{ route('users.classfiedCompetitionPlayers.index', [
+                    'competition' => $competition->id,
+                    'categoriezedCompetition' => $categoriezedCompetition->id,
+                    'classfiedCompetition' => $class->id,
+                ]) }}">{{ $class->competitionClass->class }}kg級</a>
+        @endforeach
+    @endforeach
+</div>
+
+<table>
+    <tr>
+        <th>選手名</th>
+        <th>所属チーム</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach ($players as $player)
+        <tr>
+            <td>{{ $player->player->name }}</td>
+            <td>{{ $player->player->team->name }}</td>
+            <td><a
+                    href="{{ route('users.notifyPlayers.create', ['competition' => $competition->id, 'classfiedCompetitionPlayer' => $player->id]) }}">通知登録</a>
+            </td>
+            {{-- TODO 試合結果 --}}
+        </tr>
+    @endforeach
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- <div>
     <h2>{{ $competition->name }}の選手一覧</h2>
 </div>
 
@@ -40,9 +94,9 @@
                 <tr>
                     <td>{{ $competitionPlayer->player->name }}</td>
                     <td>{{ $competitionPlayer->player->team->name }}</td>
-                    {{-- TODO「通知登録」ボタンを設置 --}}
+                    {{-- TODO「通知登録」ボタンを設置
                 </tr>
             @endif
         @endforeach
     </table>
-</div>
+</div> --}}

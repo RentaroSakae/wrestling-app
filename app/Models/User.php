@@ -29,9 +29,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     //CompetitionPlayerとのリレーション設定
-    public function competitionPlayers()
+    public function classfiedCompetitionPlayer()
     {
-        return $this->belongsToMany(CompetitionPlayer::class)->withTimestamps();
+        return $this->belongsToMany(ClassfiedCompetitionPlayer::class)->withTimestamps();
     }
 
 

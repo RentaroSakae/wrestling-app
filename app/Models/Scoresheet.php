@@ -26,5 +26,10 @@ class Scoresheet extends Model
         return $this->belongsTo(Player::class, 'victory_player_id');
     }
 
+    public function victory_type()
+    {
+        return $this->belongsTo(VictoryType::class);
+    }
+
     protected $fillable = ['game_id', 'red_point', 'blue_point', 'victory_type_id', 'victory_player_id'];
 }
