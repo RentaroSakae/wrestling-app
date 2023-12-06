@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Organizer;
 
 use App\Http\Controllers\Controller;
-
+use App\Jobs\SendRemindMail;
 use App\Models\Scoresheet;
 use App\Models\Competition;
 use App\Models\CompetitionClass;
@@ -18,6 +18,7 @@ use App\Models\VictoryType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
+use Monolog\Handler\SendGridHandler;
 
 class OrganizerScoresheetController extends Controller
 {
@@ -79,7 +80,8 @@ class OrganizerScoresheetController extends Controller
             ]
         );
 
-        $result = Artisan::call('command:sendmail');
+        // $result = Artisan::call('command:sendmail');
+        SendRemindMail::dispatch();
 
         return redirect()->route('organizer.rounds.index', ['classfiedCompetition' => $game->round->classfiedCompetition->id]);
     }
