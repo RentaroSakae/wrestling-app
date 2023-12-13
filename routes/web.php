@@ -130,3 +130,7 @@ Route::get('competitions/{competition_id}/games', 'App\Http\Controllers\User\Gam
 //【ユーザー】通知設定画面
 Route::get('competitions/{competition}/notify_player/{classfiedCompetitionPlayer}/create', 'App\Http\Controllers\User\NotifyPlayerController@create')->name('users.notifyPlayers.create');
 Route::post('competitions/{competition}/notify_player/{classfiedCompetitionPlayer}/store', 'App\Http\Controllers\User\NotifyPlayerController@store')->name('users.notifyPlayers.store');
+//【ユーザー】選手一覧
+Route::get('players', 'App\Http\Controllers\User\PlayerController@index')->name('users.players.index');
+//【ユーザー】選手お気に入り
+Route::post('players/{player}/favorite', 'App\Http\Controllers\User\PlayerController@favorite')->name('users.players.favorite');

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 class Player extends Model
 {
-    use HasFactory;
+    use HasFactory, Favoriteable;
 
     //大会テーブルとのリレーション設定（中間テーブル）
     public function classfiedCompetitions()
