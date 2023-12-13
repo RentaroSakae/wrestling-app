@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CompetitionController extends Controller
 {
-    public function index(Request $request, Competition $competition)
+    public function index(Request $request)
     {
+        $competitions = Competition::all();
         $today = now()->format("Y-m-d");
         $target = $request->input('target');
 
@@ -41,36 +42,14 @@ class CompetitionController extends Controller
 
         $categoriezedCompetitions = $query->get();
 
-
-        return view('users.competitions.index', compact('competition', 'categoriezedCompetitions', 'target'));
+        return view('users.competitions.index', compact('categoriezedCompetitions', 'target'));
     }
+
+
 
     public function show(Competition $competition)
     {
 
         return view('users.competitions.show', compact('competition'));
-    }
-
-    public function favorite(Competition $competition)
-    {
-
-        if (is_null($competition->id)) {
-            // エラーハンドリング: $competitionが有効なIDを持っていない場合
-            abort(404); // あるいは他の適切なエラーレスポンス
-        }
-        Auth::user()->toggleFavorite($competition);
-
-        return back();
-    }
-
-    public function unfavorite(Competition $competition)
-    {
-        $user = Auth::user();
-
-        // お気に入りから削除する処理
-        $user->toggleFavorite($competition);
-
-        // リダイレクト、フラッシュメッセージ、その他の必要なレスポンス
-        return back();
     }
 }

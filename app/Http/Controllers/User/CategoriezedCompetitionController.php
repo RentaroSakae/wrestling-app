@@ -9,7 +9,10 @@ use App\Models\ClassfiedCompetition;
 use App\Models\Competition;
 use App\Models\CompetitionSchedule;
 use App\Models\Mat;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class CategoriezedCompetitionController extends Controller
 {
@@ -32,6 +35,29 @@ class CategoriezedCompetitionController extends Controller
         }
 
         return view('users.categoriezedCompetitions.index', compact('competition', 'categoriezedCompetition', 'classes', 'schedules', 'mats'));
+    }
+
+    public function favorite(Competition $competition, CategoriezedCompetition $categoriezedCompetition)
+    {
+
+        if (is_null($categoriezedCompetition->id)) {
+            // エラーハンドリング: $competitionが有効なIDを持っていない場合
+            abort(404); // あるいは他の適切なエラーレスポンス
+        }
+        Auth::user()->toggleFavorite($categoriezedCompetition);
+
+        return back();
+    }
+
+    public function unfavorite(Competition $competition, CategoriezedCompetition $categoriezedCompetition)
+    {
+        $user = Auth::user();
+
+        // お気に入りから削除する処理
+        $user->toggleFavorite($categoriezedCompetition);
+
+        // リダイレクト、フラッシュメッセージ、その他の必要なレスポンス
+        return back();
     }
 
     /**

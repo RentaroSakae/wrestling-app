@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelFavorite\Traits\Favoriteable;
+
 
 class Competition extends Model
 {
-    use HasFactory, Favoriteable;
+    use HasFactory;
 
     //competition_categoryテーブルとのリレーション
     public function category()

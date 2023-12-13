@@ -29,15 +29,15 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        $users = User::all();
-        //メールアドレスで繰り返し
-        foreach ($users as $user) {
-            echo $user['email'] . "\n";
+        // $users = User::all();
+        // //メールアドレスで繰り返し
+        // foreach ($users as $user) {
+        //     echo $user['email'] . "\n";
 
-            Mail::raw("これバッチでメールしているよ", function ($message) use ($user) {
-                //toで送信先、subjectで件名
-                $message->to($user->email)->subject('test');
-            });
-        }
+        //     Mail::raw("これバッチでメールしているよ", function ($message) use ($user) {
+        //         //toで送信先、subjectで件名
+        //         $message->to($user->email)->subject('test');
+        //     });
+        // }
     }
 }

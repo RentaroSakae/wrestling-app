@@ -66,4 +66,9 @@ class Game extends Model
     {
         return $this->hasMany(Game::class, 'next_game_id');
     }
+
+    public function competitionSchedule()
+    {
+        return $this->belongsToThrough(CompetitionSchedule::class, Round::class);
+    }
 }

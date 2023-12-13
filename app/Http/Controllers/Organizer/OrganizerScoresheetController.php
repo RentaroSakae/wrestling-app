@@ -17,6 +17,7 @@ use App\Models\UserCompetitionPlayer;
 use App\Models\VictoryType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Monolog\Handler\SendGridHandler;
 
@@ -56,7 +57,7 @@ class OrganizerScoresheetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Game $game)
+    public function store(Request $request, Game $game, Scoresheet $scoresheet)
     {
         $request->validate([
             'red_point' => 'required|integer', // 赤コーナーの得点
@@ -81,7 +82,13 @@ class OrganizerScoresheetController extends Controller
         );
 
         // $result = Artisan::call('command:sendmail');
-        SendRemindMail::dispatch();
+        // ゲームIDを取得
+        $scoresheet = Scoresheet::where('game_id', $game->id)->first();
+        $gameId = $scoresheet->game->id;
+
+        // ジョブをディスパッチ
+        SendRemindMail::dispatch($gameId);
+
 
         return redirect()->route('organizer.rounds.index', ['classfiedCompetition' => $game->round->classfiedCompetition->id]);
     }

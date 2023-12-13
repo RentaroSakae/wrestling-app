@@ -116,8 +116,8 @@ Route::get('competition/{competition}/mat/{mat}/match_order', 'App\Http\Controll
 Route::get('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/game/{game}/scoresheet', 'App\Http\Controllers\User\ScoresheetController@show')->name('users.scoresheets.show');
 
 Route::get('competitions/{competition}/show', 'App\Http\Controllers\User\CompetitionController@show')->name('users.competitions.show');
-Route::post('competitions/{competition}/index/favorite', 'App\Http\Controllers\User\CompetitionController@favorite')->name('users.competitions.favorite');
-Route::delete('competitions/{competition}/unfavorite', 'App\Http\Controllers\User\CompetitionController@unfavorite')->name('users.competitions.unfavorite');
+Route::post('competitions/{competition}/category/{categoriezedCompetition}/index/favorite', 'App\Http\Controllers\User\CategoriezedCompetitionController@favorite')->name('users.categoriezedCompetitions.favorite');
+Route::delete('competitions/{competition}/category/{categoriezedCompetition}/unfavorite', 'App\Http\Controllers\User\CategoriezedCompetitionController@unfavorite')->name('users.categoriezedCompetitions.unfavorite');
 //【ユーザー】マイページ
 Route::get('users/{user}/mypage', 'App\Http\Controllers\User\UserController@index')->name('users.users.index');
 //【ユーザー】マイページ（通知登録中の選手一覧）

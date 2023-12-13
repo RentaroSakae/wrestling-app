@@ -26,7 +26,8 @@
                     @auth <!-- ログインしているかチェック -->
                         @if ($categoriezedCompetition->isFavoritedBy(Auth::user()))
                             <!-- お気に入り登録済みの場合 -->
-                            <form action="{{ route('users.competitions.unfavorite', $categoriezedCompetition) }}"
+                            <form
+                                action="{{ route('users.categoriezedCompetitions.unfavorite', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
                                 method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
@@ -36,7 +37,8 @@
                             </form>
                         @else
                             <!-- お気に入り未登録の場合 -->
-                            <form action="{{ route('users.competitions.favorite', $categoriezedCompetition) }}"
+                            <form
+                                action="{{ route('users.categoriezedCompetitions.favorite', ['competition' => $categoriezedCompetition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
                                 method="POST" style="display: inline;">
                                 @csrf
                                 <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
