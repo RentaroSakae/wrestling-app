@@ -3,7 +3,7 @@
 </div>
 
 <div>
-    <a href="{{ route('users.users.notify-players', ['user' => $user->id]) }}">通知登録中の選手一覧</a>
+    <a href="{{ route('users.users.favoritePlayers', ['user' => $user->id]) }}">お気に入り登録中の選手一覧</a>
 </div>
 
 <div>

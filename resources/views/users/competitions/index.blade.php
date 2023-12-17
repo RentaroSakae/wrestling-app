@@ -22,37 +22,7 @@
     @if (count($categoriezedCompetitions) > 0)
         @foreach ($categoriezedCompetitions as $categoriezedCompetition)
             <tr>
-                <td>
-                    @auth <!-- ログインしているかチェック -->
-                        @if ($categoriezedCompetition->isFavoritedBy(Auth::user()))
-                            <!-- お気に入り登録済みの場合 -->
-                            <form
-                                action="{{ route('users.categoriezedCompetitions.unfavorite', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
-                                method="POST" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
-                                    <i class="fas fa-star"></i>
-                                </button>
-                            </form>
-                        @else
-                            <!-- お気に入り未登録の場合 -->
-                            <form
-                                action="{{ route('users.categoriezedCompetitions.favorite', ['competition' => $categoriezedCompetition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
-                                method="POST" style="display: inline;">
-                                @csrf
-                                <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
-                                    <i class="far fa-star"></i>
-                                </button>
-                            </form>
-                        @endif
-                    @else
-                        <!-- ログインしていないユーザーの場合 -->
-                        <a href="{{ route('login') }}">
-                            <i class="far fa-star"></i>
-                        </a>
-                    @endauth
-                </td>
+
                 <td>{{ $categoriezedCompetition->start_at }} 〜 {{ $categoriezedCompetition->close_at }}</td>
                 <td>{{ $categoriezedCompetition->competition->name }}</td>
                 <td>{{ $categoriezedCompetition->competition->place->name }}</td>

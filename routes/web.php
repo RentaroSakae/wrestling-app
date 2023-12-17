@@ -118,6 +118,7 @@ Route::get('competition/{competition}/category/{categoriezedCompetition}/class/{
 Route::get('competitions/{competition}/show', 'App\Http\Controllers\User\CompetitionController@show')->name('users.competitions.show');
 Route::post('competitions/{competition}/category/{categoriezedCompetition}/index/favorite', 'App\Http\Controllers\User\CategoriezedCompetitionController@favorite')->name('users.categoriezedCompetitions.favorite');
 Route::delete('competitions/{competition}/category/{categoriezedCompetition}/unfavorite', 'App\Http\Controllers\User\CategoriezedCompetitionController@unfavorite')->name('users.categoriezedCompetitions.unfavorite');
+Route::get('favorite_player_games/{player}', 'App\Http\Controllers\User\PlayerController@favoritePlayerGames')->name('users.favoritePlayerGames.index');
 //【ユーザー】マイページ
 Route::get('users/{user}/mypage', 'App\Http\Controllers\User\UserController@index')->name('users.users.index');
 //【ユーザー】マイページ（通知登録中の選手一覧）
@@ -132,5 +133,8 @@ Route::get('competitions/{competition}/notify_player/{classfiedCompetitionPlayer
 Route::post('competitions/{competition}/notify_player/{classfiedCompetitionPlayer}/store', 'App\Http\Controllers\User\NotifyPlayerController@store')->name('users.notifyPlayers.store');
 //【ユーザー】選手一覧
 Route::get('players', 'App\Http\Controllers\User\PlayerController@index')->name('users.players.index');
+
 //【ユーザー】選手お気に入り
 Route::post('players/{player}/favorite', 'App\Http\Controllers\User\PlayerController@favorite')->name('users.players.favorite');
+//【ユーザー】マイページお気に入り登録中の選手
+Route::get('users/{user}/mypage/favorite_players', 'App\Http\Controllers\User\UserController@favoritePlayers')->name('users.users.favoritePlayers');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use App\Models\Competition;
+use App\Models\Player;
 use App\Models\UserCompetitionPlayer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -29,12 +30,15 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function notifyPlayers(User $user)
+    public function favoritePlayers(User $user)
     {
-        $notifyPlayers = UserCompetitionPlayer::where('user_id', $user->id)->get();
 
-        return view('users.users.notify-players', compact('notifyPlayers'));
+        $favoritePlayers = $user->favorites()->where('favoriteable_type', Player::class)->get();
+
+
+        return view('users.users.favoritePlayers', compact('user', 'favoritePlayers'));
     }
+
 
 
     public function create()

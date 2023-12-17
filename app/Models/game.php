@@ -71,4 +71,15 @@ class Game extends Model
     {
         return $this->belongsToThrough(CompetitionSchedule::class, Round::class);
     }
+
+    public function getCurrentGameNumberAttribute()
+    {
+        if (!$this->round || !$this->round->competitionSchedule) {
+            return null; // または適切なデフォルト値
+        }
+
+        return Game::whereHas('round.competitionSchedule', function ($query) {
+            $query->where('mat_id', $this->round->competitionSchedule->mat_id);
+        })->where('id', '<=', $this->id)->count();
+    }
 }
