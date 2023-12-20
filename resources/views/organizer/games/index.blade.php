@@ -1,3 +1,5 @@
+{{-- この画面使わない可能性あり --}}
+
 <div>
     <h2>{{ $competition->name }}の試合</h2>
 </div>
@@ -10,7 +12,7 @@
 </div> --}}
 
 <div>
-    <a href="{{ route('organizer.games.create-final', ['competition_id' => $competition->id]) }}">決勝戦を作成</a>
+    <a href="{{ route('organizer.games.create', ['round' => $round->id]) }}">決勝戦を作成</a>
 </div>
 
 <table>

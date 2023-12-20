@@ -3,6 +3,10 @@
 </div>
 
 <div>
+    <a href="{{ route('users.competitions.index') }}">大会一覧に戻る</a>
+</div>
+
+<div>
     <h3>出場選手</h3>
     @foreach ($classes as $class)
         <a
@@ -23,5 +27,5 @@
 </div>
 
 <div>
-    <a href="">対戦表・試合結果</a>
+    <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">対戦表・試合結果</a>
 </div>

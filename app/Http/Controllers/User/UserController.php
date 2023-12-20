@@ -18,8 +18,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
+        $user = Auth::user();
 
         return view('users.users.index', compact('user'));
     }
@@ -30,8 +31,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function favoritePlayers(User $user)
+    public function favoritePlayers()
     {
+        $user = Auth::user();
 
         $favoritePlayers = $user->favorites()->where('favoriteable_type', Player::class)->get();
 

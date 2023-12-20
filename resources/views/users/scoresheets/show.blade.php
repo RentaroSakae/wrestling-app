@@ -89,7 +89,7 @@
 
 <div>
     <strong>勝者</strong>
-    @if ($game->red_player && $game->blue_player)
+    @if ($game->scoresheet && $game->scoresheet->victory_player)
         <p>{{ $game->scoresheet->victory_player->name }}</p>
     @else
         N/A

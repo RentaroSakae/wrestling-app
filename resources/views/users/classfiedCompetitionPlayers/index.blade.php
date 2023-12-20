@@ -5,6 +5,11 @@
 </div>
 
 <div>
+    <a
+        href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">{{ $competition->name }}詳細に戻る</a>
+</div>
+
+<div>
     @foreach ($categories as $category)
         <h3>{{ $category->category->name }}</h3>
         @foreach ($classes as $class)
@@ -29,9 +34,7 @@
         <tr>
             <td>{{ $player->player->name }}</td>
             <td>{{ $player->player->team->name }}</td>
-            <td><a
-                    href="{{ route('users.notifyPlayers.create', ['competition' => $competition->id, 'classfiedCompetitionPlayer' => $player->id]) }}">通知登録</a>
-            </td>
+
             {{-- TODO 試合結果 --}}
         </tr>
     @endforeach

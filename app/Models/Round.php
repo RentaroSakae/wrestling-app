@@ -28,6 +28,6 @@ class Round extends Model
 
     public function competitionSchedule()
     {
-        return $this->belongsTo(CompetitionSchedule::class);
+        return $this->hasOne(CompetitionSchedule::class);
     }
 }

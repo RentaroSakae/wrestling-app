@@ -31,6 +31,6 @@ class Player extends Model
     //得点テーブルとのリレーション（一人の選手は複数の得点を持つ）
     public function scores()
     {
-        return $this->hasMany(Score::class);
+        return $this->hasMany(Scoresheet::class);
     }
 }

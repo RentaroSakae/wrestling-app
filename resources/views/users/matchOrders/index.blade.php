@@ -2,11 +2,16 @@
     <h2>{{ $competition->name }} {{ $mat->name }}の試合順</h2>
 </div>
 
+<div>
+    <a
+        href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">{{ $competition->name }}詳細に戻る</a>
+</div>
+
 {{-- TODO 他のマットののaタグをforeachで作成 --}}
 <div>
     @foreach ($mats as $mat)
         <a
-            href="{{ route('organizer.matchOrder.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}の試合順</a>
+            href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}の試合順</a>
     @endforeach
 </div>
 

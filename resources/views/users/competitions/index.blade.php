@@ -11,12 +11,11 @@
 {{-- TODO 検索機能追加 --}}
 
 <table>
-    <tr>
-        <th></th>
-        <th>大会日時</th>
-        <th>大会名</th>
-        <th>大会会場</th>
-        <th>カテゴリ</th>
+    <tr></tr>
+    <th>大会日時</th>
+    <th>大会名</th>
+    <th>大会会場</th>
+    <th>カテゴリ</th>
 
     </tr>
     @if (count($categoriezedCompetitions) > 0)

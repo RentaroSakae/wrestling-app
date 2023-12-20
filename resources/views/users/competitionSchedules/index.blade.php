@@ -2,7 +2,10 @@
     <h2>{{ $competition->name }}の大会スケジュール</h2>
 </div>
 
-{{-- TODO マット別試合順 --}}
+<div>
+    <a
+        href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">{{ $competition->name }}詳細に戻る</a>
+</div>
 
 <div>
     @foreach ($mats as $mat)

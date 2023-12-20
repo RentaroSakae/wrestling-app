@@ -27,16 +27,14 @@ class OrganizerGameController extends Controller
     {
 
         $competition = Competition::find($competition_id);
-        $games = Game::where('competition_id', $competition->id)
-            ->with(
-                'competition',
-                'style',
-                'competition_class',
-                'mat',
-                'round'
-            )->get();
+        $games = Game::query()
+            ->with('red_player', 'blue_player', 'competition_class', 'style', 'round')
+            ->whereHas('round.classfiedCompetition.categoriezed_competition', function ($query) use ($competition_id) {
+                $query->where('competition_id', $competition_id);
+            })
+            ->get();
+        $mats = Mat::where('competition_id', $competition->id)->get();
         $players = Player::all();
-
 
         return view('organizer.games.index', compact('games', 'competition', 'players'));
     }

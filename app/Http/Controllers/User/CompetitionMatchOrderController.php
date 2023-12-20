@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoriezedCompetition;
 use App\Models\Competition;
 use App\Models\CompetitionSchedule;
 use App\Models\Mat;
@@ -34,7 +35,10 @@ class CompetitionMatchOrderController extends Controller
 
         session(['matchOrders' => $matchOrders]);
 
-        return view('users.matchOrders.index', compact('competition', 'mat', 'mats', 'schedules'));
+        $categoriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
+
+
+        return view('users.matchOrders.index', compact('competition', 'mat', 'mats', 'schedules', 'matchOrders', 'categoriezedCompetition'));
     }
 
     /**

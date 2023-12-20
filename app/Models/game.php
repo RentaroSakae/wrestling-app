@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Game extends Model
 {
@@ -53,7 +54,7 @@ class Game extends Model
     //勝因テーブルとのリレーション（一つの試合に一つの勝因がある）
     public function victory_type()
     {
-        return $this->belongsTo(VictryType::class);
+        return $this->belongsTo(VictoryType::class);
     }
 
     //回戦テーブルとのリレーション（一つの試合は一つのラウンドで行われる）
@@ -74,12 +75,45 @@ class Game extends Model
 
     public function getCurrentGameNumberAttribute()
     {
-        if (!$this->round || !$this->round->competitionSchedule) {
-            return null; // または適切なデフォルト値
+        // $roundId = $this->round_id;
+
+        // $gameSchedule = CompetitionSchedule::where('round_id', '=', $roundId)->first();
+
+        // if (!$gameSchedule) {
+        //     Log::warning('ラウンドに登録されていない試合が見つかりました。 gameid:' . $this->id);
+        //     return 0;
+        // }
+
+        // $matId = $gameSchedule->mat_id;
+
+        // $schedules = CompetitionSchedule::where('mat_id', $matId)->orderBy('order')->get();
+
+        // $gameCount = $this->game_number;
+        // foreach ($schedules as $schedule) {
+        //     if ($roundId < $schedule->round_id) {
+        //         $gameCount += $schedule->round->games->count();
+        //     } else {
+        //         break;
+        //     }
+        // }
+
+        // return $gameCount;
+
+        $matId = $this->round->competitionSchedule->mat_id;
+        $roundsBefore = Round::whereHas('competitionSchedule', function ($query) use ($matId) {
+            $query->where('mat_id', $matId);
+        })->where('id', '>', $this->round_id)->get();
+
+
+
+        $gameCount = 0;
+        foreach ($roundsBefore as $round) {
+            $gameCount += $round->games->count();
         }
 
-        return Game::whereHas('round.competitionSchedule', function ($query) {
-            $query->where('mat_id', $this->round->competitionSchedule->mat_id);
-        })->where('id', '<=', $this->id)->count();
+        // 現在のラウンド内でのゲームの順番も加算
+        $gameCount += $this->round->games->where('id', '<=', $this->id)->count();
+
+        return $gameCount;
     }
 }

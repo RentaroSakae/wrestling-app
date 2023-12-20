@@ -55,6 +55,8 @@ class PlayerController extends Controller
             $game->currentGameNumber = $game->currentGameNumber;
         });
 
+
+
         return view('users.favoritePlayerGames.index', compact('player', 'filteredCompetitions', 'games'));
     }
 }

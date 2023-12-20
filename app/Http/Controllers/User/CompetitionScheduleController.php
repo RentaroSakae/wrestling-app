@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\CategoriezedCompetition;
 use App\Models\Competition;
 use App\Models\CompetitionSchedule;
 use App\Models\Mat;
@@ -30,7 +30,9 @@ class CompetitionScheduleController extends Controller
                 return $item->date . ' ' . $item->mat->name;
             });
 
-        return view('users.competitionSchedules.index', compact('competition', 'mat', 'mats', 'schedules'));
+        $categoriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
+
+        return view('users.competitionSchedules.index', compact('competition', 'mat', 'mats', 'schedules', 'categoriezedCompetition'));
     }
 
     /**
