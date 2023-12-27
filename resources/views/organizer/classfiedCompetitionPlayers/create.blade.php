@@ -5,6 +5,19 @@
         {{ $classfiedCompetition->competitionClass->class }}の選手登録</h2>
 </div>
 
+<form method="GET">
+
+    <div>
+        <strong>検索キーワード</strong>
+        <input type="text" name="keyword" value="{{ $keyword }}">
+
+
+    </div>
+    <div>
+        <button type="submit">検索</button>
+    </div>
+</form>
+
 <form
     action="{{ route('organizer.classfiedCompetitionPlayers.store', ['classfiedCompetition' => $classfiedCompetition->id]) }}"
     method="POST">

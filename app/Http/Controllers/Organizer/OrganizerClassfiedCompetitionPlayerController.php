@@ -27,11 +27,16 @@ class OrganizerClassfiedCompetitionPlayerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(ClassfiedCompetition $classfiedCompetition)
+    public function create(Request $request, ClassfiedCompetition $classfiedCompetition)
     {
-        $players = Player::all();
+        $query = Player::query();
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+        $players = $query->get();
 
-        return view('organizer.classfiedCompetitionPlayers.create', compact('players', 'classfiedCompetition'));
+        return view('organizer.classfiedCompetitionPlayers.create', compact('players', 'classfiedCompetition', 'keyword'));
     }
 
     /**
