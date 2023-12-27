@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Organizer;
 
+use App\Http\Controllers\Controller;
+
 use App\Models\Place;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,7 @@ class OrganizerPlaceController extends Controller
     {
         $places = Place::all();
 
-        return view('competitions.create', compact('places'));
+        return view('organizer.places.index', compact('places'));
     }
 
     /**
@@ -26,7 +28,7 @@ class OrganizerPlaceController extends Controller
      */
     public function create()
     {
-        //
+        return view('organizer.places.create');
     }
 
     /**
@@ -37,7 +39,12 @@ class OrganizerPlaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $places = new Place();
+        $places->name = $request->input('name');
+        $places->address = $request->input('address');
+        $places->save();
+
+        return to_route('organizer.places.index');
     }
 
     /**
@@ -80,8 +87,11 @@ class OrganizerPlaceController extends Controller
      * @param  \App\Models\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Place $place)
+    public function destroy(Place $place, $id)
     {
-        //
+        $place = Place::find($id);
+        $place->delete();
+
+        return redirect()->route('organizer.places.index');
     }
 }

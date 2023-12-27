@@ -3,7 +3,7 @@
 </div>
 
 <div>
-    <a href="{{ route('competitions.index') }}">大会一覧ページを見る</a>
+    <a href="{{ route('organizer.competitions.index') }}">大会一覧ページを見る</a>
 </div>
 
 <div>

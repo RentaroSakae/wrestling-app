@@ -10,24 +10,28 @@
     <a href="{{ route('organizer.teams.create') }}">チームを追加する</a>
 </div>
 
+<div>
+    <a href="{{ route('organizer.players.index') }}">選手一覧ページ</a>
+</div>
+
 <table>
     <tr>
         <th>チーム名</th>
     </tr>
-    @if(count($teams) > 0)
+    @if (count($teams) > 0)
         @foreach ($teams as $team)
-        <tr>
-            <td>{{ $team->name }}</td>
-            <td>
-                <form action="{{ route('organizer.teams.destroy', $team->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">削除</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ $team->name }}</td>
+                <td>
+                    <form action="{{ route('organizer.teams.destroy', $team->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">削除</button>
+                    </form>
+                </td>
+            </tr>
         @endforeach
-        @else
+    @else
         <tr>
             <td colspan="2">登録中のチームはありません。</td>
         </tr>

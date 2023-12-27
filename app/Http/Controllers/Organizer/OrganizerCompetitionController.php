@@ -40,7 +40,7 @@ class OrganizerCompetitionController extends Controller
         $today = now()->format("Y-m-d H:i:s");
         $target = $request->input('target');
 
-        $competitionsQuery = Competition::query()->with('place', 'category');
+        $competitionsQuery = CategoriezedCompetition::query()->with('category');
 
         if ($target === 'current') {
             // 現在開催中の大会を取得

@@ -19,21 +19,21 @@
     </tr>
     @if (count($players) > 0)
         @foreach ($players as $player)
-        <tr>
-            <td>{{ $player->name }}</td>
-            <td>{{ $player->team->name }}</td>
-            <td>
-                <form action="{{ route('organizer.players.destroy', $player->id) }}" method="POST">
-                    <a href="{{ route('organizer.players.show', $player->id) }}">詳細</a>
-                    <a href="{{ route('organizer.players.edit', $player->id) }}">編集</a>
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">削除</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>{{ $player->name }}</td>
+                <td>{{ $player->team->name }}</td>
+                <td>
+                    <form action="{{ route('organizer.players.destroy', $player->id) }}" method="POST">
+                        {{-- <a href="{{ route('organizer.players.show', $player->id) }}">詳細</a> --}}
+                        <a href="{{ route('organizer.players.edit', $player->id) }}">編集</a>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">削除</button>
+                    </form>
+                </td>
+            </tr>
         @endforeach
-        @else
+    @else
         <tr>
             <td colspan="2">登録中の選手がいません</td>
         </tr>
