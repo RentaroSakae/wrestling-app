@@ -32,15 +32,8 @@
         <th></th>
     </tr>
     @foreach ($schedules as $schedule)
-        @php
-            $currentGameNumber = $schedule->totalGamesBefore;
-            $matchOrders = [];
-        @endphp
+        @php $currentGameNumber = $schedule->totalGamesBefore @endphp
         @foreach ($schedule->round->games as $game)
-            @php
-                $currentGameNumber++;
-                $matchOrders[$game->id] = $currentGameNumber;
-            @endphp
             <tr>
                 <td>{{ ++$currentGameNumber }}</td>
                 <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
@@ -69,7 +62,5 @@
             </tr>
         @endforeach
     @endforeach
-    @php
-        session(['matchOrders' => $matchOrders]);
-    @endphp
+
 </table>

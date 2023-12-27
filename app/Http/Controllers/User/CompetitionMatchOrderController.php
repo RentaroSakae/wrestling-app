@@ -18,22 +18,6 @@ class CompetitionMatchOrderController extends Controller
      */
     public function index(Competition $competition, Mat $mat)
     {
-        // $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
-        //     $query->where('competition_id', $competition->id);
-        // })->get();
-
-        // $schedules = CompetitionSchedule::where('mat_id', $mat->id)
-        //     ->with('round.games.red_player', 'round.games.blue_player')
-        //     ->get();
-
-        // $totalGamesBefore = 0;
-        // $matchOrders = [];
-        // foreach ($schedules as $schedule) {
-        //     $schedule->totalGamesBefore = $totalGamesBefore;
-        //     $totalGamesBefore += $schedule->round->games->count();
-        // }
-
-        // session(['matchOrders' => $matchOrders]);
 
         $categoriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
 
