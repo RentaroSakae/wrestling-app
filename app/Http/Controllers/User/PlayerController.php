@@ -26,6 +26,7 @@ class PlayerController extends Controller
 
     public function favoritePlayerGames(Request $request, Player $player)
     {
+
         $today = now()->format("Y-m-d");
         $target = $request->input('target');
 
@@ -46,6 +47,7 @@ class PlayerController extends Controller
             }
         });
 
+
         $query = Player::query();
 
         $games = Game::where(function ($query) use ($player) {
@@ -54,6 +56,7 @@ class PlayerController extends Controller
         })->get()->each(function ($game) {
             $game->currentGameNumber = $game->currentGameNumber;
         });
+
 
 
 

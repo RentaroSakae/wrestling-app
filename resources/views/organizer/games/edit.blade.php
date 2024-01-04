@@ -17,48 +17,29 @@
         <input type="number" name="game_number" id="Game_number" value="{{ $game->game_number }}">
     </div>
 
-    {{-- <div>
-        <strong>赤コーナー</strong>
-        <select name="red_player" id="Red_player">
-            @if (!empty($victoryPlayers))
-                @foreach ($victoryPlayers as $victoryPlayer)
-                    <option value="{{ $victoryPlayer->id }}">{{ $victoryPlayer->name }}</option>
-                @endforeach
-            @else
-                @foreach ($players as $player)
-                    <option value="{{ $player->id }}">{{ $player->player->name }}</option>
-                @endforeach
-            @endif
-        </select>
-    </div> --}}
-
-    {{-- <div>
-        <strong>赤コーナー</strong>
-        <select name="red_player" id="Red_player">
-            @if (!empty($nextGames) && $nextGames->isNotEmpty())
-                <!-- 次の試合の勝者を表すオプションのみ表示 -->
-                @foreach ($nextGames as $nextGame)
-                    <option value="winner_of_{{ $nextGame->id }}">試合番号{{ $nextGame->game_number }}の勝者</option>
-                @endforeach
-            @else
-                <!-- そうでない場合は選手名を表示 -->
-                @foreach ($players as $player)
-                    <option value="{{ $player->id }}">{{ $player->player->name }}</option>
-                @endforeach
-            @endif
-        </select>
-    </div> --}}
-
     <div>
         <strong>赤コーナー</strong>
         <select name="red_player" id="red_player">
-            @if (!empty($victoryPlayers))
-                @foreach ($victoryPlayers as $victoryPlayer)
-                    <option value="{{ $victoryPlayer->id }}">{{ $victoryPlayer->name }}</option>
-                @endforeach
-            @elseif ($nextGames->isNotEmpty())
+            <!-- 現在のゲームの赤コーナーの選手を追加（存在する場合） -->
+            @if ($game->red_player)
+                <option value="{{ $game->red_player->id }}">{{ $game->red_player->name }}</option>
+            @endif
+
+            <!-- 勝者のリストを追加 -->
+            @foreach ($victoryPlayers as $victoryPlayer)
+                <option value="{{ $victoryPlayer->id }}">{{ $victoryPlayer->name }}</option>
+            @endforeach
+
+            <!-- その他の選手を追加（nextGamesがある場合）-->
+            @if ($nextGames->isNotEmpty() && $nextGames->first()->players)
                 <option value="">未定</option>
-            @else
+                @foreach ($nextGames->first()->players as $player)
+                    <option value="{{ $player->id }}">{{ $player->player->name }}</option>
+                @endforeach
+            @endif
+
+            <!-- 全プレイヤーリスト（nextGamesが空の場合） -->
+            @if ($nextGames->isEmpty())
                 @foreach ($players as $player)
                     <option value="{{ $player->id }}">{{ $player->player->name }}</option>
                 @endforeach
@@ -69,13 +50,26 @@
     <div>
         <strong>青コーナー</strong>
         <select name="blue_player" id="Blue_player">
-            @if (!empty($victoryPlayers))
-                @foreach ($victoryPlayers as $victoryPlayer)
-                    <option value="{{ $victoryPlayer->id }}">{{ $victoryPlayer->name }}</option>
-                @endforeach
-            @elseif ($nextGames->isNotEmpty())
+            <!-- 現在のゲームの赤コーナーの選手を追加（存在する場合） -->
+            @if ($game->blue_player)
+                <option value="{{ $game->blue_player->id }}">{{ $game->blue_player->name }}</option>
+            @endif
+
+            <!-- 勝者のリストを追加 -->
+            @foreach ($victoryPlayers as $victoryPlayer)
+                <option value="{{ $victoryPlayer->id }}">{{ $victoryPlayer->name }}</option>
+            @endforeach
+
+            <!-- その他の選手を追加（nextGamesがある場合）-->
+            @if ($nextGames->isNotEmpty() && $nextGames->first()->players)
                 <option value="">未定</option>
-            @else
+                @foreach ($nextGames->first()->players as $player)
+                    <option value="{{ $player->id }}">{{ $player->player->name }}</option>
+                @endforeach
+            @endif
+
+            <!-- 全プレイヤーリスト（nextGamesが空の場合） -->
+            @if ($nextGames->isEmpty())
                 @foreach ($players as $player)
                     <option value="{{ $player->id }}">{{ $player->player->name }}</option>
                 @endforeach

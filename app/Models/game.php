@@ -75,31 +75,13 @@ class Game extends Model
 
     public function getCurrentGameNumberAttribute()
     {
-        // $roundId = $this->round_id;
 
-        // $gameSchedule = CompetitionSchedule::where('round_id', '=', $roundId)->first();
-
-        // if (!$gameSchedule) {
-        //     Log::warning('ラウンドに登録されていない試合が見つかりました。 gameid:' . $this->id);
-        //     return 0;
-        // }
-
-        // $matId = $gameSchedule->mat_id;
-
-        // $schedules = CompetitionSchedule::where('mat_id', $matId)->orderBy('order')->get();
-
-        // $gameCount = $this->game_number;
-        // foreach ($schedules as $schedule) {
-        //     if ($roundId < $schedule->round_id) {
-        //         $gameCount += $schedule->round->games->count();
-        //     } else {
-        //         break;
-        //     }
-        // }
-
-        // return $gameCount;
+        if (!$this->round || !$this->round->competitionSchedule) {
+            return null; // または適切なデフォルト値を返す
+        }
 
         $matId = $this->round->competitionSchedule->mat_id;
+
         $roundsBefore = Round::whereHas('competitionSchedule', function ($query) use ($matId) {
             $query->where('mat_id', $matId);
         })->where('id', '>', $this->round_id)->get();

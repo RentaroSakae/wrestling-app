@@ -8,6 +8,7 @@ use App\Models\Competition;
 use App\Models\CompetitionSchedule;
 use App\Models\Mat;
 use Illuminate\Http\Request;
+use DateTime;
 
 class CompetitionMatchOrderController extends Controller
 {
@@ -16,26 +17,78 @@ class CompetitionMatchOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Competition $competition, Mat $mat)
+    public function index(Request $request, Competition $competition, Mat $mat)
     {
 
-        $categoriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
+        // $categoriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
+
+        // $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
+        //     $query->where('competition_id', $competition->id);
+        // })->get();
+
+        // $schedules = CompetitionSchedule::where('mat_id', $mat->id)
+        //     ->with('round.games.red_player', 'round.games.blue_player')
+        //     ->get();
+
+        // $totalGamesBefore = 0;
+        // foreach ($schedules as $schedule) {
+        //     $schedule->totalGamesBefore = $totalGamesBefore;
+        //     $totalGamesBefore += $schedule->round->games->count();
+        // }
+
+        $targetDate = $request->query('targetDate');
+        $targetMat = $request->query('targetMat', $mat->id);
 
         $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
             $query->where('competition_id', $competition->id);
         })->get();
 
-        $schedules = CompetitionSchedule::where('mat_id', $mat->id)
-            ->with('round.games.red_player', 'round.games.blue_player')
-            ->get();
+        $query = CompetitionSchedule::query()
+            ->with('round.games.red_player', 'round.games.blue_player');
 
-        $totalGamesBefore = 0;
-        foreach ($schedules as $schedule) {
-            $schedule->totalGamesBefore = $totalGamesBefore;
-            $totalGamesBefore += $schedule->round->games->count();
+        if ($targetDate) {
+            $query->whereDate('date', $targetDate);
         }
 
-        return view('users.matchOrders.index', compact('competition', 'mat', 'mats', 'schedules', 'categoriezedCompetition'));
+        if ($targetMat) {
+            $query->where('mat_id', $targetMat);
+        } else {
+            $query->where('mat_id', $mat->id);
+        }
+
+        $schedules = $query->get();
+
+        // 試合番号の計算
+        $totalGamesBefore = 0;
+        foreach ($schedules as $schedule) {
+
+            $gameCount = optional($schedule->round)->games ? $schedule->round->games->count() : 0;
+            $schedule->totalGamesBefore = $totalGamesBefore;
+            $totalGamesBefore += $gameCount;
+        }
+
+        // 日付範囲を生成する関数
+        function createDateRangeArray($startDate, $endDate)
+        {
+            $dates = [];
+            $currentDate = new DateTime($startDate);
+            $endDate = new DateTime($endDate);
+
+            while ($currentDate <= $endDate) {
+                $dates[] = $currentDate->format('Y-m-d');
+                $currentDate->modify('+1 day');
+            }
+
+            return $dates;
+        }
+
+        // 例: CategoriezedCompetition の start_at と close_at を使って日付範囲を生成
+        $categoriezedCompetitions = CategoriezedCompetition::where('competition_id', $competition->id)->get();
+        $categoriezedCompetition = $categoriezedCompetitions->first();
+
+        $dateRange = createDateRangeArray($categoriezedCompetition->start_at, $categoriezedCompetition->close_at);
+
+        return view('users.matchOrders.index', compact('competition', 'mat', 'mats', 'schedules', 'categoriezedCompetition', 'dateRange'));
     }
 
     /**

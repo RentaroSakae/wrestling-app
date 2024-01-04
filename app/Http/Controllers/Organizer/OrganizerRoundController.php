@@ -102,6 +102,16 @@ class OrganizerRoundController extends Controller
      */
     public function destroy(Round $round)
     {
-        //
+        $classfiedCompetitionId = $round->classfiedCompetition->id;
+
+        $round->games()->delete();
+
+        if ($round->competitionSchedule) {
+            $round->competitionSchedule->delete();
+        }
+
+        $round->delete();
+
+        return redirect()->route('organizer.rounds.index', ['classfiedCompetition' => $classfiedCompetitionId]);
     }
 }

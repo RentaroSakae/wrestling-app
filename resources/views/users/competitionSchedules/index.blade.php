@@ -1,11 +1,15 @@
-<div>
+{{-- <div>
     <h2>{{ $competition->name }}の大会スケジュール</h2>
 </div>
 
 <div>
-    <a
-        href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">{{ $competition->name }}詳細に戻る</a>
+    @foreach ($dateRange as $date)
+        <a
+            href="{{ route('organizer.matchOrder.index', ['competition' => $competition->id, 'mat' => $mat->id, 'target' => $date]) }}">{{ $date }}</a>
+    @endforeach
+
 </div>
+
 
 <div>
     @foreach ($mats as $mat)
@@ -13,47 +17,134 @@
             href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}のスケジュール</a>
     @endforeach
 </div>
+@if ($targetDate)
+    <table>
+        @forelse ($schedules as $key => $group)
+            @php
+                // キーから日付とマット名を取得
+                [$date, $matName] = explode(' ', $key, 2);
+            @endphp
 
-<table>
-    @forelse ($schedules as $key => $group)
-        @php
-            // キーから日付とマット名を取得
-            [$date, $matName] = explode(' ', $key, 2);
-        @endphp
-        <tr>
-            <th colspan="5">{{ $date }}</th>
-        </tr>
-        <tr>
-            <th colspan="5">{{ $matName }}</th>
-        </tr>
-        <tr>
-            <th>カテゴリ</th>
-            <th>スタイル</th>
-            <th>階級</th>
-            <th>回戦</th>
-            <th>試合番号</th>
-            <th>試合数</th>
-        </tr>
-        @foreach ($group as $schedule)
+            @if ($date === $targetDate)
+                <tr>
+                    <th colspan="5">{{ $date }}</th>
+                </tr>
+                <tr>
+                    <th colspan="5">{{ $matName }}</th>
+                </tr>
+                <tr>
+                    <th>カテゴリ</th>
+                    <th>スタイル</th>
+                    <th>階級</th>
+                    <th>回戦</th>
+                    <th>試合番号</th>
+                    <th>試合数</th>
+                </tr>
+                @foreach ($group as $schedule)
+                    <tr>
+                        <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
+                        <td>{{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
+                        <td>{{ $schedule->round->classfiedCompetition->competitionClass->class }}kg級</td>
+                        <td>{{ $schedule->round->title }}</td>
+                        <td>
+                            @php
+                                $gameNumbers = $schedule->round->games->pluck('game_number');
+                                $minGameNumber = $gameNumbers->min();
+                                $maxGameNumber = $gameNumbers->max();
+                            @endphp
+                            {{ $minGameNumber }}〜{{ $maxGameNumber }}
+                        </td>
+                        <td>{{ $schedule->round->games->count() }}</td>
+                    </tr>
+                @endforeach
+            @endif
+        @empty
             <tr>
-                <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->competitionClass->class }}kg級</td>
-                <td>{{ $schedule->round->title }}</td>
-                <td>
-                    @php
-                        $gameNumbers = $schedule->round->games->pluck('game_number');
-                        $minGameNumber = $gameNumbers->min();
-                        $maxGameNumber = $gameNumbers->max();
-                    @endphp
-                    {{ $minGameNumber }}〜{{ $maxGameNumber }}
-                </td>
-                <td>{{ $schedule->round->games->count() }}</td>
+                <th colspan="5">スケジュールが登録されていません。</th>
             </tr>
-        @endforeach
-    @empty
-        <tr>
-            <th colspan="5">スケジュールが登録されていません。</th>
-        </tr>
-    @endforelse
-</table>
+        @endforelse
+    </table>
+@endif --}}
+
+<div>
+    <h2>{{ $competition->name }}の大会スケジュール</h2>
+</div>
+
+@php
+    // 現在のリクエストから 'target' パラメータを取得
+    $currentTarget = request('target');
+@endphp
+
+<div>
+    <a
+        href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'target' => $currentTarget]) }}">マット別試合順</a>
+</div>
+
+<div>
+    @foreach ($dateRange as $date)
+        <a
+            href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $mat->id, 'target' => $date]) }}">{{ $date }}</a>
+    @endforeach
+</div>
+
+<div>
+    @foreach ($mats as $matItem)
+        <a
+            href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $matItem->id, 'target' => $currentTarget]) }}">{{ $matItem->name }}のスケジュール</a>
+    @endforeach
+</div>
+
+@if ($targetDate)
+    @if ($schedules->isEmpty())
+        <p>スケジュールが登録されていません。</p>
+    @else
+        <table>
+            @forelse ($schedules as $key => $group)
+                @php
+                    // キーから日付とマット名を取得
+                    [$date, $matName] = explode(' ', $key, 2);
+                @endphp
+                @if ($date === $targetDate)
+                    <tr>
+                        <th colspan="5">{{ $date }}</th>
+                    </tr>
+                    <tr>
+                        <th colspan="5">{{ $matName }}</th>
+                    </tr>
+                    <tr>
+                        <th>カテゴリ</th>
+                        <th>スタイル</th>
+                        <th>階級</th>
+                        <th>回戦</th>
+                        <th>試合番号</th>
+                        <th>試合数</th>
+                    </tr>
+                    @foreach ($group as $schedule)
+                        @if ($schedule->round && $schedule->round->classfiedCompetition)
+                            <tr>
+                                <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}
+                                </td>
+                                <td>{{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
+                                <td>{{ $schedule->round->classfiedCompetition->competitionClass->class }}kg級</td>
+                                <td>{{ $schedule->round->title }}</td>
+                                <td>
+                                    @php
+                                        $gameNumbers = $schedule->round->games->pluck('game_number');
+                                        $minGameNumber = $gameNumbers->min();
+                                        $maxGameNumber = $gameNumbers->max();
+                                    @endphp
+                                    {{ $minGameNumber }}〜{{ $maxGameNumber }}
+                                </td>
+                                <td>{{ $schedule->round->games->count() }}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                @endif
+            @empty
+                <tr>
+                    <th colspan="5">スケジュールが登録されていません。</th>
+                </tr>
+            @endforelse
+        </table>
+    @endif
+@endif

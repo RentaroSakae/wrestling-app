@@ -1,0 +1,55 @@
+
+
+/* ナビバー */
+.wrestlingapp-navbar {
+    background-color: #262522!important;
+    padding: 30px 20px 30px 50px;
+}
+
+/* ナビバー右側 */
+.wrestlingapp-navber-right {
+    color: white;
+}
+
+.wrestlingapp-navber-right:hover {
+    color: #ECC100;
+}
+
+/* ナビバーログイン・マイページボタン */
+.wrestlingapp-login-button {
+    color: #ECC100;
+    border-color: #ECC100;
+}
+
+.wrestlingapp-login-button:hover {
+    background-color: #ECC100;
+    color: white;
+    border-color: #ECC100;
+}
+
+/* body */
+.wrestlingapp-background {
+    background-color: #72736F;
+    padding: 50px;
+    height: 100vh;
+}
+
+.wrestlingapp-content {
+    background-color: white;
+    height: calc(100% - 50px);
+    width: 100%;
+}
+
+/* テーブル */
+.table .wrestlingapp-row-height {
+    height: 50px;
+}
+
+.wrestlingapp-table-width .table {
+    width: 100%;
+}
+
+/* footer */
+.wrestlingapp-footer {
+    background-color: #262522;
+}

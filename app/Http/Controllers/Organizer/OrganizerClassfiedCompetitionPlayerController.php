@@ -29,11 +29,19 @@ class OrganizerClassfiedCompetitionPlayerController extends Controller
      */
     public function create(Request $request, ClassfiedCompetition $classfiedCompetition)
     {
+        // $query = Player::query();
+        // if ($request->has('keyword')) {
+        //     $keyword = $request->input('keyword');
+        //     $query->where('name', 'like', '%' . $keyword . '%');
+        // }
+        // $players = $query->get();
         $query = Player::query();
-        if ($request->has('keyword')) {
-            $keyword = $request->input('keyword');
+        $keyword = $request->input('keyword', ''); // キーワードのデフォルト値を空文字列に設定
+
+        if (!empty($keyword)) {
             $query->where('name', 'like', '%' . $keyword . '%');
         }
+
         $players = $query->get();
 
         return view('organizer.classfiedCompetitionPlayers.create', compact('players', 'classfiedCompetition', 'keyword'));

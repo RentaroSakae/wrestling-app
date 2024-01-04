@@ -24,7 +24,7 @@
                 <th>勝者</th>
             </tr>
             @foreach ($games as $game)
-                @if ($game->round->classfied_competition_id == $classfiedCompetition->id)
+                @if ($game->round->classfiedCompetition->id == $classfiedCompetition->id)
                     <tr>
                         <td>{{ $game->round->competitionSchedule->mat->name ?? 'N/A' }}</td>
                         <td>{{ $game->currentGameNumber }}</td>

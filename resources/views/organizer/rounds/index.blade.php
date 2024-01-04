@@ -9,6 +9,13 @@
 
 @foreach ($rounds as $round)
     <h3>{{ $round->title }}</h3>
+    <div>
+        <form action="{{ route('organizer.rounds.destroy', ['round' => $round->id]) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit">削除</button>
+        </form>
+    </div>
 
     <div>
         <a href="{{ route('organizer.games.create', ['round' => $round->id]) }}">試合を作成</a>
@@ -41,6 +48,13 @@
                         <td>
                             <a
                                 href="{{ route('organizer.scoresheets.create', ['game' => $game->scoresheet->id]) }}">スコアシート</a>
+                        </td>
+                        <td>
+                            <form action="{{ route('organizer.games.destroy', ['game' => $game->id]) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">削除</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
