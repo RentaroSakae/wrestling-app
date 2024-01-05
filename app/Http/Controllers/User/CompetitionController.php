@@ -24,6 +24,10 @@ class CompetitionController extends Controller
         $today = now()->format("Y-m-d");
         $target = $request->input('target');
 
+        if (!$target && $request->session()->exists('target')) {
+            $target = $request->session()->get('target');
+        }
+
         $query = CategoriezedCompetition::query();
 
         if ($target === 'current') {
@@ -41,6 +45,10 @@ class CompetitionController extends Controller
         }
 
         $categoriezedCompetitions = $query->get();
+
+        if ($target) {
+            $request->session()->put('target', $target);
+        }
 
         return view('users.competitions.index', compact('categoriezedCompetitions', 'target'));
     }

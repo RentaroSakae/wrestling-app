@@ -47,7 +47,7 @@
     <div class="wrestlingapp-background">
         <div class="wrestlingapp-content justify-content-center">
             <div class="wrestlingapp-table-witdh d-flex">
-                <table class="table m-4 text-center align-middle">
+                <table class="table m-4 text-center align-middle table-striped">
                     <thead>
                         <tr class="fs-4">
                             <th class="px-2">大会日時</th>
@@ -60,18 +60,21 @@
                     @if (count($categoriezedCompetitions) > 0)
                         @foreach ($categoriezedCompetitions as $categoriezedCompetition)
                             <tbody>
+                                {{-- TODO 行全体をaタグにする、hover時に色が変わるようにする --}}
                                 <tr class="wrestlingapp-row-height fs-5">
                                     <td class="px-2">{{ $categoriezedCompetition->start_at }} 〜
                                         {{ $categoriezedCompetition->close_at }}
                                     </td>
                                     <td class="px-2">{{ $categoriezedCompetition->competition->name }}</td>
-                                    <td class="px-2">{{ $categoriezedCompetition->competition->place->name }}</td>
+                                    <td class="px-2">{{ $categoriezedCompetition->competition->place->name }}
+                                    </td>
                                     <td class="px-2">{{ $categoriezedCompetition->category->name }}</td>
                                     <td class="px-2">
                                         <a
                                             href="{{ route('users.categoriezedCompetition.index', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">詳細</a>
                                     </td>
                                 </tr>
+
                                 {{-- TODO ページドネーション追加 --}}
                             </tbody>
                         @endforeach
