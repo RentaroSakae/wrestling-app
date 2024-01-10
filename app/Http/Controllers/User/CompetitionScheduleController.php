@@ -56,7 +56,16 @@ class CompetitionScheduleController extends Controller
 
         $targetDate = $request->input('target');
 
-        return view('users.competitionSchedules.index', compact('competition', 'mat', 'mats', 'schedules', 'categoriezedCompetition', 'dateRange', 'targetDate'));
+
+        $firstDaySchedule = CompetitionSchedule::where('mat_id', $mat->id)->orderBy('date')->first();
+
+        if (!$targetDate) {
+            $targetDate = $firstDaySchedule->date;
+        }
+
+        $currentMat = $mat;
+
+        return view('users.competitionSchedules.index', compact('competition', 'currentMat', 'mats', 'schedules', 'categoriezedCompetition', 'dateRange', 'targetDate'));
     }
 
     /**

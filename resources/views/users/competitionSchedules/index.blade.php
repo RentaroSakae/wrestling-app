@@ -27,15 +27,15 @@
 
             <div class="d-flex justify-content-center pt-3">
                 @foreach ($dateRange as $date)
-                    <a href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $mat->id, 'target' => $date]) }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == $date ? 'active' : '' }}">{{ $date }}</a>
+                    <a href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $currentMat->id, 'target' => $date]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button {{ $targetDate == $date ? 'active' : '' }}">{{ $date }}</a>
                 @endforeach
             </div>
 
             <div class="d-flex justify-content-center pt-3">
-                @foreach ($mats as $matItem)
-                    <a href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $matItem->id, 'target' => $currentTarget]) }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == $currentTarget ? 'active' : '' }}">{{ $matItem->name }}</a>
+                @foreach ($mats as $mat)
+                    <a href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $mat->id, 'target' => $currentTarget]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button {{ $mat->id == $currentMat->id ? 'active' : '' }}">{{ $mat->name }}</a>
                 @endforeach
             </div>
             <div class="wrestlingapp-table-witdh d-flex">
