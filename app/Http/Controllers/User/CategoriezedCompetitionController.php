@@ -9,6 +9,7 @@ use App\Models\ClassfiedCompetition;
 use App\Models\Competition;
 use App\Models\CompetitionSchedule;
 use App\Models\Mat;
+use App\Models\Style;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -34,7 +35,9 @@ class CategoriezedCompetitionController extends Controller
             $schedules = $schedules->merge($matSchedules);
         }
 
-        return view('users.categoriezedCompetitions.index', compact('competition', 'categoriezedCompetition', 'classes', 'schedules', 'mats'));
+        $styles = Style::all();
+
+        return view('users.categoriezedCompetitions.index', compact('competition', 'categoriezedCompetition', 'classes', 'schedules', 'mats', 'styles'));
     }
 
     public function favorite(Competition $competition, CategoriezedCompetition $categoriezedCompetition)

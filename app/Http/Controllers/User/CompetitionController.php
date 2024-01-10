@@ -15,6 +15,7 @@ use App\Models\CompetitionClass;
 use App\Models\Style;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CompetitionController extends Controller
 {
@@ -49,7 +50,7 @@ class CompetitionController extends Controller
         if ($target) {
             $request->session()->put('target', $target);
         }
-
+        Log::debug('選択されたターゲット' . $target);
         return view('users.competitions.index', compact('categoriezedCompetitions', 'target'));
     }
 

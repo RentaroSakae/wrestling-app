@@ -1,176 +1,100 @@
-{{-- <div>
-    <h2>{{ $competition->name }} {{ $mat->name }}の試合順</h2>
-</div>
+@extends('layouts.wrestlingapp')
 
-<div>
-    <a
-        href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">{{ $competition->name }}詳細に戻る</a>
-</div>
+@section('title', '大会スケジュール')
 
-<div>
-    @foreach ($mats as $mat)
-        <a
-            href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}">{{ $mat->name }}の試合順</a>
-    @endforeach
-</div>
+@section('content')
 
-<table>
-    <tr>
-        <th>試合番号</th>
-        <th>カテゴリ</th>
-        <th>スタイル</th>
-        <th>階級</th>
-        <th>回戦</th>
-        <th>赤コーナー</th>
-        <th></th>
-        <th>得点（赤）</th>
-        <th></th>
-        <th>得点（青）</th>
-        <th></th>
-        <th>青コーナー</th>
-        <th></th>
-    </tr>
-    @foreach ($schedules as $schedule)
-        @php $currentGameNumber = $schedule->totalGamesBefore @endphp
-        @foreach ($schedule->round->games as $game)
-            <tr>
-                <td>{{ ++$currentGameNumber }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->competitionClass->class }}</td>
-                <td>{{ $schedule->round->title }}</td>
-                <td>{{ $game->red_player->name ?? 'N/A' }}</td>
-                <td>
-                    @if (optional($game->scoresheet)->victory_player_id === $game->red_player_id)
-                        ●
-                    @endif
-                </td>
-                <td>{{ optional($game->scoresheet)->red_point }}</td>
-                <td>-</td>
-                <td>{{ optional($game->scoresheet)->blue_point }}</td>
-                <td>
-                    @if (optional($game->scoresheet)->victory_player_id === $game->blue_player_id)
-                        ●
-                    @endif
-                </td>
-                <td>{{ $game->blue_player->name ?? 'N/A' }}</td>
-                <td>
-                    <a
-                        href="{{ route('users.scoresheets.show', ['competition' => $competition->id, 'categoriezedCompetition' => $game->round->classfiedCompetition->categoriezed_competition->id, 'classfiedCompetition' => $game->round->classfiedCompetition->id, 'game' => $game->id]) }}">スコアシート</a>
-                </td>
-            </tr>
-        @endforeach
-    @endforeach
+    <div class="wrestlingapp-content d-flex justify-content-center" style="min-height: 100vh;">
+        <div>
+            <div class="mb-3">
+                <div>
+                    <h2 class="fs-4 mt-5 d-flex justify-content-center">{{ $competition->name }}</h2>
+                </div>
+            </div>
 
-</table> --}}
+            <div>
+                <h3 class="fs-5 d-flex justify-content-center">- 試合順 -</h2>
+            </div>
+            @php
+                // 現在のリクエストからクエリパラメータを取得
+                $currentDate = request('targetDate');
+                $currentMat = request('targetMat');
+            @endphp
 
-<div>
-    <h2>{{ $competition->name }} 試合順</h2>
-</div>
+            <div class="d-flex justify-content-center pt-3">
+                @foreach ($dateRange as $date)
+                    <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'targetDate' => $date, 'targetMat' => $currentMat]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('targetDate') == $date ? 'active' : '' }}">{{ $date }}</a>
+                @endforeach
+            </div>
 
-@php
-    // 現在のリクエストからクエリパラメータを取得
-    $currentDate = request('targetDate');
-    $currentMat = request('targetMat');
-@endphp
+            <div class="d-flex justify-content-center pt-3">
+                @foreach ($mats as $matItem)
+                    <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'targetDate' => $currentDate, 'targetMat' => $matItem->id]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('targetMat') == $currentMat ? 'active' : '' }}">{{ $matItem->name }}</a>
+                @endforeach
+            </div>
 
-<div>
-    @foreach ($dateRange as $date)
-        <a
-            href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'targetDate' => $date, 'targetMat' => $currentMat]) }}">{{ $date }}</a>
-    @endforeach
-</div>
-
-<div>
-    @foreach ($mats as $matItem)
-        <a
-            href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'targetDate' => $currentDate, 'targetMat' => $matItem->id]) }}">{{ $matItem->name }}の試合順</a>
-    @endforeach
-</div>
-
-
-<table>
-    <tr>
-        <th>試合番号</th>
-        <th>カテゴリ</th>
-        <th>スタイル</th>
-        <th>階級</th>
-        <th>回戦</th>
-        <th>赤コーナー</th>
-        <th></th>
-        <th>得点（赤）</th>
-        <th></th>
-        <th>得点（青）</th>
-        <th></th>
-        <th>青コーナー</th>
-        <th></th>
-    </tr>
-    {{-- @foreach ($schedules as $schedule)
-        @php $currentGameNumber = $schedule->totalGamesBefore @endphp
-        @foreach ($schedule->round->games as $game)
-            <tr>
-                <td>{{ ++$currentGameNumber }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
-                <td>{{ $schedule->round->classfiedCompetition->competitionClass->class }}</td>
-                <td>{{ $schedule->round->title }}</td>
-                <td>{{ $game->red_player->name ?? 'N/A' }}</td>
-                <td>
-                    @if (optional($game->scoresheet)->victory_player_id === $game->red_player_id)
-                        ●
-                    @endif
-                </td>
-                <td>{{ optional($game->scoresheet)->red_point }}</td>
-                <td>-</td>
-                <td>{{ optional($game->scoresheet)->blue_point }}</td>
-                <td>
-                    @if (optional($game->scoresheet)->victory_player_id === $game->blue_player_id)
-                        ●
-                    @endif
-                </td>
-                <td>{{ $game->blue_player->name ?? 'N/A' }}</td>
-                <td>
-                    <a
-                        href="{{ route('users.scoresheets.show', ['competition' => $competition->id, 'categoriezedCompetition' => $game->round->classfiedCompetition->categoriezed_competition->id, 'classfiedCompetition' => $game->round->classfiedCompetition->id, 'game' => $game->id]) }}">スコアシート</a>
-                </td>
-            </tr>
-        @endforeach
-    @endforeach --}}
-    @foreach ($schedules as $schedule)
-        @php $currentGameNumber = $schedule->totalGamesBefore @endphp
-        @if ($schedule->round && $schedule->round->games->isNotEmpty())
-            @foreach ($schedule->round->games as $game)
-                <tr>
-                    <td>{{ ++$currentGameNumber }}</td>
-                    <td>{{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}</td>
-                    <td>{{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
-                    <td>{{ $schedule->round->classfiedCompetition->competitionClass->class }}</td>
-                    <td>{{ $schedule->round->title }}</td>
-                    <td>{{ $game->red_player->name ?? 'N/A' }}</td>
-                    <td>
-                        @if (optional($game->scoresheet)->victory_player_id === $game->red_player_id)
-                            ●
-                        @endif
-                    </td>
-                    <td>{{ optional($game->scoresheet)->red_point }}</td>
-                    <td>-</td>
-                    <td>{{ optional($game->scoresheet)->blue_point }}</td>
-                    <td>
-                        @if (optional($game->scoresheet)->victory_player_id === $game->blue_player_id)
-                            ●
-                        @endif
-                    </td>
-                    <td>{{ $game->blue_player->name ?? 'N/A' }}</td>
-                    <td>
-                        <a
-                            href="{{ route('users.scoresheets.show', ['competition' => $competition->id, 'categoriezedCompetition' => $game->round->classfiedCompetition->categoriezed_competition->id, 'classfiedCompetition' => $game->round->classfiedCompetition->id, 'game' => $game->id]) }}">スコアシート</a>
-                    </td>
-                </tr>
-            @endforeach
-            {{-- @else
+            <div class="wrestlingapp-table-witdh d-flex">
+                <table class="table m-4 text-center align-middle table-striped">
+                    <tr class="fs-5">
+                        <th class="px-2">試合番号</th>
+                        <th class="px-2">カテゴリ</th>
+                        <th class="px-2">スタイル</th>
+                        <th class="px-2">階級</th>
+                        <th class="px-2">回戦</th>
+                        <th class="px-2">赤コーナー</th>
+                        <th class="px-2"></th>
+                        <th class="px-2">得点（赤）</th>
+                        <th class="px-2"></th>
+                        <th class="px-2">得点（青）</th>
+                        <th class="px-2"></th>
+                        <th class="px-2">青コーナー</th>
+                        <th class="px-2"></th>
+                    </tr>
+                    @foreach ($schedules as $schedule)
+                        @php $currentGameNumber = $schedule->totalGamesBefore @endphp
+                        @if ($schedule->round && $schedule->round->games->isNotEmpty())
+                            @foreach ($schedule->round->games as $game)
+                                <tr class="wrestlingapp-row-height fs-6">
+                                    <td class="px-2">{{ ++$currentGameNumber }}</td>
+                                    <td class="px-2">
+                                        {{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}
+                                    </td>
+                                    <td class="px-2">
+                                        {{ $schedule->round->classfiedCompetition->competitionClass->style->name }}</td>
+                                    <td class="px-2">
+                                        {{ $schedule->round->classfiedCompetition->competitionClass->class }}</td>
+                                    <td class="px-2">{{ $schedule->round->title }}</td>
+                                    <td class="px-2">{{ $game->red_player->name ?? 'N/A' }}</td>
+                                    <td class="px-2">
+                                        @if (optional($game->scoresheet)->victory_player_id === $game->red_player_id)
+                                            ●
+                                        @endif
+                                    </td>
+                                    <td class="px-2">{{ optional($game->scoresheet)->red_point }}</td>
+                                    <td class="px-2">-</td>
+                                    <td class="px-2">{{ optional($game->scoresheet)->blue_point }}</td>
+                                    <td class="px-2">
+                                        @if (optional($game->scoresheet)->victory_player_id === $game->blue_player_id)
+                                            ●
+                                        @endif
+                                    </td>
+                                    <td class="px-2">{{ $game->blue_player->name ?? 'N/A' }}</td>
+                                    <td class="px-2">
+                                        <a href="{{ route('users.scoresheets.show', ['competition' => $competition->id, 'categoriezedCompetition' => $game->round->classfiedCompetition->categoriezed_competition->id, 'classfiedCompetition' => $game->round->classfiedCompetition->id, 'game' => $game->id]) }}"
+                                            class="btn btn-outline-primary wrestlingapp-login-button">スコアシート</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            {{-- @else
             <tr>
                 <td colspan="12">このスケジュールにはゲームが登録されていません。</td>
             </tr> --}}
-        @endif
-    @endforeach
-</table>
+                        @endif
+                    @endforeach
+                </table>
+            </div>
+        </div>
+    </div>
+@endsection

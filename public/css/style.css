@@ -1,4 +1,43 @@
+/* aタグ */
+/* aタグ黒 */
+.a-tag:link {
+    color: black;
+    text-decoration: none;
+}
 
+.a-tag:visited {
+    color: black;
+    text-decoration: none;
+}
+
+.a-tag:hover {
+    color: #ECC100;
+}
+
+.a-tag:active {
+    color: #ECC100;
+    text-decoration: none;
+}
+
+/* aタグ黄色 */
+.a-tag-yellow:link {
+    color: #ECC100;
+    text-decoration: none;
+}
+
+.a-tag-yellow:visited {
+    color: #ECC100;
+    text-decoration: none;
+}
+
+.a-tag-yellow:hover {
+    color: #72736F;
+}
+
+.a-tag-yellow:active {
+    color: #72736F;
+    text-decoration: none;
+}
 
 /* ナビバー */
 .wrestlingapp-navbar {
@@ -15,13 +54,48 @@
     color: #ECC100;
 }
 
-/* ナビバーログイン・マイページボタン */
+/* ボタン */
 .wrestlingapp-login-button {
     color: #ECC100;
     border-color: #ECC100;
 }
 
+.wrestlingapp-login-button.active,
+.wrestlingapp-login-button.active:hover,
+.wrestlingapp-login-button.active:focus {
+    background-color: #ECC100 !important;
+    color: white !important;
+    border-color: #ECC100 !important;
+}
+
+
 .wrestlingapp-login-button:hover {
+    background-color: #ECC100;
+    color: white;
+    border-color: #ECC100;
+}
+
+.wrestlingapp-class-button {
+    color: #ECC100;
+    border-color: #ECC100;
+}
+
+.wrestlingapp-class-button.active,
+.wrestlingapp-class-button.active:hover,
+.wrestlingapp-class-button.active:focus {
+    background-color: #ECC100 !important;
+    color: white !important;
+    border-color: #ECC100 !important;
+}
+
+
+.wrestlingapp-class-button:hover {
+    background-color: #ECC100;
+    color: white;
+    border-color: #ECC100;
+}
+
+.active-link {
     background-color: #ECC100;
     color: white;
     border-color: #ECC100;
@@ -30,7 +104,7 @@
 /* body */
 .wrestlingapp-background {
     background-color: #72736F;
-    padding: 50px;
+    padding: 50px 50px 50px 50px;
     height: 100vh;
 }
 
@@ -47,6 +121,24 @@
 
 .wrestlingapp-table-width .table {
     width: 100%;
+}
+
+.categorized-box {
+    border: 5px solid #ECC100;
+    padding: 10px 30px 10px 30px;
+}
+
+.wrestlingapp-class-button, .nav-link {
+    border-radius: 0!important;
+}
+
+.scoresheet-point-fontsize {
+    font-size: 72px;
+}
+.scoresheet-red-border {
+    border: 5px solid red;
+    border-color: red;
+
 }
 
 /* footer */
