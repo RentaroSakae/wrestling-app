@@ -80,6 +80,10 @@
     border-color: #ECC100;
 }
 
+a.wrestlingapp-class-button {
+    text-decoration: none;
+}
+
 .wrestlingapp-class-button.active,
 .wrestlingapp-class-button.active:hover,
 .wrestlingapp-class-button.active:focus {
@@ -105,7 +109,6 @@
 .wrestlingapp-background {
     background-color: #72736F;
     padding: 50px 50px 50px 50px;
-    height: 100vh;
 }
 
 .wrestlingapp-content {
@@ -121,6 +124,7 @@
 
 .wrestlingapp-table-width .table {
     width: 100%;
+    height: auto;
 }
 
 .categorized-box {
@@ -136,9 +140,38 @@
     font-size: 72px;
 }
 .scoresheet-red-border {
-    border: 5px solid red;
-    border-color: red;
+    border: 5px solid #E94709;
+    border-color: #E94709;
 
+}
+
+.scoresheet-blue-border {
+    border: 5px solid #365E94;
+    border-color: #365E94;
+
+}
+
+.red-background {
+    background-color: #E94709!important;
+    color: white!important;
+}
+
+.blue-background {
+    background-color: #365E94!important;
+    color: white!important;
+}
+
+.winner-background {
+    background-color: #72736F!important;
+    color: white!important;
+}
+
+.scoresheet-table{
+    width: 100%;
+}
+
+.table-width {
+    width: 100%;
 }
 
 /* footer */

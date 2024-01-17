@@ -19,25 +19,8 @@ class CompetitionMatchOrderController extends Controller
      */
     public function index(Request $request, Competition $competition, Mat $mat)
     {
-
-        // $categoriezedCompetition = CategoriezedCompetition::where('competition_id', $competition->id)->first();
-
-        // $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
-        //     $query->where('competition_id', $competition->id);
-        // })->get();
-
-        // $schedules = CompetitionSchedule::where('mat_id', $mat->id)
-        //     ->with('round.games.red_player', 'round.games.blue_player')
-        //     ->get();
-
-        // $totalGamesBefore = 0;
-        // foreach ($schedules as $schedule) {
-        //     $schedule->totalGamesBefore = $totalGamesBefore;
-        //     $totalGamesBefore += $schedule->round->games->count();
-        // }
-
         $targetDate = $request->query('targetDate');
-        $targetMat = $request->query('targetMat', $mat->id);
+        $targetMat = $request->query('targetMat');
 
         $mats = Mat::whereHas('competitionSchedules', function ($query) use ($competition) {
             $query->where('competition_id', $competition->id);
@@ -61,7 +44,6 @@ class CompetitionMatchOrderController extends Controller
         // 試合番号の計算
         $totalGamesBefore = 0;
         foreach ($schedules as $schedule) {
-
             $gameCount = optional($schedule->round)->games ? $schedule->round->games->count() : 0;
             $schedule->totalGamesBefore = $totalGamesBefore;
             $totalGamesBefore += $gameCount;
@@ -88,7 +70,37 @@ class CompetitionMatchOrderController extends Controller
 
         $dateRange = createDateRangeArray($categoriezedCompetition->start_at, $categoriezedCompetition->close_at);
 
-        return view('users.matchOrders.index', compact('competition', 'mat', 'mats', 'schedules', 'categoriezedCompetition', 'dateRange'));
+        // 大会スケジュール画面と同じようにdateとmatの最初の値を取得したい
+        // URLの{competition}と$competition_idが同じmatを取得する
+        $firstMat = $competition->mats()->first();
+
+        $firstDaySchedule = CompetitionSchedule::where('mat_id', $firstMat->id)->orderBy('date')->first();
+
+        // $targetDate と $targetMat のデフォルト値を設定
+        if (!$targetDate && $firstDaySchedule) {
+            $targetDate = $firstDaySchedule->date;
+        }
+        if (!$targetMat && $firstMat) {
+            $targetMat = $firstMat->id;
+        }
+
+        // スケジュールクエリの更新
+        $query = CompetitionSchedule::query()
+            ->with('round.games.red_player', 'round.games.blue_player');
+
+        if ($targetDate) {
+            $query->whereDate('date', $targetDate);
+        }
+        if ($targetMat) {
+            $query->where('mat_id', $targetMat);
+        }
+
+        $schedules = $query->get();
+
+
+        $currentMat = $mat;
+
+        return view('users.matchOrders.index', compact('competition', 'currentMat', 'mats', 'schedules', 'categoriezedCompetition', 'dateRange', 'targetDate', 'targetMat'));
     }
 
     /**

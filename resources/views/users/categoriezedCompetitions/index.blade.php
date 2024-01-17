@@ -5,9 +5,6 @@
 @section('content')
 
     <div class="wrestlingapp-content d-flex justify-content-center" style="min-height: 100vh;">
-        {{-- ここより下 --}}
-
-        {{-- ここより下 --}}
         <div class="">
             <div class="mb-3">
                 <div>
@@ -71,7 +68,7 @@
                     </div>
 
                     <div class="d-flex flex-column justify-centent-center">
-                        <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'mat' => $mat->id]) }}"
+                        <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id]) }}"
                             class="text-center a-tag-yellow">対戦表・試合結果</a>
                     </div>
                 </div>

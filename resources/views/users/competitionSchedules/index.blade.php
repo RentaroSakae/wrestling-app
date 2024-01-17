@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="wrestlingapp-content d-flex justify-content-center" style="min-height: 100vh;">
-        <div>
+        <div style="width: 100%">
             <div class="mb-3">
                 <div>
                     <h2 class="fs-4 mt-5 d-flex justify-content-center">{{ $competition->name }}</h2>

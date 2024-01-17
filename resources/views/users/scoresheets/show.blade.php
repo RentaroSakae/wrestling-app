@@ -42,64 +42,87 @@
                         </tr>
                     </table>
                 </div>
-                {{-- ↓aroundが機能していない？ --}}
-                <div class="row justify-content-around text-center">
-                    <table class="col table table-bordered scoresheet-red-border">
-                        <tr>
-                            <th class="fs-6">RED 赤</th>
-                        </tr>
-                        <tr>
-                            <td class="fs-6">
-                                @if ($game->red_player)
-                                    {{ $game->red_player->name }}
-                                @else
-                                    N/A
-                                @endif
-                                <br>
-                                @if ($game->red_player)
-                                    {{ $game->red_player->team->name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="scoresheet-point-fontsize">{{ $game->scoresheet->red_point }}</td>
-                        </tr>
-                    </table>
+                <div class="justify-content-between text-center">
+                    {{-- ↓aroundが機能していない？ --}}
+                    <div class="row">
+                        <table class="col table table-bordered scoresheet-red-border mx-3 scoresheet-table">
+                            <tr>
+                                <th class="fs-6 red-background">RED 赤</th>
+                            </tr>
+                            <tr>
+                                <td class="fs-6">
+                                    @if ($game->red_player)
+                                        {{ $game->red_player->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                    <br>
+                                    @if ($game->red_player)
+                                        {{ $game->red_player->team->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="scoresheet-point-fontsize">{{ $game->scoresheet->red_point }}</td>
+                            </tr>
+                        </table>
 
-                    <table class="col table table-bordered">
-                        <tr>
-                            <th class="fs-6">BLUE 青</th>
-                        </tr>
-                        <tr>
-                            <td class="fs-6">
-                                @if ($game->blue_player)
-                                    {{ $game->blue_player->name }}
-                                @else
-                                    N/A
-                                @endif
-                                <br>
-                                @if ($game->blue_player)
-                                    {{ $game->blue_player->team->name }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="scoresheet-point-fontsize">{{ $game->scoresheet->blue_point }}</td>
-                        </tr>
-                    </table>
+                        <table class="col table table-bordered scoresheet-blue-border mx-3 scoresheet-table">
+                            <tr>
+                                <th class="fs-6 blue-background">BLUE 青</th>
+                            </tr>
+                            <tr>
+                                <td class="fs-6">
+                                    @if ($game->blue_player)
+                                        {{ $game->blue_player->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                    <br>
+                                    @if ($game->blue_player)
+                                        {{ $game->blue_player->team->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="scoresheet-point-fontsize">{{ $game->scoresheet->blue_point }}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <table class="table table-bordered text-center scoresheet-table">
+                            <tr>
+                                <th class="fs-6 winner-background">勝者</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @if ($game->scoresheet && $game->scoresheet->victory_player)
+                                        <p>{{ $game->scoresheet->victory_player->name }}</p>
+                                    @else
+                                        N/A
+                                    @endif
+                                    <br>
+                                    @if ($game->scoresheet->victory_type)
+                                        {{ $game->scoresheet->victory_type->name }}
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
 
-                <div>
-                    <strong>勝者</strong>
+                {{-- <strong>勝者</strong>
                     @if ($game->scoresheet && $game->scoresheet->victory_player)
                         <p>{{ $game->scoresheet->victory_player->name }}</p>
                     @else
                         N/A
                     @endif
+
                 </div>
 
                 <div>
@@ -108,7 +131,11 @@
                         {{ $game->scoresheet->victory_type->name }}
                     @else
                         N/A
-                    @endif
+                    @endif --}}
+                <div class="d-flex justify-content-center mt-5">
+                    {{-- TODO 試合一覧画面に戻れるようにする --}}
+                    <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button justify-content-center">試合一覧に戻る</a>
                 </div>
             </div>
         </div>

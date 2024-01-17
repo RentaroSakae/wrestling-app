@@ -116,6 +116,7 @@ Route::get('competitions/index', 'App\Http\Controllers\User\CompetitionControlle
 Route::get('competition/{competition}/category/{categoriezedCompetition}/index', 'App\Http\Controllers\User\CategoriezedCompetitionController@index')->name('users.categoriezedCompetition.index');
 //【ユーザー】大会別出場選手一覧ページ
 Route::get('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/players', 'App\Http\Controllers\User\ClassfiedCompetitionPlayerController@index')->name('users.classfiedCompetitionPlayers.index');
+Route::post('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/players/favorite', 'App\Http\Controllers\User\ClassfiedCompetitionPlayerController@favorite')->name('users.classfiedCompetitionPlayers.favorite');
 //【ユーザー】大会スケジュールページ
 Route::get('competition/{competition}/mat/{mat}/schedule', 'App\Http\Controllers\User\CompetitionScheduleController@index')->name('users.competitionSchedules.index');
 //【ユーザー】マット別試合順

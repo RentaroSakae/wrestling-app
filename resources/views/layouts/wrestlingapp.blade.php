@@ -35,7 +35,12 @@
                 <a href="https://a-wrestler.com/" class="navbar-brand wrestlingapp-navber-right" target="_blank"
                     rel="noopener noreferrer">Blog</a>
                 {{-- TODO 非ログイン時は「ログイン」、ログイン時は「MyPage」となるようにする --}}
-                <button type="button" class="btn btn-outline-primary wrestlingapp-login-button">login</button>
+                @if (Auth::check())
+                    <a href="{{ route('users.users.index') }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button">MyPage</a>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary wrestlingapp-login-button">Login</a>
+                @endif
             </div>
         </div>
     </nav>

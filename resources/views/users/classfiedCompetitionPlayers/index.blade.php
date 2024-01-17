@@ -4,8 +4,8 @@
 
 @section('content')
 
-    <div class="wrestlingapp-content d-flex justify-content-center" style="min-height: 100vh;">
-        <div>
+    <div class="wrestlingapp-content d-flex justify-content-center">
+        <div style="width: 100%">
             <div class="mb-3">
                 <div>
                     <h2 class="fs-4 mt-5 d-flex justify-content-center">{{ $competition->name }}</h2>
@@ -42,13 +42,18 @@
                             id="style-tab-pane-{{ $styleId }}" role="tabpanel"
                             aria-labelledby="style-tab-{{ $styleId }}" tabindex="0">
                             @foreach ($classes as $class)
+                                @php
+                                    $selected = $class->id == $classfiedCompetition->id;
+
+                                @endphp
+
                                 @if ($class->competitionClass->style->id == $styleId)
                                     <a href="{{ route('users.classfiedCompetitionPlayers.index', [
                                         'competition' => $competition->id,
                                         'categoriezedCompetition' => $categoriezedCompetition->id,
                                         'classfiedCompetition' => $class->id,
                                     ]) }}"
-                                        class="wrestlingapp-class-button">{{ $class->competitionClass->class }}kg級</a>
+                                        class="wrestlingapp-class-button {{ $selected ? 'active' : '' }}">{{ $class->competitionClass->class }}kg級</a>
                                 @endif
                             @endforeach
                         </li>
@@ -75,16 +80,40 @@
                     @endforeach
                 </div> --}}
             </div>
+            @php
+                $user = Auth::user();
+            @endphp
             <table class="d-flex justify-content-center">
                 @foreach ($players as $player)
                     <tr>
                         <td>{{ $player->player->name }}</td>
                         <td>{{ $player->player->team->name }}</td>
+                        <td>
+                            @if (Auth::check())
+                                {{-- ユーザーがログインしている場合のみ表示 --}}
+                                <form
+                                    action="{{ route('users.classfiedCompetitionPlayers.favorite', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id, 'classfiedCompetition' => $classfiedCompetition->id]) }}"
+                                    method="POST">
+                                    @csrf
 
+                                    <button type="submit">
+                                        @if ($player->isFavoritedBy($user))
+                                            お気に入り解除
+                                        @else
+                                            お気に入り
+                                        @endif
+                                    </button>
+                                </form>
+                            @else
+                                {{-- ログインを促すメッセージやリンクを表示 --}}
+                                <a href="{{ route('login') }}">ログインしてお気に入り機能を使用</a>
+                            @endif
+                        </td>
                         {{-- TODO 試合結果 --}}
                     </tr>
                 @endforeach
             </table>
+
 
             <div class="d-flex justify-content-center mt-5">
                 <a

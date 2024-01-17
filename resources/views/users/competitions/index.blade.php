@@ -60,39 +60,38 @@
                         <td colspan="6">該当する大会がありません。</td>
                     </tr>
                 @endif
-
             </table>
-
         </div>
-    @endsection
-    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    </div>
+@endsection
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-39c0OYiFsj3Ayc0SYF4X3g3UAzmQ7IhU5K0sTjz13yI4sD3e4YgS2UqJ0LlqfV7F" crossorigin="anonymous">
     </script> --}}
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var links = document.querySelectorAll('.wrestlingapp-login-button');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var links = document.querySelectorAll('.wrestlingapp-login-button');
 
-            links.forEach(function(link) {
-                link.addEventListener('click', function(event) {
-                    // event.preventDefault(); // デフォルトのナビゲーションを防止
+        links.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                // event.preventDefault(); // デフォルトのナビゲーションを防止
 
-                    // すべてのリンクからクラスを削除
-                    links.forEach(function(el) {
-                        el.classList.remove('active-link');
-                    });
-
-                    // クリックされたリンクにクラスを追加
-                    this.classList.add('active-link');
+                // すべてのリンクからクラスを削除
+                links.forEach(function(el) {
+                    el.classList.remove('active-link');
                 });
+
+                // クリックされたリンクにクラスを追加
+                this.classList.add('active-link');
             });
         });
-    </script>
+    });
+</script>
 
 
 
-    {{-- 全ページ共通 --}}
-    {{-- <footer class="d-flex justify-content-center align-items-center wrestlingapp-footer">
+{{-- 全ページ共通 --}}
+{{-- <footer class="d-flex justify-content-center align-items-center wrestlingapp-footer">
         <div>
 
             <a class="navbar-brand" href="{{ route('users.competitions.index') }}">

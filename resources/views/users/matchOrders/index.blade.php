@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="wrestlingapp-content d-flex justify-content-center" style="min-height: 100vh;">
+    <div class="wrestlingapp-content d-flex justify-content-center">
         <div>
             <div class="mb-3">
                 <div>
@@ -16,22 +16,30 @@
                 <h3 class="fs-5 d-flex justify-content-center">- 試合順 -</h2>
             </div>
             @php
-                // 現在のリクエストからクエリパラメータを取得
-                $currentDate = request('targetDate');
-                $currentMat = request('targetMat');
+                $currentDate = request('targetDate') ?? $targetDate;
+                $currentMat = request('targetMat') ?? $targetMat;
             @endphp
+
 
             <div class="d-flex justify-content-center pt-3">
                 @foreach ($dateRange as $date)
-                    <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'targetDate' => $date, 'targetMat' => $currentMat]) }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('targetDate') == $date ? 'active' : '' }}">{{ $date }}</a>
+                    <a href="{{ route('users.matchOrders.index', [
+                        'competition' => $competition->id,
+                        'targetDate' => $date,
+                        'targetMat' => $currentMat ?? $targetMat,
+                    ]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button {{ $currentDate == $date ? 'active' : '' }}">{{ $date }}</a>
                 @endforeach
             </div>
 
             <div class="d-flex justify-content-center pt-3">
                 @foreach ($mats as $matItem)
-                    <a href="{{ route('users.matchOrders.index', ['competition' => $competition->id, 'targetDate' => $currentDate, 'targetMat' => $matItem->id]) }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('targetMat') == $currentMat ? 'active' : '' }}">{{ $matItem->name }}</a>
+                    <a href="{{ route('users.matchOrders.index', [
+                        'competition' => $competition->id,
+                        'targetDate' => $currentDate ?? $targetDate,
+                        'targetMat' => $matItem->id,
+                    ]) }}"
+                        class="btn btn-outline-primary wrestlingapp-login-button {{ $currentMat == $matItem->id ? 'active' : '' }}">{{ $matItem->name }}</a>
                 @endforeach
             </div>
 

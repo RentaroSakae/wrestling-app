@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\CompetitionPlayer;
 use App\Models\Competition;
 use App\Models\CompetitionClass;
+use App\Models\Player;
+use Illuminate\Support\Facades\Auth;
 
 class ClassfiedCompetitionPlayerController extends Controller
 {
@@ -22,45 +24,15 @@ class ClassfiedCompetitionPlayerController extends Controller
     {
         $categories = CategoriezedCompetition::where('competition_id', $competition->id)->get();
         $classes = ClassfiedCompetition::where('categoriezed_competitions_id', $categoriezedCompetition->id)->get();
-        $players = ClassfiedCompetitionPlayer::where('classfied_competition_id', $classfiedCompetition->id)->get();
+        $players = ClassfiedCompetitionPlayer::where('classfied_competition_id', $classfiedCompetition->id)->with('player.team', 'favoriters')->get();
 
         return view('users.classfiedCompetitionPlayers.index', compact('competition', 'categoriezedCompetition', 'classfiedCompetition', 'categories', 'classes', 'players'));
-        // $competition = Competition::find($competition_id);
-        // $competitionPlayers = ClassfiedCompetitionPlayer::where('competition_id', $competition_id);
-        // $competitionClasses = CompetitionClass::all();
+    }
 
-        // $target = $request->input('target');
-
-        // if ($target === 'freestyle') {
-        //     $competitionPlayers->where(function ($query) {
-        //         $query->where('style_id', 1)->orWhereNull('style_id');
-        //     });
-
-        //     $competitionClasses = $competitionClasses->where('style_id', 1)->values();
-        // } elseif ($target === 'grecoroman') {
-        //     $competitionPlayers->where(function ($query) {
-        //         $query->where('style_id', 2)->orWhereNull('style_id');
-        //     });
-        //     $competitionClasses = $competitionClasses->where('style_id', 2)->values();
-        // } elseif ($target === 'woman') {
-        //     $competitionPlayers->where(function ($query) {
-        //         $query->where('style_id', 3)->orWhereNull('style_id');
-        //     });
-        //     $competitionClasses = $competitionClasses->where('style_id', 3)->values();
-        // } else {
-        //     $competitionPlayers->where(function ($query) {
-        //         $query->where('style_id', 1)->orWhereNull('style_id');
-        //     });
-        //     $competitionClasses = $competitionClasses->where('style_id', 1)->values();
-        // }
-
-        // $competitionPlayers = $competitionPlayers->get();
-
-        // return view(
-        //     'users.competition-players.index',
-        //     ['competition_id' => $competition_id],
-        //     compact('competition_id', 'target', 'competition', 'competitionPlayers', 'competitionClasses')
-        // );
+    public function favorite(ClassfiedCompetitionPlayer $player)
+    {
+        Auth::user()->togglefavorite($player);
+        return back();
     }
 
     /**
