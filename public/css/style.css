@@ -54,10 +54,33 @@
     color: #ECC100;
 }
 
+.navbar_brand_logo {
+    height: 32px;
+    display: inline-block;
+}
+
+#hamburger_btn_check:checked~.hamburger_btn .btn_close {
+    display: block;
+}
+
+#hamburger_btn_check:checked~.hamburger_btn .btn_open {
+    display: none;
+}
+
+.btn_close {
+    display: none;
+}
+
+#hamburger_btn_check {
+    display: none;
+}
+
 /* ボタン */
-.wrestlingapp-login-button {
+.wrestlingapp-login-button,
+.wrestlingapp-login-button:visited {
     color: #ECC100;
     border-color: #ECC100;
+    background-color: #262522;
 }
 
 .wrestlingapp-login-button.active,
@@ -74,6 +97,34 @@
     color: white;
     border-color: #ECC100;
 }
+
+.wrestlingapp-competition-button {
+    color: #ECC100;
+    border-color: #ECC100;
+}
+
+a.wrestlingapp-competition-button {
+    text-decoration: none;
+}
+
+.wrestlingapp-competition-button.active,
+.wrestlingapp-competition-button.active:hover,
+.wrestlingapp-competition-button.active:focus {
+    background-color: #ECC100 !important;
+    color: white !important;
+    border-color: #ECC100 !important;
+}
+
+
+.wrestlingapp-competition-button:hover {
+    background-color: #ECC100;
+    color: white;
+    border-color: #ECC100;
+}
+
+
+
+
 
 .wrestlingapp-class-button {
     color: #ECC100;
@@ -174,7 +225,42 @@ a.wrestlingapp-class-button {
     width: 100%;
 }
 
+.list-upper-content {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.list-lower-content {
+    font-size: 11px;
+}
+
+.start-date {
+
+}
+
+.place-name {
+
+}
+
+.category-name {
+
+}
+
 /* footer */
 .wrestlingapp-footer {
     background-color: #262522;
+}
+
+
+@media (max-width: 576px) {
+    .wrestlingapp-competition-button {
+        font-size: 0.8rem; /* 小さいフォントサイズ */
+    }
+    .table-sp-fs {
+        font-size: 0.1rem;
+    }
+    .wrestlingapp-background {
+        background-color: #72736F;
+        padding: 0;
+    }
 }

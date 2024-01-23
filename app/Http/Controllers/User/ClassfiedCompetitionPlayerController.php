@@ -29,8 +29,15 @@ class ClassfiedCompetitionPlayerController extends Controller
         return view('users.classfiedCompetitionPlayers.index', compact('competition', 'categoriezedCompetition', 'classfiedCompetition', 'categories', 'classes', 'players'));
     }
 
-    public function favorite(ClassfiedCompetitionPlayer $player)
+    public function favorite($playerId)
     {
+
+        $player = ClassfiedCompetitionPlayer::find($playerId);
+        if (!$player) {
+            // エラーメッセージを追加
+            return back()->withErrors(['message' => 'プレイヤーが見つかりません。']);
+        }
+
         Auth::user()->togglefavorite($player);
         return back();
     }

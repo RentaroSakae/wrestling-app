@@ -22,10 +22,10 @@
                     <tbody>
                         @foreach ($favoritePlayers as $favoritePlayer)
                             <tr class="fs-6">
-                                <td class="px-2">{{ $favoritePlayer->favoriteable->name }}</td>
-                                <td class="px-2">{{ $favoritePlayer->favoriteable->team->name }}</td>
+                                <td class="px-2">{{ $favoritePlayer->player->name }}</td>
+                                <td class="px-2">{{ $favoritePlayer->player->team->name }}</td>
                                 <td class="px-2"><a
-                                        href="{{ route('users.favoritePlayerGames.index', [$favoritePlayer->favoriteable->id]) }}"
+                                        href="{{ route('users.favoritePlayerGames.index', [$favoritePlayer->player->id]) }}"
                                         class="btn btn-outline-primary wrestlingapp-login-button">試合情報</a></td>
                             </tr>
                         @endforeach

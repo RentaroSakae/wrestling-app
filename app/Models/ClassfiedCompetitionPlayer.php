@@ -52,4 +52,9 @@ class ClassfiedCompetitionPlayer extends Model
     {
         return $this->hasMany(Round::class);
     }
+
+    public function favorited_users()
+    {
+        return $this->belongsToMany(User::class)->withTimestamps();
+    }
 }

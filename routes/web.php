@@ -9,9 +9,10 @@ use App\Http\Controllers\Organizer\OrganizerScoresheetController;
 use App\Http\Controllers\Organizer\OrganizerController;
 use App\Http\Controllers\User\CompetitionController;
 use App\Http\Controllers\User\GameController;
-
-
-
+use App\Http\Controllers\User\ClassfiedCompetitionPlayerController;
+use App\Http\Controllers\User\UserFavoriteController;
+use App\Models\ClassfiedCompetitionPlayer;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,7 +117,7 @@ Route::get('competitions/index', 'App\Http\Controllers\User\CompetitionControlle
 Route::get('competition/{competition}/category/{categoriezedCompetition}/index', 'App\Http\Controllers\User\CategoriezedCompetitionController@index')->name('users.categoriezedCompetition.index');
 //【ユーザー】大会別出場選手一覧ページ
 Route::get('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/players', 'App\Http\Controllers\User\ClassfiedCompetitionPlayerController@index')->name('users.classfiedCompetitionPlayers.index');
-Route::post('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/players/favorite', 'App\Http\Controllers\User\ClassfiedCompetitionPlayerController@favorite')->name('users.classfiedCompetitionPlayers.favorite');
+Route::post('competition/{competition}/category/{categoriezedCompetition}/class/{classfiedCompetition}/players/favorite/{playerId}', 'App\Http\Controllers\User\ClassfiedCompetitionPlayerController@favorite')->name('users.classfiedCompetitionPlayers.favorite');
 //【ユーザー】大会スケジュールページ
 Route::get('competition/{competition}/mat/{mat}/schedule', 'App\Http\Controllers\User\CompetitionScheduleController@index')->name('users.competitionSchedules.index');
 //【ユーザー】マット別試合順
@@ -152,3 +153,10 @@ Route::get('users/mypage/favorite_players', 'App\Http\Controllers\User\UserContr
 
 //roleで役割を振り分ける（middleware)→ログイン・非ログインユーザーで分ける
 Route::get('/admin', 'AdminController@index')->name('admin');
+
+// お気に入り機能
+Route::middleware(['auth'])->group(function () {
+    Route::resource('classfied_competition_player', ClassfiedCompetitionPlayerController::class);
+    Route::post('favorites/{classfied_competition_player_id}', [UserFavoriteController::class, 'store'])->name('user.favorites.store');
+    Route::delete('favorites/{classfied_competition_player_id}', [UserFavoriteController::class, 'destroy'])->name('user.favorites.destroy');
+});

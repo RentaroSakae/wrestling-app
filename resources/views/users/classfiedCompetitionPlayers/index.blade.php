@@ -89,25 +89,71 @@
                         <td>{{ $player->player->name }}</td>
                         <td>{{ $player->player->team->name }}</td>
                         <td>
-                            @if (Auth::check())
-                                {{-- ユーザーがログインしている場合のみ表示 --}}
-                                <form
-                                    action="{{ route('users.classfiedCompetitionPlayers.favorite', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id, 'classfiedCompetition' => $classfiedCompetition->id]) }}"
-                                    method="POST">
-                                    @csrf
 
-                                    <button type="submit">
-                                        @if ($player->isFavoritedBy($user))
+
+                        <td>
+                            @if (Auth::check())
+                                @if (Auth::user()->favorite_classfiedCompetitionPlayers()->where('classfied_competition_player_id', $player->id)->exists())
+                                    <form id="favorites-destroy-form"
+                                        action="{{ route('user.favorites.destroy', $player->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-primary wrestlingapp-login-button">
                                             お気に入り解除
-                                        @else
+                                        </button>
+                                    </form>
+                                @else
+                                    <form id="favorites-store-form"
+                                        action="{{ route('user.favorites.store', $player->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-primary wrestlingapp-login-button">
                                             お気に入り
-                                        @endif
-                                    </button>
-                                </form>
+                                        </button>
+                                    </form>
+                                @endif
                             @else
-                                {{-- ログインを促すメッセージやリンクを表示 --}}
-                                <a href="{{ route('login') }}">ログインしてお気に入り機能を使用</a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-primary wrestlingapp-login-button">
+                                    ログインしてお気に入り機能を使用
+                                </a>
                             @endif
+                        </td>
+
+
+
+
+
+
+
+                        {{-- @if (Auth::check())
+
+                                @if (Auth::user()->favorite_classfiedCompetitionPlayers()->where('classfied_competition_player_id', $player->id)->exists())
+                                    <a href="{{ route('user.favorites.destroy', $player->id) }}"
+                                        class="btn btn-outline-primary wrestlingapp-login-button"
+                                        onclick="event.preventDefault(); document.getElementById('favorites-destroy-form').submit();">
+                                        お気に入り解除
+                                    </a>
+                                @else
+                                    <a href="{{ route('user.favorites.store', $player->id) }}"
+                                        class="btn btn-outline-primary wrestlingapp-login-button"
+                                        onclick="event.preventDefault(); document.getElementById('favorites-store-form').submit();">
+                                        お気に入り
+                                    </a>
+                                @endif
+                            @else
+                                <form id="favorites-destroy-form"
+                                    action="{{ route('users.favorites.destroy', $player->id) }}" method="POST"
+                                    class="d-none">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <form id="favorites-store-form" action="{{ route('users.favorites.store', $player->id) }}"
+                                    method="POST" class="d-none">
+                                    @csrf
+                                </form>
+
+                                <a href="{{ route('login') }}"
+                                    class="btn btn-outline-primary wrestlingapp-login-button">>ログインしてお気に入り機能を使用</a>
+                            @endif --}}
                         </td>
                         {{-- TODO 試合結果 --}}
                     </tr>

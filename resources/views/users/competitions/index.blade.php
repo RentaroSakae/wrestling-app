@@ -8,23 +8,24 @@
     {{-- TODO 検索機能追加 --}}
 
 
-    <div class="wrestlingapp-content justify-content-center">
+    <div class="wrestlingapp-content justify-content-center container-fluid">
         <div class="d-flex justify-content-center pt-3">
             <a href="{{ route('users.competitions.index', ['target' => 'current']) }}"
-                class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == 'current' ? 'active' : '' }}">
+                class="btn btn-outline-primary wrestlingapp-competition-button {{ request()->get('target') == 'current' ? 'active' : '' }}">
                 Ongoing
             </a>
             <a href="{{ route('users.competitions.index', ['target' => 'future']) }}"
-                class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == 'future' ? 'active' : '' }}">
+                class="btn btn-outline-primary wrestlingapp-competition-button {{ request()->get('target') == 'future' ? 'active' : '' }}">
                 Up-coming
             </a>
             <a href="{{ route('users.competitions.index', ['target' => 'past']) }}"
-                class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == 'past' ? 'active' : '' }}">
+                class="btn btn-outline-primary wrestlingapp-competition-button {{ request()->get('target') == 'past' ? 'active' : '' }}">
                 Past
             </a>
         </div>
-        <div class="wrestlingapp-table-witdh d-flex">
-            <table class="table m-4 text-center align-middle table-striped">
+        {{-- PC用テーブル --}}
+        <div class="d-flex d-none d-md-block">
+            <table class="table mt-4 text-center align-middle table-striped">
                 <thead>
                     <tr class="fs-5">
                         <th class="px-2">大会日時</th>
@@ -48,7 +49,7 @@
                                 <td class="px-2">{{ $categoriezedCompetition->category->name }}</td>
                                 <td class="px-2">
                                     <a href="{{ route('users.categoriezedCompetition.index', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
-                                        class="btn btn-outline-primary wrestlingapp-login-button">詳細</a>
+                                        class="btn btn-outline-primary wrestlingapp-competition-button">詳細</a>
                                 </td>
                             </tr>
 
@@ -62,7 +63,60 @@
                 @endif
             </table>
         </div>
+
+
+
+
+
+        {{-- スマホ用テーブル（リスト） --}}
+
+        <div class="list-group d-block d-md-none">
+            @foreach ($categoriezedCompetitions as $categoriezedCompetition)
+                <a href="{{ route('users.categoriezedCompetition.index', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
+                    class="list-group-item list-group-item-action" aria-current="true">
+                    {{-- 行の上 --}}
+                    <div class="list-upper-content mb-2">
+                        {{ $categoriezedCompetition->competition->name }}
+                    </div>
+                    {{-- 行の下 --}}
+                    <div class="list-lower-content d-flex">
+                        <div class="start-date flex-fill">
+                            {{ $categoriezedCompetition->start_at->format('m/d') }}〜
+                        </div>
+                        <div class="place-name flex-fill">
+                            {{ $categoriezedCompetition->competition->place->name }}
+                        </div>
+                        <div class="category-name flex-fill">
+                            {{ $categoriezedCompetition->category->name }}
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
+
 @endsection
 {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-39c0OYiFsj3Ayc0SYF4X3g3UAzmQ7IhU5K0sTjz13yI4sD3e4YgS2UqJ0LlqfV7F" crossorigin="anonymous">

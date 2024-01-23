@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\ClassfiedCompetitionPlayer;
 use App\Models\User;
 use App\Models\Competition;
 use App\Models\Player;
@@ -35,8 +35,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $favoritePlayers = $user->favorites()->where('favoriteable_type', Player::class)->get();
-
+        $favoritePlayers = $user->favorite_classfiedCompetitionPlayers;
 
         return view('users.users.favoritePlayers', compact('user', 'favoritePlayers'));
     }

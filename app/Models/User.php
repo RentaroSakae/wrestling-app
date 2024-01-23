@@ -34,6 +34,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(ClassfiedCompetitionPlayer::class)->withTimestamps();
     }
 
+    public function favorite_classfiedCompetitionPlayers()
+    {
+        return $this->belongsToMany(ClassfiedCompetitionPlayer::class)->withTimestamps();
+    }
+
 
 
     /**

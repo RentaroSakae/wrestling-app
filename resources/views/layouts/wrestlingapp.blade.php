@@ -21,26 +21,44 @@
 
 <body>
     {{-- 全ページ共通 --}}
-    <nav class="navbar bg-body-tertiary wrestlingapp-navbar">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary wrestlingapp-navbar">
         <div class="container-fluid">
-            <div>
-                {{-- TODO ロゴ画像変更する --}}
-                <a class="navbar-brand" href="{{ route('users.competitions.index') }}">
-                    <img src="{{ asset('image/logo.png') }}" alt="A WRESTLER." width="100%" height="100%">
-                </a>
+            {{-- TODO ロゴ画像変更する --}}
+            {{-- ナビ右ロゴ画像 --}}
+            <a class="navbar-brand" href="{{ route('users.competitions.index') }}">
+                <img src="{{ asset('image/logo.png') }}" alt="A WRESTLER." class="img-fluid navbar_brand_logo">
+            </a>
+            {{-- ナビ左メニュー --}}
+            <div class="navbar-toggler wrestlingapp-hamburger" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <input type="checkbox" id="hamburger_btn_check">
+                <label for="hamburger_btn_check" class="hamburger_btn">
+                    {{-- TODO オープンボタンとクローズボタンの画像変える --}}
+                    <img class="btn_open" src="{{ asset('image/button_open.png') }}" alt="ナビゲーションバーのボタン">
+                    <img class="btn_close" src="{{ asset('image/button_close.png') }}" alt="ナビゲーションバーのボタン">
+                </label>
             </div>
-            <div>
-                <a href="{{ route('users.competitions.index') }}"
-                    class="navbar-brand wrestlingapp-navber-right">Competitions</a>
-                <a href="https://a-wrestler.com/" class="navbar-brand wrestlingapp-navber-right" target="_blank"
-                    rel="noopener noreferrer">Blog</a>
-                {{-- TODO 非ログイン時は「ログイン」、ログイン時は「MyPage」となるようにする --}}
-                @if (Auth::check())
-                    <a href="{{ route('users.users.index') }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button">MyPage</a>
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary wrestlingapp-login-button">Login</a>
-                @endif
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item px-2">
+                        <a href="{{ route('users.competitions.index') }}"
+                            class="nav-link wrestlingapp-navber-right">Competitions</a>
+                    </li>
+                    <li class="nav-item px-2">
+                        <a href="https://a-wrestler.com/" class="nav-link wrestlingapp-navber-right" target="_blank"
+                            rel="noopener noreferrer">Blog</a>
+                    </li>
+                    {{-- TODO 非ログイン時は「ログイン」、ログイン時は「MyPage」となるようにする --}}
+                    <li class="nav-item px-2">
+                        @if (Auth::check())
+                            <a href="{{ route('users.users.index') }}"
+                                class="nav-link wrestlingapp-login-button">MyPage</a>
+                        @else
+                            <a href="{{ route('login') }}" class="nav-link wrestlingapp-login-button">Login</a>
+                        @endif
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

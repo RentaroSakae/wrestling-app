@@ -10,6 +10,11 @@ class CategoriezedCompetition extends Model
 {
     use HasFactory;
 
+    protected $dates = [
+        'start_at',
+        'close_at',
+    ];
+
     //大会テーブルとのリレーション
     public function competition()
     {
