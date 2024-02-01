@@ -41,13 +41,7 @@ class CompetitionMatchOrderController extends Controller
 
         $schedules = $query->get();
 
-        // 試合番号の計算
-        $totalGamesBefore = 0;
-        foreach ($schedules as $schedule) {
-            $gameCount = optional($schedule->round)->games ? $schedule->round->games->count() : 0;
-            $schedule->totalGamesBefore = $totalGamesBefore;
-            $totalGamesBefore += $gameCount;
-        }
+
 
         // 日付範囲を生成する関数
         function createDateRangeArray($startDate, $endDate)
