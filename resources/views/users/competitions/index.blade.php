@@ -64,16 +64,12 @@
             </table>
         </div>
 
-
-
-
-
         {{-- スマホ用テーブル（リスト） --}}
 
-        <div class="list-group d-block d-md-none">
+        <div class="list-group d-block d-md-none mt-3">
             @foreach ($categoriezedCompetitions as $categoriezedCompetition)
                 <a href="{{ route('users.categoriezedCompetition.index', ['competition' => $categoriezedCompetition->competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
-                    class="list-group-item list-group-item-action" aria-current="true">
+                    class="list-group-item list-group-item-action wrestlingapp-competition-sp" aria-current="true">
                     {{-- 行の上 --}}
                     <div class="list-upper-content mb-2">
                         {{ $categoriezedCompetition->competition->name }}
@@ -93,28 +89,6 @@
                 </a>
             @endforeach
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </div>
 
 @endsection

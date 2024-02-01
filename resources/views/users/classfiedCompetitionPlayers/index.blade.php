@@ -60,30 +60,12 @@
                     @endforeach
                 </ul>
 
-
-                {{-- <div class="tab-content" id="myTabContent">
-                    @foreach ($styles as $styleId => $styleName)
-                        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
-                            id="style-tab-pane-{{ $styleId }}" role="tabpanel"
-                            aria-labelledby="style-tab-{{ $styleId }}" tabindex="0">
-                            @foreach ($classes as $class)
-                                @if ($class->competitionClass->style->id == $styleId)
-                                    <a href="{{ route('users.classfiedCompetitionPlayers.index', [
-                                        'competition' => $competition->id,
-                                        'categoriezedCompetition' => $categoriezedCompetition->id,
-                                        'classfiedCompetition' => $class->id,
-                                    ]) }}"
-                                        class="a-tag">{{ $class->competitionClass->class }}kg級</a>
-                                @endif
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div> --}}
             </div>
             @php
                 $user = Auth::user();
             @endphp
-            <table class="d-flex justify-content-center">
+
+            <table class="d-flex justify-content-center classfiedcompetition-playertable-sp">
                 @foreach ($players as $player)
                     <tr>
                         <td>{{ $player->player->name }}</td>
@@ -98,72 +80,35 @@
                                         action="{{ route('user.favorites.destroy', $player->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-primary wrestlingapp-login-button">
-                                            お気に入り解除
+                                        <button type="submit" class="btn btn-outline-primary wrestlingapp-class-button">
+                                            <i class="fa-solid fa-heart"></i>
                                         </button>
                                     </form>
                                 @else
                                     <form id="favorites-store-form"
                                         action="{{ route('user.favorites.store', $player->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-primary wrestlingapp-login-button">
-                                            お気に入り
+                                        <button type="submit" class="btn btn-outline-primary wrestlingapp-class-button">
+                                            <i class="fa-regular fa-heart"></i>
                                         </button>
                                     </form>
                                 @endif
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-outline-primary wrestlingapp-login-button">
-                                    ログインしてお気に入り機能を使用
+                                <a href="{{ route('login') }}" class="btn btn-outline-primary wrestlingapp-class-button">
+                                    ログイン
                                 </a>
                             @endif
                         </td>
 
-
-
-
-
-
-
-                        {{-- @if (Auth::check())
-
-                                @if (Auth::user()->favorite_classfiedCompetitionPlayers()->where('classfied_competition_player_id', $player->id)->exists())
-                                    <a href="{{ route('user.favorites.destroy', $player->id) }}"
-                                        class="btn btn-outline-primary wrestlingapp-login-button"
-                                        onclick="event.preventDefault(); document.getElementById('favorites-destroy-form').submit();">
-                                        お気に入り解除
-                                    </a>
-                                @else
-                                    <a href="{{ route('user.favorites.store', $player->id) }}"
-                                        class="btn btn-outline-primary wrestlingapp-login-button"
-                                        onclick="event.preventDefault(); document.getElementById('favorites-store-form').submit();">
-                                        お気に入り
-                                    </a>
-                                @endif
-                            @else
-                                <form id="favorites-destroy-form"
-                                    action="{{ route('users.favorites.destroy', $player->id) }}" method="POST"
-                                    class="d-none">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <form id="favorites-store-form" action="{{ route('users.favorites.store', $player->id) }}"
-                                    method="POST" class="d-none">
-                                    @csrf
-                                </form>
-
-                                <a href="{{ route('login') }}"
-                                    class="btn btn-outline-primary wrestlingapp-login-button">>ログインしてお気に入り機能を使用</a>
-                            @endif --}}
                         </td>
                         {{-- TODO 試合結果 --}}
                     </tr>
                 @endforeach
             </table>
 
-
-            <div class="d-flex justify-content-center mt-5">
-                <a
-                    href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}">詳細に戻る</a>
+            <div class="d-flex justify-content-center mt-5 mb-5">
+                <a href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
+                    class="btn btn-outline-primary wrestlingapp-class-button">詳細に戻る</a>
             </div>
         </div>
     </div>

@@ -28,14 +28,14 @@
             <div class="d-flex justify-content-center pt-3">
                 @foreach ($dateRange as $date)
                     <a href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $currentMat->id, 'target' => $date]) }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button {{ $targetDate == $date ? 'active' : '' }}">{{ $date }}</a>
+                        class="btn btn-outline-primary wrestlingapp-class-button wrestlingapp-date-button {{ $targetDate == $date ? 'active' : '' }}">{{ \Carbon\Carbon::parse($date)->format('m/d') }}</a>
                 @endforeach
             </div>
 
             <div class="d-flex justify-content-center pt-3">
                 @foreach ($mats as $mat)
                     <a href="{{ route('users.competitionSchedules.index', ['competition' => $competition->id, 'mat' => $mat->id, 'target' => $currentTarget]) }}"
-                        class="btn btn-outline-primary wrestlingapp-login-button {{ $mat->id == $currentMat->id ? 'active' : '' }}">{{ $mat->name }}</a>
+                        class="btn btn-outline-primary wrestlingapp-class-button {{ $mat->id == $currentMat->id ? 'active' : '' }}">{{ $mat->name }}</a>
                 @endforeach
             </div>
             <div class="wrestlingapp-table-witdh d-flex">
@@ -50,7 +50,7 @@
                                     [$date, $matName] = explode(' ', $key, 2);
                                 @endphp
                                 @if ($date === $targetDate)
-                                    <tr class="fs-5">
+                                    <tr class="fs-5 wrestlingapp-schedule-sp">
                                         <th class="px-2">カテゴリ</th>
                                         <th class="px-2">スタイル</th>
                                         <th class="px-2">階級</th>
@@ -60,7 +60,7 @@
                                     </tr>
                                     @foreach ($group as $schedule)
                                         @if ($schedule->round && $schedule->round->classfiedCompetition)
-                                            <tr class="wrestlingapp-row-height fs-6">
+                                            <tr class="wrestlingapp-row-height fs-6 wrestlingapp-schedule-sp">
                                                 <td class="px-2">
                                                     {{ $schedule->round->classfiedCompetition->categoriezed_competition->category->name }}
                                                 </td>
@@ -95,7 +95,7 @@
             </div>
             <div class="d-flex justify-content-center mt-5">
                 <a href="{{ route('users.categoriezedCompetition.index', ['competition' => $competition->id, 'categoriezedCompetition' => $categoriezedCompetition->id]) }}"
-                    class="btn btn-outline-primary wrestlingapp-login-button justify-content-center">詳細に戻る</a>
+                    class="btn btn-outline-primary wrestlingapp-class-button justify-content-center">詳細に戻る</a>
             </div>
         </div>
     </div>

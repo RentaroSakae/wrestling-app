@@ -16,7 +16,7 @@
                 <div>
                     <h3 class="fs-5 d-flex justify-content-center">- 出場選手 -</h2>
                 </div>
-                <div>
+                <div class="class-list">
                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
                         @php
                             $styles = collect($classes)
@@ -75,7 +75,7 @@
             </div>
             <div class="d-flex justify-content-center mt-5">
                 <a href="{{ route('users.competitions.index') }}"
-                    class="btn btn-outline-primary wrestlingapp-login-button justify-content-center">大会一覧に戻る</a>
+                    class="btn btn-outline-primary wrestlingapp-competition-button justify-content-center">大会一覧に戻る</a>
             </div>
         </div>
     </div>

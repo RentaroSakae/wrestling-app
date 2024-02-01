@@ -230,6 +230,10 @@ a.wrestlingapp-class-button {
     font-weight: bold;
 }
 
+.list-middle-content {
+    font-size: 16px;
+}
+
 .list-lower-content {
     font-size: 11px;
 }
@@ -244,6 +248,17 @@ a.wrestlingapp-class-button {
 
 .category-name {
 
+}
+
+.wrestlingapp-competition-sp {
+    border-left: none!important;
+    border-right: none!important;
+    border-radius: 0%!important;
+}
+
+.scoresheet-container {
+    display: flex;
+    justify-content: center;
 }
 
 /* footer */
@@ -262,5 +277,40 @@ a.wrestlingapp-class-button {
     .wrestlingapp-background {
         background-color: #72736F;
         padding: 0;
+    }
+
+    .class-list {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .classfiedcompetition-playertable-sp {
+        font-size: 0.8rem;
+    }
+
+    .wrestlingapp-schedule-sp {
+        font-size: 10px!important;
+    }
+
+    .wrestlingapp-date-button {
+        font-size: 14px!important;
+    }
+
+    .macthorder-list {
+        border-top: #262522 1px solid;
+
+        border-radius: 0%;
+    }
+
+    .scoresheet-btn-sp {
+        font-size: 11px;
+    }
+
+    .scoresheet-name-sp {
+        font-size: 12px!important;
+    }
+
+    .scoresheet-container-sp {
+        display: block;
     }
 }

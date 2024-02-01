@@ -13,6 +13,7 @@
 
     {{-- CSS --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <script src="https://kit.fontawesome.com/1eb78a6ce6.js" crossorigin="anonymous"></script>
 </head>
 
 
