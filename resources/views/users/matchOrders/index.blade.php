@@ -44,7 +44,7 @@
             </div>
 
             {{-- PC用テーブル --}}
-            <div class="wrestlingapp-table-witdh d-flex d-none d-md-block">
+            <div class="wrestlingapp-table-width d-flex d-none d-md-block">
                 <table class="table m-4 text-center align-middle table-striped">
                     <tr class="fs-5">
                         <th class="px-2">試合番号</th>

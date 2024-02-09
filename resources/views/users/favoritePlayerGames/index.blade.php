@@ -12,13 +12,13 @@
 
             <div class="d-flex justify-content-center pt-3">
                 <a href="{{ route('users.favoritePlayerGames.index', ['player' => $player, 'target' => 'current']) }}"
-                    class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == 'current' ? 'active' : '' }}">
+                    class="btn btn-outline-primary wrestlingapp-class-button {{ request()->get('target') == 'current' ? 'active' : '' }}">
                     Ongoing</a>
                 <a href="{{ route('users.favoritePlayerGames.index', ['player' => $player, 'target' => 'future']) }}"
-                    class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == 'future' ? 'active' : '' }}">
+                    class="btn btn-outline-primary wrestlingapp-class-button {{ request()->get('target') == 'future' ? 'active' : '' }}">
                     Up-coming</a>
                 <a href="{{ route('users.favoritePlayerGames.index', ['player' => $player, 'target' => 'past']) }}"
-                    class="btn btn-outline-primary wrestlingapp-login-button {{ request()->get('target') == 'past' ? 'active' : '' }}">
+                    class="btn btn-outline-primary wrestlingapp-class-button {{ request()->get('target') == 'past' ? 'active' : '' }}">
                     Past</a>
             </div>
 
@@ -28,7 +28,8 @@
                         <h3 class="fs-5 d-flex justify-content-center">
                             {{ $classfiedCompetition->categoriezed_competition->competition->name }}</h3>
                 </div>
-                <div class="wrestlingapp-table-witdh d-flex">
+                {{-- PC用テーブル --}}
+                <div class="wrestlingapp-table-width d-flex d-none d-md-block">
                     <table class="table m-4 text-center align-middle table-striped">
                         <tr class="fs-5">
                             <th class="px-2">マット</th>
@@ -44,28 +45,75 @@
                         @foreach ($games as $game)
                             @if ($game->round->classfiedCompetition->id == $classfiedCompetition->id)
                                 <tr class="wrestlingapp-row-height fs-6">
-                                    <td class="px-2">{{ $game->round->competitionSchedule->mat->name ?? 'N/A' }}</td>
+                                    <td class="px-2">
+                                        {{ $game->round->competitionSchedule->mat->name ?? 'N/A' }}</td>
                                     <td class="px-2">{{ $game->currentGameNumber }}</td>
                                     <td class="px-2">
                                         {{ $game->round->classfiedCompetition->competitionClass->style->name ?? 'N/A' }}
                                     </td>
                                     <td class="px-2">
-                                        {{ $game->round->classfiedCompetition->competitionClass->class ?? 'N/A' }}</td>
+                                        {{ $game->round->classfiedCompetition->competitionClass->class ?? 'N/A' }}
+                                    </td>
                                     <td class="px-2">{{ $game->red_player->name ?? 'N/A' }}</td>
                                     <td class="px-2">{{ $game->scoresheet->red_point ?? 'N/A' }}</td>
                                     <td class="px-2">{{ $game->blue_player->name ?? 'N/A' }}</td>
                                     <td class="px-2">{{ $game->scoresheet->blue_point ?? 'N/A' }}</td>
-                                    <td class="px-2">{{ $game->scoresheet->victory_player->name ?? 'N/A' }}</td>
+                                    <td class="px-2">{{ $game->scoresheet->victory_player->name ?? 'N/A' }}
+                                    </td>
                                 </tr>
                             @endif
                         @endforeach
                     </table>
                 </div>
+
+                {{-- スマホ用リスト --}}
+                <div class="list-group d-block d-md-none mt-3 mb-2 macthorder-list">
+                    {{-- 上の行 --}}
+                    <div class="list-upper-content mb-2 d-flex pt-2 text-center">
+                        <div class="flex-fill">
+                            {{ $game->round->competitionSchedule->mat->name ?? 'N/A' }}
+                        </div>
+                        <div class="flex-fill">
+                            {{ $game->currentGameNumber }}番
+                        </div>
+                        <div class="flex-fill">
+                            {{ $game->round->classfiedCompetition->competitionClass->style->name ?? 'N/A' }}
+                        </div>
+                        <div class="flex-fill">
+                            {{ $game->round->classfiedCompetition->competitionClass->class ?? 'N/A' }}kg級
+                        </div>
+                    </div>
+                    {{-- 中の行 --}}
+                    <div class="list-middle-content mb-2 mt-2 d-flex text-center">
+                        <div class="flex-fill">
+                            {{ $game->red_player->name ?? 'N/A' }}
+                        </div>
+                        <div class="flex-fill">
+                            {{ $game->scoresheet->red_point ?? 'N/A' }}
+                        </div>
+                        <div class="flex-fill">
+                            -
+                        </div>
+                        <div class="flex-fill">
+                            {{ $game->scoresheet->blue_point ?? 'N/A' }}
+
+                        </div>
+                        <div class="flex-fill">
+                            {{ $game->blue_player->name ?? 'N/A' }}
+                        </div>
+                    </div>
+                    {{-- 下の行 --}}
+                    <div class="list-lower-content mb-2 d-flex justify-content-center">
+                        <div class="flex-fill text-center">
+                            勝者：{{ $game->scoresheet->victory_player->name ?? 'N/A' }}
+                        </div>
+                    </div>
+                </div>
                 @endforeach
             </div>
             <div class="d-flex justify-content-center mt-5">
                 <a href="{{ route('users.users.favoritePlayers') }}"
-                    class="btn btn-outline-primary wrestlingapp-login-button justify-content-center">登録選手一覧に戻る</a>
+                    class="btn btn-outline-primary wrestlingapp-class-button justify-content-center">登録選手一覧に戻る</a>
             </div>
         </div>
     </div>

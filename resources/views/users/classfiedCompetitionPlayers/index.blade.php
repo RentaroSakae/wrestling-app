@@ -23,22 +23,24 @@
                                 return [$class->competitionClass->style->id => $class->competitionClass->style->name];
                             })
                             ->unique();
+                        $selectedStyleId = $classfiedCompetition->competitionClass->style->id;
                     @endphp
 
                     @foreach ($styles as $styleId => $styleName)
                         <li class="nav-item wrestlingapp-tab" role="presentation">
-                            <button class="wrestlingapp-class-button nav-link {{ $loop->first ? 'active' : '' }}"
+                            <button
+                                class="wrestlingapp-class-button nav-link {{ $selectedStyleId == $styleId ? 'active' : '' }}"
                                 id="style-tab-{{ $styleId }}" data-bs-toggle="tab"
                                 data-bs-target="#style-tab-pane-{{ $styleId }}" type="button" role="tab"
                                 aria-controls="style-tab-pane-{{ $styleId }}"
-                                aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $styleName }}</button>
+                                aria-selected="{{ $selectedStyleId == $styleId ? 'true' : 'false' }}">{{ $styleName }}</button>
                         </li>
                     @endforeach
                 </ul>
 
                 <ul class="tab-content d-flex justify-content-center" id="myTabContent">
                     @foreach ($styles as $styleId => $styleName)
-                        <li class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                        <li class="tab-pane fade {{ $selectedStyleId == $styleId ? 'show active' : '' }}"
                             id="style-tab-pane-{{ $styleId }}" role="tabpanel"
                             aria-labelledby="style-tab-{{ $styleId }}" tabindex="0">
                             @foreach ($classes as $class)

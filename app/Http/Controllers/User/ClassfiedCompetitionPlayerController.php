@@ -24,6 +24,7 @@ class ClassfiedCompetitionPlayerController extends Controller
     {
         $categories = CategoriezedCompetition::where('competition_id', $competition->id)->get();
         $classes = ClassfiedCompetition::where('categoriezed_competitions_id', $categoriezedCompetition->id)->get();
+
         $players = ClassfiedCompetitionPlayer::where('classfied_competition_id', $classfiedCompetition->id)->with('player.team', 'favoriters')->get();
 
         return view('users.classfiedCompetitionPlayers.index', compact('competition', 'categoriezedCompetition', 'classfiedCompetition', 'categories', 'classes', 'players'));

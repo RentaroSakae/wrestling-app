@@ -174,7 +174,7 @@ a.wrestlingapp-class-button {
 }
 
 .wrestlingapp-table-width .table {
-    width: 100%;
+    width: 96%;
     height: auto;
 }
 
@@ -235,7 +235,7 @@ a.wrestlingapp-class-button {
 }
 
 .list-lower-content {
-    font-size: 11px;
+    font-size: 16px;
 }
 
 .start-date {
@@ -312,5 +312,18 @@ a.wrestlingapp-class-button {
 
     .scoresheet-container-sp {
         display: block;
+    }
+
+    .table-sp {
+        font-size: 16px!important;
+    }
+
+    .competition-information-btn {
+        font-size: 14px;
+    }
+
+    .register-btn-p {
+        font-size: 14px;
+        margin-bottom: 1px!important;
     }
 }
